@@ -1,0 +1,12 @@
+package snippet;
+
+public class Snippet {
+	#server port
+	server.port=8081
+	
+	# MONGODB (MongoProperties)
+	mongodb.databasename=mongodb-dev
+	mongodb.host=localhost
+	mongodb.port=27017
+}
+
