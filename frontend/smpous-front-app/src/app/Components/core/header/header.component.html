@@ -1,0 +1,22 @@
+<header id="header" id="home" style="background-color:black">
+<div class="container">
+	<div class="row align-items-center justify-content-between d-flex">
+	  <div id="logo">
+		<a href="#"><img src="assets/img/rsz_1logo2.png" alt="" title="" /></a>
+	  </div>
+	  <nav id="nav-menu-container">
+		<ul class="nav-menu">
+		  <li><a [routerLink]="['/home/login']">Home</a></li>
+		  <li><a [routerLink]="['/cars']">Cinemas</a></li>
+		  <li><a [routerLink]="['/services']">Theaters</a></li>
+		  <li *ngIf = "client"><a [routerLink]="['/account']">Account</a></li>	
+		  <li><a [routerLink]="['/team']">Team</a></li>	
+			<li *ngIf = "admin"><a [routerLink]="['/panel']">Admin panel</a></li>
+			<li *ngIf = "manager"><a [routerLink]="['/managerPanel']">Manager panel</a></li>
+		  <li *ngIf = "client"><a (click) = 'logOut()' [routerLink]="['/home/login']">Log out</a></li>		  
+		</ul>
+	  </nav><!-- #nav-menu-container-->		    		
+	</div>
+</div>
+</header><!-- #header -->
+<app-notifications></app-notifications>

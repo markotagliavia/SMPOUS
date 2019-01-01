@@ -1,0 +1,22 @@
+		<div class="table-row">
+			<div class="visit">{{user.Username}}</div>
+			<div class="visit">{{user.Name}}</div>
+			<div class="visit">{{user.Surname}}</div>
+			<div class="visit">{{user.BirthDate}}</div>
+			<div class="visit"><img src="{{user.Path}}" style="height:60px; width:60px"></div>
+			<div class="visit" *ngIf = "unverified">Unverified</div>
+			<div class="visit" *ngIf = "unverified"><a class="genric-btn primary" (click) = 'verifyUser()'>Verify</a></div>
+			<div class="visit" *ngIf = "unverified"></div>
+			
+									<div class="visit" *ngIf = "manager">Manager</div>
+									<div class="visit" *ngIf = "manager"><a class="genric-btn primary">Client</a></div>
+									<div class="visit" *ngIf = "manager">
+										<div>
+											<input type="checkbox" [(ngModel)]="user.CreateService" name="{{idui}}" (change)="checkedChange()">
+										</div>
+									</div>
+									
+			<div class="visit" *ngIf = "client">Client</div>
+			<div class="visit" *ngIf = "client"><a class="genric-btn primary">Manager</a></div>
+			<div class="visit" *ngIf = "client"></div>
+		</div>

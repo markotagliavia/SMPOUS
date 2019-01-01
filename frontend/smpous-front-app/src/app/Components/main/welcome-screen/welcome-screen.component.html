@@ -1,0 +1,24 @@
+<app-header #header [childMessage]="parentMessage"  (messageEvent)="receiveRefresh($event)"></app-header>
+			<section class="banner-area relative" id="home">
+				<div class="overlay overlay-bg"></div>	
+				<div class="container">
+					<div class="row fullscreen d-flex align-items-center justify-content-center" style="height: 944px">
+						<div class="banner-content col-lg-7 col-md-6 ">
+							<h6 class="text-white ">Welcome to</h6>
+							<h1 class="text-white text-uppercase">
+								MT Rent A Car  				
+							</h1>
+							<p class="pt-20 pb-20 text-white">
+								Pick up one of plenty services and start your journey right now
+							</p>
+							<a href="#" class="primary-btn text-uppercase" [routerLink]="['/cars']">Rent Car Now</a>
+						</div>
+						<div class="col-lg-5  col-md-6 header-right" *ngIf = "!client">
+						<app-login-form (messageEvent)="receiveMessage($event)" ></app-login-form>
+						</div>
+						<div class="col-lg-5  col-md-6 header-right" *ngIf = "client">
+								<img src="assets/img/gif2.gif">
+						</div>												
+					</div>
+				</div>					
+			</section>

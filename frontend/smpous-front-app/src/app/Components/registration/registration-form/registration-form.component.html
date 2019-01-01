@@ -1,0 +1,30 @@
+
+<h4 class="text-white pb-30">Register your account:</h4>
+<form #f="ngForm" class="form" role="form" autocomplete="off" novalidate>					    
+	<div class="from-group">
+		<input class="form-control txt-field" type="text" name="username" placeholder="Your username" [(ngModel)]="user.username" required>
+		<input class="form-control txt-field" type="password" name="pass" placeholder="Your password" [(ngModel)]="user.password" required>
+		<input class="form-control txt-field" type="password" name="passconf" placeholder="Repeat password" [(ngModel)]="user.confirmPassword" required>
+		<hr>
+		<input class="form-control txt-field" type="text" name="name" placeholder="Your name" [(ngModel)]="user.name" required>
+		<input class="form-control txt-field" type="text" name="surname" placeholder="Your surname" [(ngModel)]="user.surname" required>
+		<input class="form-control txt-field" type="email" id="email" name="email" placeholder="Email address" [(ngModel)]="user.email" required email #email="ngModel">
+		<input class="form-control txt-field" type="tel" name="phone" placeholder="Phone number" [(ngModel)]="user.contact" required>
+		<input class="form-control txt-field" type="text" name="date" placeholder="Birth date" type="text" [(ngModel)]="user.birth" required>                        
+		<p>Manager</p>
+		<div class="confirm-switch">
+			<input type="checkbox" id="confirm-switch" [(ngModel)]="user.createService" name="swithc">
+			<label for="confirm-switch"></label>
+		</div>
+		<br>
+	</div>
+	<div class="form-group row">
+		<div class="col-md-12">
+			<button (click) = "registerUser()" type="reset" class="btn btn-default btn-lg btn-block text-center text-uppercase">Register</button>
+			<br>
+			<p style="color:red">{{errorText}}</p>
+			<br>
+			<p style="color:white">Login <a [routerLink]="['/home/login']">here</a> now</p>
+		</div>
+	</div>
+</form>

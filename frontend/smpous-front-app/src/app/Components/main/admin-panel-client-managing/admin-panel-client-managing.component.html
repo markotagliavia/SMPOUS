@@ -1,0 +1,19 @@
+<div class="section-top-border">
+						<h3 class="mb-30">Client managing</h3>
+						<div class="progress-table-wrap">
+							<div class="progress-table">
+								<div class="table-head">
+									<div class="visit">Username</div>
+									<div class="visit">Name</div>
+									<div class="visit">Surname</div>
+									<div class="visit">Birth</div>
+									<div class="visit">Document</div>
+									<div class="visit">Role</div>
+									<div class="visit">Action</div>
+									<div class="visit">Service</div>
+								</div>
+									<app-table-row-user [user] = 'user' *ngFor="let user of appUsers"></app-table-row-user>
+									<app-table-row-user [user] = 'manager' *ngFor="let manager of managers"></app-table-row-user>
+							</div>
+						</div>
+					</div>
