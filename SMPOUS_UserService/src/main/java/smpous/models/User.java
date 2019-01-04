@@ -14,207 +14,108 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class User implements Serializable{
 	
-	@Id
-	private String id;
-	@Indexed
-	private String firstName;
-	private String lastName;
-	private String userName;
-	private String password;
-	private String mail;
-	private Integer age;
-	private Boolean active;
-	@GeoSpatialIndexed(type=GeoSpatialIndexType.GEO_2DSPHERE)
-	private GeoJsonPoint userLocation;
-	private Date dateOfBirth;
-	
-	public User(){
+	public User()
+	{
 		
 	}
 	
-	public User(String id){
-		this.id = id;
-	}
 	
-	public User(String id, String firstName, String lastName, String userName, String password, String mail,
-			Integer age, Boolean active, GeoJsonPoint userLocation, Date dateOfBirth) {
+	
+	public User(int id, String name, String lastname, String username, String password, Date registrationDay,
+			Date birthday, Boolean gender, Boolean isActive, Address address, TypeOfUser typeOfUser) {
 		super();
 		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.userName = userName;
+		this.name = name;
+		this.lastname = lastname;
+		this.username = username;
 		this.password = password;
-		this.mail = mail;
-		this.age = age;
-		this.active = active;
-		this.userLocation = userLocation;
-		this.dateOfBirth = dateOfBirth;
+		this.registrationDay = registrationDay;
+		this.birthday = birthday;
+		this.gender = gender;
+		this.isActive = isActive;
+		this.address = address;
+		this.typeOfUser = typeOfUser;
 	}
 
-	public String getId() {
+
+
+	@Id
+	private int id;
+	private String name;
+	private String lastname;
+	private String username;
+	private String password;
+	private Date registrationDay;
+	private Date birthday;
+	private Boolean gender;
+	private Boolean isActive;
+	private Address address;
+	private TypeOfUser typeOfUser;
+	public int getId() {
 		return id;
 	}
-
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
-
-	public String getFirstName() {
-		return firstName;
+	public String getName() {
+		return name;
 	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setName(String name) {
+		this.name = name;
 	}
-
-	public String getLastName() {
-		return lastName;
+	public String getLastname() {
+		return lastname;
 	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
-
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
-
 	public String getPassword() {
 		return password;
 	}
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	public String getMail() {
-		return mail;
+	public Date getRegistrationDay() {
+		return registrationDay;
 	}
-
-	public void setMail(String mail) {
-		this.mail = mail;
+	public void setRegistrationDay(Date registrationDay) {
+		this.registrationDay = registrationDay;
 	}
-
-	public Integer getAge() {
-		return age;
+	public Date getBirthday() {
+		return birthday;
 	}
-
-	public void setAge(Integer age) {
-		this.age = age;
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
 	}
-
-	public Boolean getActive() {
-		return active;
+	public Boolean getGender() {
+		return gender;
 	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
+	public void setGender(Boolean gender) {
+		this.gender = gender;
 	}
-
-	public GeoJsonPoint getUserLocation() {
-		return userLocation;
+	public Boolean getIsActive() {
+		return isActive;
 	}
-
-	public void setUserLocation(GeoJsonPoint userLocation) {
-		this.userLocation = userLocation;
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
 	}
-
-	public Date getDateOfBirth() {
-		return dateOfBirth;
+	public Address getAddress() {
+		return address;
 	}
-
-	public void setDateOfBirth(Date dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
+	public void setAddress(Address address) {
+		this.address = address;
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((active == null) ? 0 : active.hashCode());
-		result = prime * result + ((age == null) ? 0 : age.hashCode());
-		result = prime * result + ((dateOfBirth == null) ? 0 : dateOfBirth.hashCode());
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + ((mail == null) ? 0 : mail.hashCode());
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((userLocation == null) ? 0 : userLocation.hashCode());
-		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
-		return result;
+	public TypeOfUser getTypeOfUser() {
+		return typeOfUser;
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		if (active == null) {
-			if (other.active != null)
-				return false;
-		} else if (!active.equals(other.active))
-			return false;
-		if (age == null) {
-			if (other.age != null)
-				return false;
-		} else if (!age.equals(other.age))
-			return false;
-		if (dateOfBirth == null) {
-			if (other.dateOfBirth != null)
-				return false;
-		} else if (!dateOfBirth.equals(other.dateOfBirth))
-			return false;
-		if (firstName == null) {
-			if (other.firstName != null)
-				return false;
-		} else if (!firstName.equals(other.firstName))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (lastName == null) {
-			if (other.lastName != null)
-				return false;
-		} else if (!lastName.equals(other.lastName))
-			return false;
-		if (mail == null) {
-			if (other.mail != null)
-				return false;
-		} else if (!mail.equals(other.mail))
-			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
-			return false;
-		if (userLocation == null) {
-			if (other.userLocation != null)
-				return false;
-		} else if (!userLocation.equals(other.userLocation))
-			return false;
-		if (userName == null) {
-			if (other.userName != null)
-				return false;
-		} else if (!userName.equals(other.userName))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", userName=" + userName
-				+ ", password=" + password + ", mail=" + mail + ", age=" + age + ", active=" + active
-				+ ", userLocation=" + userLocation + ", dateOfBirth=" + dateOfBirth + "]";
+	public void setTypeOfUser(TypeOfUser typeOfUser) {
+		this.typeOfUser = typeOfUser;
 	}
 }
 
