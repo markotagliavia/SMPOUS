@@ -7,8 +7,8 @@
 	  <nav id="nav-menu-container">
 		<ul class="nav-menu">
 		  <li><a [routerLink]="['/home/login']">Home</a></li>
-		  <li><a [routerLink]="['/cars']">Cinemas</a></li>
-		  <li><a [routerLink]="['/services']">Theaters</a></li>
+		  <li><a [routerLink]="['/cars']">Movies</a></li>
+		  <li><a [routerLink]="['/services']">Cinemas</a></li>
 		  <li *ngIf = "client"><a [routerLink]="['/account']">Account</a></li>	
 		  <li><a [routerLink]="['/team']">Team</a></li>	
 			<li *ngIf = "admin"><a [routerLink]="['/panel']">Admin panel</a></li>

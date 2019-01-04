@@ -1,12 +1,12 @@
 <app-header (messageEvent)="receiveRefresh($event)"></app-header>
-<app-navbar [title] = "'Services'"></app-navbar>
+<app-navbar [title] = "'Cinemas'"></app-navbar>
 			<section class="reviews-area section-gap" id="review">
 				<div class="container">
 					<div class="row d-flex justify-content-center">
 						<div class="col-md-8 pb-40 header-text text-center">
-							<h1>Services</h1>
+							<h1>Cinemas</h1>
 							<p class="mb-10 text-center">
-								Choose your service and grab your vehicle in no time.
+								Choose your cinema and browse movies, theaters and projections.
 							</p>
 						</div>
 					</div>					
@@ -17,7 +17,7 @@
 						<br><br>					
 					</div>
 					<div class="row d-flex justify-content-center">
-						<a class="text-uppercase primary-btn" *ngIf= "smeDaKreira" [routerLink]="['/services/new']">New Service</a>
+						<a class="text-uppercase primary-btn" *ngIf= "smeDaKreira" [routerLink]="['/services/new']">New Cinema</a>
 					</div>
 				</div>	
 			</section>
