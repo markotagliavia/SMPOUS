@@ -36,23 +36,15 @@
 						<br>
 						<input class="form-control txt-field" type="text" name="surname" placeholder="Your surname" [(ngModel)]="regUser.surname">
 						<br>
-						<input class="form-control txt-field" type="email" name="email" placeholder="Email address" [(ngModel)]="regUser.email">
+						<input class="form-control txt-field" type="text" name="adresa" placeholder="Address" [(ngModel)]="regUser.adresa">
+						<br>
+						<input class="form-control txt-field" type="text" name="latitude" placeholder="Latitude" [(ngModel)]="regUser.latitude">
+						<br>
+						<input class="form-control txt-field" type="text" name="longitude" placeholder="Longitude" [(ngModel)]="regUser.longitude">
 						<br>
 						<input class="form-control txt-field" type="tel" name="phone" placeholder="Phone number" [(ngModel)]="regUser.contact">
 						<br>
 						<input class="form-control txt-field" type="text" name="date" placeholder="Birth date" type="text" [(ngModel)]="regUser.birth">                        
-					</div>
-					<div class="form-group row">
-						<div class="col-md-6 wrap-left">
-							<br>
-							<p style="color:black">Picture of your licence</p>
-						</div>
-						<div class="col-md-6 wrap-right">
-							<br>
-							<input 
-							type="file" (change)="onFileChanged($event)" 
-							#fileInput>
-						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-md-12">
@@ -65,37 +57,4 @@
 			</div>
 		</div>			
 	</div>	
-</section>
-
-<section class="model-area section-gap" id="cars">
-	<div class="container">
-		<div class="row justify-content-center">
-				<div class="progress-table-wrap">
-						<div class="progress-table">
-							<div class="table-head">
-								<div class="visit">Car</div>
-								<div class="visit">Branch In</div>
-								<div class="visit">Branch Out</div>
-								<div class="visit">From</div>
-								<div class="visit">To</div>
-								<div class="visit">Total price</div>
-								<div class="visit">Action</div>
-							</div>
-							<div class="table-row" *ngFor = "let res of reservations">
-									<div class="visit">{{res.Vehicle.Model}}</div>
-									<div class="visit">{{res.BranchReservations[0].Branch.Name}}</div>
-									<div class="visit">{{res.BranchReservations[1].Branch.Name}}</div>
-									<div class="visit">{{res.StartDate}}</div>
-									<div class="visit">{{res.EndDate}}</div>
-									<div class="visit">{{res.TotalPrice}}</div>
-									<div class="visit" *ngIf = "res.Expired">Time Expired</div>
-									<div class="visit" *ngIf = "!res.Expired">
-										<a class="genric-btn primary" (click) = 'editReservation(res.Id)'>Edit</a>
-										<a class="genric-btn danger" (click) = 'deleteReservation(res.Id)'>Delete</a>
-									</div>
-								</div>
-						</div>
-					</div>
-		</div>
-	</div>
 </section>

@@ -32,8 +32,9 @@ export class RegistrationFormComponent implements OnInit {
 		'surname' : '',
 		'birth' : '',
 		'contact' : '',
-		'email' : '',
-		'createService' : false
+		'adresa' : '',
+		'latitude' : 0,
+		'longitude' : 0
 	}
 	this.errorText = "";
   }
@@ -45,8 +46,8 @@ export class RegistrationFormComponent implements OnInit {
   
   registerUser(): boolean {
 	if(this.user.username.length == 0 || this.user.password.length == 0 || this.user.name.length == 0 
-		|| this.user.surname.length == 0 || this.user.birth.length == 0 || this.user.contact.length == 0 || this.user.email.length == 0){
-		this.errorText = "All fields except document are required";
+		|| this.user.surname.length == 0 || this.user.birth.length == 0 || this.user.contact.length == 0 || this.user.adresa.length == 0){
+		this.errorText = "All fields are required";
 		return false;		
     }
 	else
@@ -79,11 +80,6 @@ export class RegistrationFormComponent implements OnInit {
 			this.errorText = "Surname must have minimum 2 characters";
 			return false;
 		}
-		if(!this.user.email.includes('@'))
-		{
-			this.errorText = "Invalid email";
-			return false;
-		}
 		this.errorText = "";
 	}
 		this.httpService.register(this.user).subscribe
@@ -92,7 +88,7 @@ export class RegistrationFormComponent implements OnInit {
 				
 				//console.log("AppUser created successfully ");
 
-				alert("You are registered successfully, to confirm your account go to Account and upload picture of licence card.");
+				alert("You are registered successfully");
 
 				this.router.navigate(['/home/login']);
 	
@@ -109,16 +105,5 @@ export class RegistrationFormComponent implements OnInit {
     return false; 
 	}
 	
-	createServiceChange(elem)
-	{
-		if(elem.checked)
-		{
-			this.user.createService = true;
-		}
-		else
-		{
-			this.user.createService = false;	
-		}
-	}
 
 }

@@ -47,15 +47,6 @@ export class ServicesMainComponent implements OnInit {
               this.admin = true;
               this.client = true;
             }
-            else if(this.authService.isLoggedInRole('Manager') && this.authService.currentUser().approved)
-            {
-              this.manager = true;
-              this.client = true;
-              if(this.authService.currentUser().createService == true)
-              {
-                this.smeDaKreira = true;
-              }
-            }
             else if(this.authService.isLoggedInRole('AppUser'))
             {
               this.client = true;

@@ -86,7 +86,6 @@ export class HeaderComponent implements OnInit,OnChanges {
              
             this.authService.logOut();//heade
             this.router.navigate(['home/login']);
-            this.notifService.UnsubscribeForNotifications();
             this.refreshView();
             window.location.reload();
           },

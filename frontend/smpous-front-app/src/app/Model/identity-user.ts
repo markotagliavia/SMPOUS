@@ -6,8 +6,9 @@ export class IdentityUser {
         public password: string,
         public contact: string,
         public birth : string,
-        public email: string,
-        public createService : boolean,
-        public confirmPassword: string
+        public adresa: string,
+        public confirmPassword: string,
+		public latitude : number,
+		public longitude : number
     ){}
 }

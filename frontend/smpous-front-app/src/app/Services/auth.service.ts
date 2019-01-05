@@ -104,15 +104,27 @@ export class AuthService {
         }
     }
 
-    currentUserCreateService(): boolean {
+    currentUserLatitude(): number {
         let curretUser = localStorage.getItem("currentUser");
         if ( curretUser !== null){
             let user: CurrentUser = JSON.parse(curretUser);
-            return user.createService;
+            return user.latitude;
         }
         else
         {
-            return false;
+            return 0;
+        }
+    }
+
+    currentUserLongitude(): number {
+        let curretUser = localStorage.getItem("currentUser");
+        if ( curretUser !== null){
+            let user: CurrentUser = JSON.parse(curretUser);
+            return user.longitude;
+        }
+        else
+        {
+            return 0;
         }
     }
 
@@ -138,11 +150,11 @@ export class AuthService {
         }
     }
 
-    currentUserEmail(): string {
+    currentUserAdresa(): string {
         let currentUser = localStorage.getItem("currentUser");
         if (currentUser !== null) {
             let user: CurrentUser = JSON.parse(currentUser);
-            return user.email;
+            return user.adresa;
         }
         else {
             return null;
@@ -236,31 +248,5 @@ export class AuthService {
              NewPassword: newPass,
              ConfirmPassword: confirmPass
          }), opts);
-    }
-
-    ServiceCreationRight(user: AppUser, token: string, sme : boolean) : Observable<any>
-    {
-      const headers: Headers = new Headers();
-      headers.append('Content-type', 'application/json');
-      let usertoken = `Bearer ${token}`;
-      headers.append('Authorization', usertoken);
-  
-      const opts: RequestOptions = new RequestOptions();
-      opts.headers = headers;
-  
-      return this.http.put(
-          `http://localhost:51432/api/AppUser/Promotion/${user.Id}`
-          ,JSON.stringify({
-            Id: user.Id,
-            Name: user.Name,
-            Surname: user.Surname,
-            Contact: user.Contact,
-            Username: user.Username,
-            BirthDate: user.BirthDate,
-            Approved: user.Approved,
-            LoggedIn: user.LoggedIn,
-            CreateService: sme,
-            Path: user.Path
-           }), opts);
     }
 }

@@ -47,7 +47,7 @@ export class HttpService {
 	
 	register(user: IdentityUser) {
 	  
-	    console.log(`Stiglo: ${user.username} i : ${user.password} i ${user.name} i ${user.surname} i ${user.birth} i ${user.contact} i ${user.email}`);
+	    console.log(`Stiglo: ${user.username} i : ${user.password} i ${user.name} i ${user.surname} i ${user.birth} i ${user.contact} i ${user.adresa}`);
         
         const headers: Headers = new Headers();
         headers.append('Accept', 'application/json');
@@ -62,12 +62,13 @@ export class HttpService {
                 Username: user.username,
                 Name: user.name,
                 Surname: user.surname,
-                Email: user.email,
+                Adresa: user.adresa,
                 Password: user.password,
                 Contact: user.contact,
                 Birth: user.birth,
                 ConfirmPassword: user.confirmPassword,
-                CreateService : user.createService
+                Latitude : user.latitude,
+                Longitude : user.longitude
             }), opts);
         
     }
@@ -94,7 +95,8 @@ export class HttpService {
              BirthDate: user.BirthDate,
              Approved: true,
              LoggedIn: user.LoggedIn,
-             CreateService: user.CreateService,
+             Latitude : user.Latitude,
+             Longitude : user.Longitude,
              Path: user.Path
             }), opts);
         
@@ -115,7 +117,7 @@ export class HttpService {
             ,
             JSON.stringify({
              Username: user.username,
-             Email: user.email
+             Adresa: user.adresa
             }), opts);
     }
 
@@ -141,7 +143,8 @@ export class HttpService {
              BirthDate: user.birth,
              Approved: user.approved,
              LoggedIn: user.login,
-             CreateService: user.createService,
+             Latitude : user.latitude,
+             Longitude : user.longitude,
              Path: user.Path
             }), opts);
     }

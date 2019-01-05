@@ -8,10 +8,11 @@ export class CurrentUser {
         public token: string,
         public contact: string,
         public birth : string,
-        public email: string,
+        public adresa: string,
         public password: string,
         public approved: boolean,
-        public createService: boolean,
+		public latitude: number,
+		public longitude: number,
         public Path: string,
         public id: number
     ){}

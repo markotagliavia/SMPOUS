@@ -38,24 +38,10 @@ export class AccountMainComponent implements OnInit {
       'surname' : this.authService.currentUserSurname(),
       'birth' : this.authService.currentUserBirth(),
       'contact' : this.authService.currentUserContact(),
-      'email' : this.authService.currentUserEmail(),
-      'createService' : false
+      'adresa' : this.authService.currentUserAdresa(),
+      'latitude' : this.authService.currentUserLatitude(),
+      'longitude' :this.authService.currentUserLongitude()
     }
-
-    this.serviceManager.getReservationsUser(this.authService.currentUserId(),this.authService.currentUserToken()).subscribe(
-
-        (res: any) =>
-        {
-                res.forEach(element => {
-                  this.reservations.push(element);
-                });
-        },
-        error=>
-        {
-
-        }
-
-    )
 
     this.errorTextLogin = '';
     this.errorTextReg = '';
@@ -97,8 +83,8 @@ export class AccountMainComponent implements OnInit {
                   let currentUser: CurrentUser;
                   
                   currentUser = new CurrentUser(res.LoggedIn,res.Username,res.Name,res.Surname,this.authService.currentUserRole(),this.authService.currentUserToken(),
-                  res.Contact,res.BirthDate,this.authService.currentUserEmail(), this.regUser.password,res.Approved,
-                  res.CreateService,res.Path,res.Id);
+                  res.Contact,res.BirthDate,this.authService.currentUserAdresa(), this.regUser.password,res.Approved,
+                  res.Latitude, res.Longitude ,res.Path,res.Id);
                   console.log(currentUser);
                   this.authService.logIn(currentUser);
                   //this.header.refreshView();
@@ -110,8 +96,9 @@ export class AccountMainComponent implements OnInit {
                     'surname' : this.authService.currentUserSurname(),
                     'birth' : this.authService.currentUserBirth(),
                     'contact' : this.authService.currentUserContact(),
-                    'email' : this.authService.currentUserEmail(),
-                    'createService' : false
+                    'adresa' : this.authService.currentUserAdresa(),
+                    'latitude' : this.authService.currentUserLatitude(),
+                    'longitude' :this.authService.currentUserLongitude()
                   }
                 })
             },
@@ -137,7 +124,7 @@ export class AccountMainComponent implements OnInit {
 
 
     if(this.regUser.name.length == 0 
-      || this.regUser.surname.length == 0 || this.regUser.birth.length == 0 || this.regUser.contact.length == 0 || this.regUser.email.length == 0){
+      || this.regUser.surname.length == 0 || this.regUser.birth.length == 0 || this.regUser.contact.length == 0 || this.regUser.adresa.length == 0){
       this.errorTextReg = "All fields except document are required";
       return false;		
       }
@@ -153,11 +140,6 @@ export class AccountMainComponent implements OnInit {
         this.errorTextReg = "Surname must have minimum 2 characters";
         return false;
       }
-      if(!this.regUser.email.includes('@'))
-      {
-        this.errorTextReg = "Invalid email";
-        return false;
-      }
       this.errorTextReg = "";
     }
      // console.log(`Dobili smo: `, JSON.stringify(this.regUser));
@@ -171,10 +153,11 @@ export class AccountMainComponent implements OnInit {
       this.authService.currentUserToken(),
       this.regUser.contact,
       this.regUser.birth,
-      this.regUser.email,
+      this.regUser.adresa,
       this.authService.currentUserPassword(),
       this.authService.currentUserApproved(),
-      this.authService.currentUserCreateService(),
+      this.authService.currentUserLatitude(),
+      this.authService.currentUserLongitude(),
       this.authService.currentUserPath(),
       this.authService.currentUserId()
 
@@ -199,8 +182,8 @@ export class AccountMainComponent implements OnInit {
                                               let currentUser: CurrentUser;
                                               
                                               currentUser = new CurrentUser(res.LoggedIn,res.Username,res.Name,res.Surname,this.authService.currentUserRole(),this.authService.currentUserToken(),
-                                              res.Contact,res.BirthDate,this.regUser.email, this.regUser.password,res.Approved,
-                                              res.CreateService,res.Path,res.Id);
+                                              res.Contact,res.BirthDate,this.regUser.adresa, this.regUser.password,res.Approved,
+                                              res.Latitude,res.Longitude,res.Path,res.Id);
                                               console.log(currentUser);
                                               this.authService.logIn(currentUser);
                                               //this.header.refreshView();
@@ -212,8 +195,9 @@ export class AccountMainComponent implements OnInit {
                                                 'surname' : this.authService.currentUserSurname(),
                                                 'birth' : this.authService.currentUserBirth(),
                                                 'contact' : this.authService.currentUserContact(),
-                                                'email' : this.authService.currentUserEmail(),
-                                                'createService' : false
+                                                'adresa' : this.authService.currentUserAdresa(),
+                                                'latitude' : this.authService.currentUserLatitude(),
+                                                'longitude' :this.authService.currentUserLongitude()
                                               }
                                             })
                                           
@@ -234,8 +218,8 @@ export class AccountMainComponent implements OnInit {
                             let currentUser: CurrentUser;
                             
                             currentUser = new CurrentUser(res.LoggedIn,res.Username,res.Name,res.Surname,this.authService.currentUserRole(),this.authService.currentUserToken(),
-                            res.Contact,res.BirthDate,this.regUser.email, this.regUser.password,res.Approved,
-                            res.CreateService,res.Path,res.Id);
+                            res.Contact,res.BirthDate,this.regUser.adresa, this.regUser.password,res.Approved,
+                            res.Latitude, res.Longitude,res.Path,res.Id);
                             console.log(currentUser);
                             this.authService.logIn(currentUser);
                             //this.header.refreshView();
@@ -247,8 +231,9 @@ export class AccountMainComponent implements OnInit {
                               'surname' : this.authService.currentUserSurname(),
                               'birth' : this.authService.currentUserBirth(),
                               'contact' : this.authService.currentUserContact(),
-                              'email' : this.authService.currentUserEmail(),
-                              'createService' : false
+                              'adresa' : this.authService.currentUserAdresa(),
+                              'latitude' : this.authService.currentUserLatitude(),
+                              'longitude' :this.authService.currentUserLongitude()
                             }
                           })
                           
@@ -271,59 +256,6 @@ export class AccountMainComponent implements OnInit {
              
         
                 return false; 
-              }
-
-
-    editReservation(id : number)
-    {
-      //to do proveri da li sme (24h pre rezervacije ne sme da je menja npr)
-      this.router.navigate(['editReservation/', id]);     
-    }
-          
-     deleteReservation(id : number)
-     {
-        ////to do proveri da li sme (24h pre rezervacije ne sme da je brise npr)
-        this.serviceManager.deleteReservation(id,this.authService.currentUserToken()).subscribe
-        (
-          (res:any) =>
-          {
-                alert("Successfully deleted");
-                this.reservations = [];
-                this.serviceManager.getReservationsUser(this.authService.currentUserId(),this.authService.currentUserToken()).subscribe(
-
-                  (res: any) =>
-                  {
-                          res.forEach(element => {
-                            this.reservations.push(element);
-                          });
-                  },
-                  error=>
-                  {
-                    if(error.json().Message == '24')
-                    {
-                        alert("Less than 24 untill reservation, change is not available");
-                    }
-                    else
-                    {
-                      alert("Car is not available");
-                    }
-                  }
-          
-              )
-          },
-          error =>
-          {
-            if(error.json().Message == '24')
-            {
-                alert("Less than 24 untill reservation, change is not available");
-            }
-            else
-            {
-              alert("Car is not available");
-            }
-                      
-          }
-        )
-     }
+      }
 
 }

@@ -6,9 +6,10 @@ export class AppUser {
 	  	public Username: string,
 	  	public Contact: string,
 	  	public BirthDate : string,
-			public Email: string,
+			public Adresa: string,
+        public Latitude: number,
+        public Longitude: number,
 			public Approved: boolean,
-			public CreateService: boolean,
 			public LoggedIn: boolean,
       public Path: string,
 			public Role : string 
