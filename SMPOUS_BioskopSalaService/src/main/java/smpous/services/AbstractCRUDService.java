@@ -3,6 +3,7 @@ package smpous.services;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -36,7 +37,8 @@ public abstract class AbstractCRUDService<T, ID extends Serializable> {
 	}
 
 	public T update(ID id, T newEntity) {
-		T entity = (T) repo.findById(id);
+		Optional<T> entitytest = repo.findById(id);
+		T entity = entitytest.get();
 		try {
 			//ignore copy of id field
 			BeanUtils.copyProperties(newEntity, entity, "id");

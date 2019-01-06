@@ -17,6 +17,18 @@ public class Theater implements Serializable{
 	
 	
 	
+	public HashSet<Chair> getChair() {
+		return chair;
+	}
+
+
+
+	public void setChair(HashSet<Chair> chair) {
+		this.chair = chair;
+	}
+
+
+
 	public Theater(int id, int name, int capacity, TheaterType theaterType, HashSet<Chair> chair) {
 		super();
 		this.id = id;

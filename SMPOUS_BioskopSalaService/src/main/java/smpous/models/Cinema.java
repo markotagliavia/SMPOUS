@@ -3,6 +3,7 @@ package smpous.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
@@ -18,23 +19,41 @@ public class Cinema implements Serializable{
 	{
 		
 	}
-	
-	
-	
-	public Cinema(int id, String name, Address address, ArrayList<Rate> rates, int ranking, HashSet<Theater> theater) {
+
+	public Cinema(String id, String name, Address address, ArrayList<Rate> rates, int ranking,
+			HashSet<Theater> theaters) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.address = address;
 		this.rates = rates;
 		this.ranking = ranking;
-		this.theater = theater;
+		this.theaters = theaters;
 	}
 
 
 
 	@Id
-	private int id;
+	private String id;
+	
+	public String getId() {
+		return id;
+	}
+
+	public HashSet<Theater> getTheaters() {
+		return theaters;
+	}
+
+
+	public void setTheaters(HashSet<Theater> theaters) {
+		this.theaters = theaters;
+	}
+
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
    
 	private String name;
 	   
@@ -44,15 +63,8 @@ public class Cinema implements Serializable{
 	   
 	private int ranking;
 	   
-	public HashSet<Theater> theater;
+	public HashSet<Theater> theaters;
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;
@@ -85,5 +97,7 @@ public class Cinema implements Serializable{
 	public void setRanking(int ranking) {
 		this.ranking = ranking;
 	}
+
+	
 }
 
