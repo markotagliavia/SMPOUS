@@ -1,6 +1,7 @@
 package smpous.services;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,5 +29,9 @@ public class BioskopSalaService extends AbstractCRUDService<Cinema, String>{
 		return cinemaRepository.findCinemaByName(name);
 	}
 	
+	public List<Cinema> findAllCinema()
+	{
+		return cinemaRepository.findAll();
+	}
 
 }

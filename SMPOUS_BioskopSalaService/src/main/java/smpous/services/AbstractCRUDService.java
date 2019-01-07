@@ -33,7 +33,9 @@ public abstract class AbstractCRUDService<T, ID extends Serializable> {
 	}
 
 	public T findOne(ID id) {
-		return (T) repo.findById(id);
+		Optional<T> entitytest = repo.findById(id);
+		T entity = entitytest.get();
+		return entity;
 	}
 
 	public T update(ID id, T newEntity) {
