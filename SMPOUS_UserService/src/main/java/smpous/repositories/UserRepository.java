@@ -18,39 +18,41 @@ public interface UserRepository extends MongoRepository<User, String>{
 //	  @Query("{ 'firstname' : ?0 }")
 //	  List<User> findByFirstName(String firstName);
 	
-	List<User> findByFirstName(String firstName);
+	List<User> findByName(String name);
 	
-	List<User> findByFirstName(String firstName, Sort sort);
+	List<User> findByName(String name, Sort sort);
 	
-	Page<User> findByFirstName(String firstName, Pageable pageable);
+	Page<User> findByName(String name, Pageable pageable);
 	
 //	Stream<User> findByFirstName(String firstName);
 	
-	List<User> findByFirstNameAndLastName(String firsttName, String lastName);
+	List<User> findByNameAndLastname(String name, String lastname);
 	
-	List<User> findByAgeGreaterThan(Integer age);
+	//List<User> findByAgeGreaterThan(Integer age);
 	
-	List<User> findByAgeLessThan(Integer age);
+	//List<User> findByAgeLessThan(Integer age);
 	
-	List<User> findByAgeBetween(Integer from, Integer to);
+	//List<User> findByAgeBetween(Integer from, Integer to);
 	
-	List<User> findByFirstNameNotNull();
+	List<User> findByNameNotNull();
 	
-	List<User> findByFirstNameNull();
+	List<User> findByNameNull();
 	
-	List<User> findByUserLocationNear(Point point, Distance distance);
+	//List<User> findByUserLocationNear(Point point, Distance distance);
 	
-	List<User> findByUserLocationWithin(GeoJsonPolygon polygon);
+	//List<User> findByUserLocationWithin(GeoJsonPolygon polygon);
 	
-	List<User> findByActiveIsTrue();
+	List<User> findByIsActiveIsTrue();
 	
-	List<User> findByActiveIsFalse();
+	List<User> findByIsActiveIsFalse();
 	
-	List<User> findByDateOfBirthBetween(Date start, Date end);
+	//List<User> findByDateOfBirthBetween(Date start, Date end);
 
-	User findByIdAndActive(String userId, Boolean isActive);
+	User findByIdAndIsActive(String id, Boolean isActive);
 	
-	User findByMailAndActive(String mail, Boolean isActive);
+	User findByUsernameAndIsActive(String username, Boolean isActive);
+	
+	//User findByMailAndActive(String mail, Boolean isActive);
 	
 }
 
