@@ -16,7 +16,7 @@ public class Chair implements Serializable{
 	
 	
 	
-	public Chair(int id, int serialNumber, int column, int row) {
+	public Chair(String id, int serialNumber, int column, int row) {
 		super();
 		this.id = id;
 		this.serialNumber = serialNumber;
@@ -27,7 +27,7 @@ public class Chair implements Serializable{
 
 
 	@Id
-	private int id;
+	private String id;
 	   
 	private int serialNumber;
 	   
@@ -35,11 +35,11 @@ public class Chair implements Serializable{
 	   
 	private int row;
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

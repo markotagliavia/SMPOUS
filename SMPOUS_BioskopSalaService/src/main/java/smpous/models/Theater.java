@@ -29,7 +29,7 @@ public class Theater implements Serializable{
 
 
 
-	public Theater(int id, int name, int capacity, TheaterType theaterType, HashSet<Chair> chair) {
+	public Theater(String id, int name, int capacity, TheaterType theaterType, HashSet<Chair> chair) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -41,7 +41,7 @@ public class Theater implements Serializable{
 
 
 	@Id
-	private int id;
+	private String id;
 
 	private int name;
 
@@ -51,11 +51,11 @@ public class Theater implements Serializable{
 	  
 	public HashSet<Chair> chair;
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
