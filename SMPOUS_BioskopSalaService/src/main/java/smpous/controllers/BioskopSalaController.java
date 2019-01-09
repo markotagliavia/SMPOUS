@@ -1,24 +1,18 @@
 package smpous.controllers;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import smpous.models.Address;
 import smpous.models.Cinema;
 import smpous.models.Rate;
 import smpous.services.BioskopSalaService;
@@ -48,19 +42,19 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 	@RequestMapping(value = "/addCinema",method = RequestMethod.POST)
 	public Boolean AddCinema(@RequestBody Cinema cinema)
 	{
-		/*cinema.setId(UUID.randomUUID().toString());
-		bioskopSalaService.save(cinema);*/
+		cinema.setId(UUID.randomUUID().toString());
+		bioskopSalaService.save(cinema);
 		
-		Cinema cin = new Cinema();
+		/*Cinema cin = new Cinema();
 		cin.setId(UUID.randomUUID().toString());
 		cin.setRanking(0);
 		cin.setName("Test1");
 		GeoJsonPoint t = new GeoJsonPoint(40.743827,-73.989015);
 		cin.setAddress(new Address("Pere Perica", "5", t ));
-		ArrayList<Rate> rates = new ArrayList<Rate>();
-		rates.add(Rate.three);
+		Map<String,Rate> rates = new HashMap<String,Rate>();
+		//rates.add(Rate.three);
 		cin.setRates(rates);
-		bioskopSalaService.save(cin);
+		bioskopSalaService.save(cin);*/
 		return true;
 		
 	}
@@ -89,12 +83,13 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 	{
 		System.out.println("STIGLO MI JEEEEE" + rate.toString());
 		Cinema cinema = bioskopSalaService.findOne(id);
-		ArrayList<Rate> rates = cinema.getRates();
+		Map<String,Rate> rates = cinema.getRates();
 		if(rates == null)
 		{
-			rates = new ArrayList<Rate>();
+			rates = new HashMap<String,Rate>();
 		}
-		rates.add(rate);
+		//kako dobiti UserOnSession
+		//rates.add(rate);
 		cinema.setRates(rates);
 		bioskopSalaService.update(cinema.getId(), cinema);
 		return true;

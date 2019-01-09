@@ -3,6 +3,7 @@ package smpous.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
@@ -20,7 +21,7 @@ public class Cinema implements Serializable{
 		
 	}
 
-	public Cinema(String id, String name, Address address, ArrayList<Rate> rates, int ranking,
+	public Cinema(String id, String name, Address address, Map<String,Rate> rates, int ranking,
 			HashSet<Theater> theaters) {
 		super();
 		this.id = id;
@@ -59,7 +60,7 @@ public class Cinema implements Serializable{
 	   
 	private Address address;
 	   
-	private ArrayList<Rate> rates;
+	private Map<String,Rate> rates;
 	   
 	private int ranking;
 	   
@@ -82,11 +83,11 @@ public class Cinema implements Serializable{
 		this.address = address;
 	}
 
-	public ArrayList<Rate> getRates() {
+	public Map<String,Rate> getRates() {
 		return rates;
 	}
 
-	public void setRates(ArrayList<Rate> rates) {
+	public void setRates(Map<String,Rate> rates) {
 		this.rates = rates;
 	}
 
