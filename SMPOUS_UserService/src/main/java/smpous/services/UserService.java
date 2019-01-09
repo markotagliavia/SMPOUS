@@ -21,9 +21,9 @@ public class UserService extends AbstractCRUDService<User, String>{
 		this.userRepository = userRepository;
 	}
 	
-	public User login(String mail, String password){
+	public User login(String username, String password){
 		Boolean isActive = true;
-		User user = userRepository.findByMailAndActive(mail, isActive);
+		User user = userRepository.findByUsernameAndIsActive(username, isActive);
 		
 		if(user != null){
 			if(user.getPassword().equals(password)){
@@ -35,15 +35,15 @@ public class UserService extends AbstractCRUDService<User, String>{
 	}
 	
 	public List<User> findByFirstName(String firstName){
-		return userRepository.findByFirstName(firstName);
+		return userRepository.findByName(firstName);
 	}
 	
 	public Page<User> findByFirstName(String firstName, Pageable pageable){
-		return userRepository.findByFirstName(firstName, pageable);
+		return userRepository.findByName(firstName, pageable);
 	}
 
 	public User findByIdAndActive(String userId, Boolean isActive) {
-		return userRepository.findByIdAndActive(userId, isActive);
+		return userRepository.findByIdAndIsActive(userId, isActive);
 	}
 
 }
