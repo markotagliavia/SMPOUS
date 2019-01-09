@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -61,6 +62,11 @@ public class UserController extends AbstractRESTController<User, String>{
 	public String hello(){
 
 		return NAMES[random.nextInt(NAMES.length)] +"[PORT: "+ environment.getProperty("local.server.port") + "]";
+	}
+	
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public User register(@RequestBody User user){
+		return userService.save(user);
 	}
 	
 	@RequestMapping(value = "/checkUser", method = RequestMethod.GET)

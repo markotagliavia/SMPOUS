@@ -57,7 +57,7 @@ export class HttpService {
         opts.headers = headers;
 
         return this.http.post(
-            'http://localhost:51432/api/Account/Register',
+            'http://localhost:8765/user-service/users/register',
             JSON.stringify({
                 Username: user.username,
                 Name: user.name,

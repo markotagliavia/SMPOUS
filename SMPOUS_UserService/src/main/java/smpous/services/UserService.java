@@ -45,6 +45,7 @@ public class UserService extends AbstractCRUDService<User, String>{
 	public User findByIdAndActive(String userId, Boolean isActive) {
 		return userRepository.findByIdAndIsActive(userId, isActive);
 	}
+	
 
 }
 

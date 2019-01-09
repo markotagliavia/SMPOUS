@@ -6,7 +6,7 @@ public class Snippet {
 	
 	# MONGODB (MongoProperties)
 	mongodb.databasename=testDB
-	mongodb.host=smpous-shard-00-00-tq9zq.mongodb.net
+	mongodb.host=smpous-shard-00-01-tq9zq.mongodb.net
 	mongodb.port=27017
 }
 
