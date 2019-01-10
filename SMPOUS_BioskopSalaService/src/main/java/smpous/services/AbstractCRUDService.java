@@ -8,7 +8,13 @@ import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.repository.PagingAndSortingRepository;
+
+
+
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.geojson.Point;
 
 public abstract class AbstractCRUDService<T, ID extends Serializable> {
 
@@ -63,5 +69,7 @@ public abstract class AbstractCRUDService<T, ID extends Serializable> {
 		repo.deleteAll();
 		return true;
 	}
+	
+	//a koji ce mi address onda
+	
 }
-
