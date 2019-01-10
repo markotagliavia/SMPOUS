@@ -10,6 +10,8 @@ import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @SuppressWarnings("serial")
 @Document
 public class User implements Serializable{
@@ -45,7 +47,9 @@ public class User implements Serializable{
 	private String lastname;
 	private String username;
 	private String password;
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date registrationDay;
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date birthday;
 	private Boolean gender;
 	private Boolean isActive;
