@@ -1,5 +1,6 @@
 import { Component, OnInit, Injectable, Input } from '@angular/core';
 import { Service } from '../../../Model/service';  
+import { Theater } from '../../../Model/theather';
 
 @Injectable()
 @Component({
@@ -9,15 +10,15 @@ import { Service } from '../../../Model/service';
 })
 export class ServiceUnitComponent implements OnInit {
 
-  @Input() service : Service;
+  @Input() theather : Theater;
   ocena : number;
 
   constructor() { 
   }
 
   ngOnInit() {
-    this.ocena = -1;
-    if(this.service.AverageMark >= 0 && this.service.AverageMark <= 0.5)
+    this.ocena = 0;
+    /*if(this.service.AverageMark >= 0 && this.service.AverageMark <= 0.5)
     {
       this.ocena = 0;
     }
@@ -40,7 +41,7 @@ export class ServiceUnitComponent implements OnInit {
     else if(this.service.AverageMark >= 4.5 && this.service.AverageMark <= 5)
     {
       this.ocena = 5;
-    }
+    }*/
   }
 
 }
