@@ -34,10 +34,9 @@ public class BioskopSalaService extends AbstractCRUDService<Cinema, String>{
 	
 	public List<Cinema> findNearPoint(Point p,Double maxDistance)
 	{
-		List<Cinema> elements = new ArrayList<Cinema>();
 		Distance distance = new Distance(maxDistance);
-		cinemaRepository.findByLocationNear(p, distance);
-		return elements;
+		return cinemaRepository.findByLocationNear(p, distance);
+
 	}
 
 }

@@ -1,5 +1,6 @@
 package smpous.controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -100,6 +101,12 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 		return bioskopSalaService.findCinemaByName(name);
 	}
 	
+	@RequestMapping(value = "/allCinemas",method = RequestMethod.GET)
+	public List<Cinema> GetAllCinemas()
+	{
+		return bioskopSalaService.findAllCinema();
+	}
+	
 	@RequestMapping(value = "/editCinema",method = RequestMethod.PUT)
 	public Boolean EditCinema(@RequestBody Cinema cinema)
 	{
@@ -123,7 +130,7 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 		{
 			rates = new HashMap<String,Rate>();
 		}
-		//kako dobiti UserOnSession
+		//kako dobiti UserOnSession sta jos da uradim da se ponovo zaljubis u Marka? mis...
 		//rates.add(rate);
 		cinema.setRates(rates);
 		bioskopSalaService.update(cinema.getId(), cinema);
@@ -134,7 +141,7 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 	public List<Cinema> FindNearPoint()
 	{
 		//Position pos = new Position(30.743827,-72.989015);
-	    Point point = new Point(35.743827,-71.989015);
+	    Point point = new Point(35.743826,-71.989015);
 		
 		return bioskopSalaService.findNearPoint(point, 1.0);
 	}

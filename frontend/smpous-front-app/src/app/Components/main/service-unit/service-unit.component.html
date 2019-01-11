@@ -1,7 +1,7 @@
 <a [routerLink]="['/serviceSingle', service.Id]"><div class="single-review" >
-		<h4>{{service.Name}} <img [src]="service.Path" style="height:60px; width:60px"></h4>
+		<h4>{{theather.name}} <img [src]="service.Path" style="height:60px; width:60px"></h4>
 	<p>
-		{{service.Description}}
+		
 	</p>
 	<div class="star"> 
 		<span class="fa fa-star checked" *ngIf = "ocena >= 1"></span>

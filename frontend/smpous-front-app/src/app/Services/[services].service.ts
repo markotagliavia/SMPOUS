@@ -10,7 +10,6 @@ import { Observable } from "rxjs";
 import { map } from 'rxjs/operators';
 import { PriceList } from '../Model/pricelist';
 import { Reservation } from '../Model/reservation';
-import { Rate } from '../Model/rate';
 
 
 @Injectable({
@@ -221,6 +220,9 @@ export class ServiceManager {
     var url = 'http://localhost:51432/api/Services/GetAllServices';
     return this.http.get(url, opts).pipe(map((res: Response) => this.extractData(res)));
   }
+
+
+
 
   getService(token: string, serviceId : number) : any
   {
@@ -626,11 +628,7 @@ export class ServiceManager {
         `http://localhost:51432/api/Rates/PostRate`
         ,
         JSON.stringify({
-          Id: rate.Id,
-          Point : rate.Point,
-          Comment : rate.Comment,
-          ServiceId : rate.ServiceId,
-          AppUserId : rate.AppUserId
+        
         }), opts);
   
     }
@@ -678,14 +676,10 @@ export class ServiceManager {
       opts.headers = headers;
   
       return this.http.put(
-        `http://localhost:51432/api/Rates/PutRate/${rate.Id}`
+        `http://localhost:51432/api/Rates/PutRate/`
         ,
         JSON.stringify({
-          Id: rate.Id,
-          Point : rate.Point,
-          Comment : rate.Comment,
-          ServiceId : rate.ServiceId,
-          AppUserId : rate.AppUserId
+          
         }), opts);
     }
   
@@ -700,11 +694,21 @@ export class ServiceManager {
       opts.headers = headers;
   
       return this.http.delete(
-        `http://localhost:51432/api/Rates/DeleteRate/${rate.Id}`
+        `http://localhost:51432/api/Rates/DeleteRate/`
         ,opts
       );
     }
   
     //end of comments section ----------------------------------------------------------------------------
-}
+    //----------------------
+    getTheathers(): Observable<any>
+    {
 
+      const opts: RequestOptions = new RequestOptions();
+      var url = 'http://localhost:8765/bioskopsala-service/cinemas/allCinemas';
+      return this.http.get(url, opts).pipe(map((res: Response) => this.extractData(res)));
+    }
+
+    //end of theather section ----------------------------------------------------------------------------
+
+  }
