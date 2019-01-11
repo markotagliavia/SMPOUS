@@ -1,17 +1,15 @@
 package smpous.services;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
-
-import org.springframework.beans.BeanUtils;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.geo.Distance;
 import org.springframework.stereotype.Service;
 
 import smpous.models.Cinema;
 import smpous.repositories.CinemaRepository;
+import org.springframework.data.geo.Point;
 
 @Service
 public class BioskopSalaService extends AbstractCRUDService<Cinema, String>{
@@ -32,6 +30,14 @@ public class BioskopSalaService extends AbstractCRUDService<Cinema, String>{
 	public List<Cinema> findAllCinema()
 	{
 		return cinemaRepository.findAll();
+	}
+	
+	public List<Cinema> findNearPoint(Point p,Double maxDistance)
+	{
+		List<Cinema> elements = new ArrayList<Cinema>();
+		Distance distance = new Distance(maxDistance);
+		cinemaRepository.findByLocationNear(p, distance);
+		return elements;
 	}
 
 }

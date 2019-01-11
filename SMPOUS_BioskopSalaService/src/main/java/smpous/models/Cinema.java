@@ -21,12 +21,16 @@ public class Cinema implements Serializable{
 		
 	}
 
-	public Cinema(String id, String name, Address address, Map<String,Rate> rates, int ranking,
-			HashSet<Theater> theaters) {
+
+
+	public Cinema(String id, String name, GeoJsonPoint location, String street, String number, Map<String, Rate> rates,
+			int ranking, HashSet<Theater> theaters) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.address = address;
+		this.location = location;
+		this.street = street;
+		this.number = number;
 		this.rates = rates;
 		this.ranking = ranking;
 		this.theaters = theaters;
@@ -57,8 +61,20 @@ public class Cinema implements Serializable{
 
    
 	private String name;
-	   
-	private Address address;
+	@GeoSpatialIndexed(type=GeoSpatialIndexType.GEO_2DSPHERE)
+	private GeoJsonPoint location;
+	
+	private String street;
+	private String number;
+	
+	public GeoJsonPoint getLocation() {
+		return location;
+	}
+
+	public void setLocation(GeoJsonPoint location) {
+		this.location = location;
+	}
+	
 	   
 	private Map<String,Rate> rates;
 	   
@@ -75,14 +91,7 @@ public class Cinema implements Serializable{
 		this.name = name;
 	}
 
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
+	
 	public Map<String,Rate> getRates() {
 		return rates;
 	}
@@ -97,6 +106,22 @@ public class Cinema implements Serializable{
 
 	public void setRanking(int ranking) {
 		this.ranking = ranking;
+	}
+
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
 	}
 
 	
