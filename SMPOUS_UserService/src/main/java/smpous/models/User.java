@@ -23,7 +23,7 @@ public class User implements Serializable{
 	
 	
 	
-	public User(int id, String name, String lastname, String username, String password, Date registrationDay,
+	public User(String id, String name, String lastname, String username, String password, Date registrationDay,
 			Date birthday, Boolean gender, Boolean isActive, Address address, TypeOfUser typeOfUser) {
 		super();
 		this.id = id;
@@ -42,7 +42,7 @@ public class User implements Serializable{
 
 
 	@Id
-	private int id;
+	private String id;
 	private String name;
 	private String lastname;
 	private String username;
@@ -55,10 +55,10 @@ public class User implements Serializable{
 	private Boolean isActive;
 	private Address address;
 	private TypeOfUser typeOfUser;
-	public int getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getName() {

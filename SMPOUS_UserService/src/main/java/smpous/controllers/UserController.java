@@ -3,6 +3,7 @@ package smpous.controllers;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import smpous.models.User;
 import smpous.services.UserService;
@@ -68,7 +71,22 @@ public class UserController extends AbstractRESTController<User, String>{
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public User register(@RequestBody User user){
+		user.setId(UUID.randomUUID().toString());
 		return userService.save(user);
+	}
+	
+	@RequestMapping(value = "/activate", method = RequestMethod.POST)
+	public Boolean activate(@RequestBody ObjectNode json){
+		 String userOnsession = json.get("userOnSession").asText();
+		 String userToActivate = json.get("userToActivate").asText();
+		return userService.activate(userOnsession, userToActivate);
+	}
+	
+	@RequestMapping(value = "/deactivate", method = RequestMethod.POST)
+	public Boolean deactivate(@RequestBody ObjectNode json){
+		 String userOnsession = json.get("userOnSession").asText();
+		 String userToDeActivate = json.get("userToDeActivate").asText();
+		return userService.deactivate(userOnsession, userToDeActivate);
 	}
 	
 	@RequestMapping(value = "/checkUser", method = RequestMethod.GET)
@@ -80,9 +98,9 @@ public class UserController extends AbstractRESTController<User, String>{
 	}
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public User login(
-			@RequestParam(name = "mail") String mail,
+			@RequestParam(name = "username") String username,
 			@RequestParam(name = "password") String password){
-		return userService.login(mail, password);
+		return userService.login(username, password);
 	}
 	
 	@RequestMapping(value = "search/findByFirstName", method = RequestMethod.GET)
@@ -92,12 +110,16 @@ public class UserController extends AbstractRESTController<User, String>{
 		return all;
 	}
 	
-	@RequestMapping(value = "search/findByFirstNamePageable", method = RequestMethod.GET)
-	public Map<String, Object> findByAreaOfDanger(
-			@RequestParam(name = "firstName") String firstName,
-			@RequestParam(name = "page", defaultValue = "0") Integer page) {
-		Page<User> all = userService.findByFirstName(firstName, new PageRequest(page, pageSize));
-		return prepareListPage(all);
+	
+	@RequestMapping(value = "search/findGeneral", method = RequestMethod.POST)
+	public List<User> findGeneral(@RequestBody ObjectNode json) {
+		 String username = json.get("username").asText();
+		 String firstName = json.get("firstName").asText();
+		 String surname = json.get("surname").asText();
+		 Boolean isActive = json.get("IsActive").asBoolean();
+		List<User> all = userService.findByUsernameAndFirstNameAndSurnameAndIsActive(username, firstName, surname, isActive);
+		//fillter by location
+		return all;
 	}
 
 
