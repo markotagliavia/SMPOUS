@@ -134,7 +134,7 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 	public List<Cinema> FindNearPoint()
 	{
 		//Position pos = new Position(30.743827,-72.989015);
-	    Point point = new Point(35.743827,-71.989015);
+	    Point point = new Point(35.743826,-71.989015);
 		
 		return bioskopSalaService.findNearPoint(point, 1.0);
 	}
