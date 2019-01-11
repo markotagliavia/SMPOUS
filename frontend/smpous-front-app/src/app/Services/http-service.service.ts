@@ -23,26 +23,35 @@ export class HttpService {
 	  
 	    console.log(`Stiglo: ${user.username} i : ${user.password}`);
         const headers: Headers = new Headers();
-        headers.append('Content-type', 'application/x-www-form-urlencoded');
+        headers.append('Accept', 'application/json');
+        headers.append('Content-type', 'application/json');
+
         const opts: RequestOptions = new RequestOptions();
         opts.headers = headers;
 
         return this.http.post(
-            'http://localhost:51432/oauth/token',
-            `username=${user.username}&password=${user.password}&grant_type=password`, opts);
+            'http://localhost:8765/user-service/users/login',
+            JSON.stringify({
+                username: user.username,
+                password: user.password,
+            }), opts);
     }
 
-    logOut(token : string, id : number) : Observable<any>
-    {
+    logOut(user: string): Observable<any> {
+	  
+	    console.log(`Stiglo: ${user}`);
         const headers: Headers = new Headers();
+        headers.append('Accept', 'application/json');
         headers.append('Content-type', 'application/json');
-        let usertoken = `Bearer ${token}`;
-        headers.append('Authorization', usertoken);
 
         const opts: RequestOptions = new RequestOptions();
         opts.headers = headers;
-        var url = `http://localhost:51432/api/Account/Logout/${id}`;
-        return this.http.post(url,null, opts);
+
+        return this.http.post(
+            'http://localhost:8765/user-service/users/logout',
+            JSON.stringify({
+                username: user
+            }), opts);
     }
 	
 	register(user: IdentityUser) {

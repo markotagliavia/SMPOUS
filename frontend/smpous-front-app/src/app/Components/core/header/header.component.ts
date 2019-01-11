@@ -1,7 +1,6 @@
 import { Component, OnInit, Injectable, Input, OnChanges, SimpleChanges, Output,EventEmitter } from '@angular/core';
 import { AuthService } from '../../../Services/auth.service';
 import { HttpService } from '../../../Services/http-service.service';
-import { NotificationService } from '../../../Services/notification.service';
 import {
   Router,
   ActivatedRoute
@@ -21,7 +20,7 @@ export class HeaderComponent implements OnInit,OnChanges {
   manager : boolean;
   admin : boolean;
 
-  constructor(private authService: AuthService, private router: Router, private httpService: HttpService,private notifService : NotificationService) {
+  constructor(private authService: AuthService, private router: Router, private httpService: HttpService) {
     this.client = false;
     this.manager = false;
     this.admin = false;
@@ -80,7 +79,7 @@ export class HeaderComponent implements OnInit,OnChanges {
 
   logOut()
   {
-    this.httpService.logOut(this.authService.currentUserToken(),this.authService.currentUserId()).subscribe
+    this.httpService.logOut(this.authService.currentUserName()).subscribe
     (
           (res: any) => {
              
