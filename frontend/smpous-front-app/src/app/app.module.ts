@@ -29,7 +29,6 @@ import { EditServiceComponent } from './Components/main/edit-service/edit-servic
 import { EditCarComponent } from './Components/main/edit-car/edit-car.component';
 import { WelcomeScreenRegComponent } from './Components/main/welcome-screen-reg/welcome-screen-reg.component';
 import { HttpService } from './Services/http-service.service'; 
-import { NotificationService } from './Services/notification.service'; 
 import { AuthService } from "./Services/auth.service";
 import { FormsModule } from '@angular/forms';
 import { AdminPanelClientManagingComponent } from './Components/main/admin-panel-client-managing/admin-panel-client-managing.component';
@@ -81,8 +80,7 @@ import { ReservationGuard } from './Components/main/reservation/reservation-guar
     BranchControlComponent,
     RatesControlComponent,
     RateUnitComponent,
-    EditReservationComponent,
-    NotificationsComponent
+    EditReservationComponent
 	
   ],
   imports: [
@@ -95,7 +93,7 @@ import { ReservationGuard } from './Components/main/reservation/reservation-guar
     apiKey: 'AIzaSyCbacKCVoG5Oplis1L0IOvOy5Dwm3i3ICU'
   })
   ],
-  providers: [HttpService, AuthService, NotificationService, AccountGuard, AddCarGuard, AddServiceGuard, AdminPanelGuard, EditCarGuard, EditReservationGuard, EditServiceGuard, ManagerPanelGuard, ReservationGuard],
+  providers: [HttpService, AuthService, AccountGuard, AddCarGuard, AddServiceGuard, AdminPanelGuard, EditCarGuard, EditReservationGuard, EditServiceGuard, ManagerPanelGuard, ReservationGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

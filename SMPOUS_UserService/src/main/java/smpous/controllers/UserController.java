@@ -1,5 +1,6 @@
 package smpous.controllers;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -72,6 +73,7 @@ public class UserController extends AbstractRESTController<User, String>{
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public User register(@RequestBody User user){
 		user.setId(UUID.randomUUID().toString());
+		user.setRegistrationDay(new Date());
 		return userService.save(user);
 	}
 	
@@ -96,10 +98,10 @@ public class UserController extends AbstractRESTController<User, String>{
 		User user = userService.findByIdAndActive(userId, true);
 		return user != null;
 	}
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public User login(
-			@RequestParam(name = "username") String username,
-			@RequestParam(name = "password") String password){
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public User login(@RequestBody ObjectNode json){
+		 String username = json.get("username").asText();
+		 String password = json.get("password").asText();
 		return userService.login(username, password);
 	}
 	
