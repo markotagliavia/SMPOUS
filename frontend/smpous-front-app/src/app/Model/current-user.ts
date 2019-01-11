@@ -5,15 +5,15 @@ export class CurrentUser {
         public name: string,
         public surname: string,
         public role: string,
-        public token: string,
-        public contact: string,
+        public registrationDay: string,
         public birth : string,
-        public adresa: string,
+        public street: string,
+        public number: number,
         public password: string,
         public approved: boolean,
 		public latitude: number,
 		public longitude: number,
-        public Path: string,
-        public id: number
+        public id: string,
+        public gender: boolean
     ){}
 }

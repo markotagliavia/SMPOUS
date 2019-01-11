@@ -53,6 +53,7 @@ public class UserService extends AbstractCRUDService<User, String>{
 		{
 			User u = userRepository.findByUsernameAndIsActive(userToActivate, false);
 			u.setIsActive(true);
+			u.setTypeOfUser(TypeOfUser.registered);
 			update(u.getId(), u);
 			return true;
 		}

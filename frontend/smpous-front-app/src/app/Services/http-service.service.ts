@@ -56,7 +56,7 @@ export class HttpService {
 	
 	register(user: IdentityUser) {
 	  
-	    console.log(`Stiglo: ${user.username} i : ${user.password} i ${user.name} i ${user.surname} i ${user.birth} i ${user.contact} i ${user.adresa}`);
+	    //console.log(`Stiglo: ${user.username} i : ${user.password} i ${user.name} i ${user.surname} i ${user.birth} i ${user.contact} i ${user.adresa}`);
         
         const headers: Headers = new Headers();
         headers.append('Accept', 'application/json');
@@ -71,9 +71,9 @@ export class HttpService {
                 Username: user.username,
                 Name: user.name,
                 Surname: user.surname,
-                Adresa: user.adresa,
+                Street: user.street,
+                Number: user.number,
                 Password: user.password,
-                Contact: user.contact,
                 Birth: user.birth,
                 ConfirmPassword: user.confirmPassword,
                 Latitude : user.latitude,
@@ -111,28 +111,10 @@ export class HttpService {
         
     }
 
-    changeEmail(user: CurrentUser, token: string)
-    {
-        const headers: Headers = new Headers();
-        headers.append('Content-type', 'application/json');
-        let usertoken = `Bearer ${token}`;
-        headers.append('Authorization', usertoken);
-
-        const opts: RequestOptions = new RequestOptions();
-        opts.headers = headers;
-
-        return this.http.put(
-            `http://localhost:51432/api/Account/ChangeEmail`
-            ,
-            JSON.stringify({
-             Username: user.username,
-             Adresa: user.adresa
-            }), opts);
-    }
 
     putUser(user: CurrentUser, token: string) : Observable<any>
     {
-        const headers: Headers = new Headers();
+        /*const headers: Headers = new Headers();
         headers.append('Content-type', 'application/json');
         let usertoken = `Bearer ${token}`;
         headers.append('Authorization', usertoken);
@@ -155,7 +137,8 @@ export class HttpService {
              Latitude : user.latitude,
              Longitude : user.longitude,
              Path: user.Path
-            }), opts);
+            }), opts);*/
+            return null;
     }
 
     getUserOnSession(username: string, token: string): Observable<any> {

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import smpous.models.TypeOfUser;
 import smpous.models.User;
 import smpous.services.UserService;
 
@@ -74,6 +76,7 @@ public class UserController extends AbstractRESTController<User, String>{
 	public User register(@RequestBody User user){
 		user.setId(UUID.randomUUID().toString());
 		user.setRegistrationDay(new Date());
+		user.setAddress(new GeoJsonPoint(user.getX(), user.getY()));
 		return userService.save(user);
 	}
 	

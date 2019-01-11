@@ -38,7 +38,6 @@ import { BranchControlComponent } from './Components/main/service-single/branch-
 import { RatesControlComponent } from './Components/main/service-single/rates-control/rates-control.component';
 import { RateUnitComponent } from './Components/main/service-single/rate-unit/rate-unit.component';
 import { EditReservationComponent } from './Components/main/edit-reservation/edit-reservation.component';
-import { NotificationsComponent } from './Components/main/notifications/notifications.component';
 import { AccountGuard } from './Components/main/account-main/account-guard';
 import { AddCarGuard } from './Components/main/add-new-car/add-new-car-guard';
 import { AddServiceGuard } from './Components/main/add-new-service/add-new-service-guard';
