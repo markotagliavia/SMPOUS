@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import smpous.models.TypeOfUser;
 import smpous.models.User;
 import smpous.repositories.UserRepository;
 
@@ -45,7 +46,34 @@ public class UserService extends AbstractCRUDService<User, String>{
 	public User findByIdAndActive(String userId, Boolean isActive) {
 		return userRepository.findByIdAndIsActive(userId, isActive);
 	}
+
+	public Boolean activate(String userOnSession, String userToActivate) {
+		User sesija = userRepository.findByUsernameAndIsActive(userOnSession, true);
+		if(sesija.getTypeOfUser().equals(TypeOfUser.admin))
+		{
+			User u = userRepository.findByUsernameAndIsActive(userToActivate, false);
+			u.setIsActive(true);
+			update(u.getId(), u);
+			return true;
+		}
+		else return false;
+	}
 	
+	public Boolean deactivate(String userOnSession, String userToActivate) {
+		User sesija = userRepository.findByUsernameAndIsActive(userOnSession, true);
+		if(sesija.getTypeOfUser().equals(TypeOfUser.admin))
+		{
+			User u = userRepository.findByUsernameAndIsActive(userToActivate, true);
+			u.setIsActive(false);
+			update(u.getId(), u);
+			return true;
+		}
+		else return false;
+	}
+	
+	public List<User> findByUsernameAndFirstNameAndSurnameAndIsActive(String username, String firstName, String surname, Boolean isActive){
+		return userRepository.findByUsernameAndNameAndLastnameAndIsActive(username, firstName, surname, isActive);
+	}
 
 }
 
