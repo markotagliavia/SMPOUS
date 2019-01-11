@@ -38,7 +38,7 @@ export class AddNewCarComponent implements OnInit, OnDestroy {
       this.sub = this.route.params.subscribe(params => {
         this.serviceId = +params['id']; // (+) converts string 'id' to a number
     }); 
-    this.serviceManager.getService(this.authService.currentUserToken(), this.serviceId).subscribe(
+    /*this.serviceManager.getService(this.authService.currentUserToken(), this.serviceId).subscribe(
       (res: any) => {
               this.service = res;
               this.car.ServiceId = this.serviceId;
@@ -56,7 +56,7 @@ export class AddNewCarComponent implements OnInit, OnDestroy {
         },
         error =>{
     
-        });
+        });*/
    }
 
   ngOnInit() {
@@ -81,7 +81,7 @@ export class AddNewCarComponent implements OnInit, OnDestroy {
       }     
 
 
-      this.serviceManager.addNewCar(this.car,this.authService.currentUserId(),this.authService.currentUserToken()).subscribe(
+      /*this.serviceManager.addNewCar(this.car,this.authService.currentUserId(),this.authService.currentUserToken()).subscribe(
 
         (res : any) => {
 
@@ -130,7 +130,7 @@ export class AddNewCarComponent implements OnInit, OnDestroy {
       {
               alert(error.json().Message);
               return false;
-      });
+      });*/
     }
   }
 
@@ -138,14 +138,14 @@ export class AddNewCarComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
-  onFileChanged(event) {
+  onFileChanged(event) {/*
     if(this.selectedFile == undefined)
     {
       this.selectedFile = [];
     }
     let p : File;
     p = event.target.files[0];
-    this.selectedFile.push(p);
+    this.selectedFile.push(p);*/
   }
 
 }

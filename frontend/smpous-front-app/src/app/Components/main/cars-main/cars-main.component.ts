@@ -43,7 +43,7 @@ export class CarsMainComponent implements OnInit {
     this.fromPriceInput = 0;
     this.toPriceInput = 9999999; 
 
-    this.serviceManager.getPaginationWithFilterCount(this.authService.currentUserToken(), 1, this.numberOfCarsPerPage, "*", "*", "*", 0, 999999, "All", -1).subscribe(
+    /*this.serviceManager.getPaginationWithFilterCount(this.authService.currentUserToken(), 1, this.numberOfCarsPerPage, "*", "*", "*", 0, 999999, "All", -1).subscribe(
       (res: any) => {
                this.numberOfCars = res;
                this.totalNumber = this.numberOfCars;
@@ -65,11 +65,11 @@ export class CarsMainComponent implements OnInit {
       error =>{
          console.log(error);
          
-      });
+      });*/
   }
 
   receiveMessage($event) {
-    this.carsForPrikaz = [];
+  /*  this.carsForPrikaz = [];
     this.pageNumbers = [];
     this.serviceManager.getPaginationWithFilterCount(this.authService.currentUserToken(), 1, this.numberOfCarsPerPage, "*", "*", "*", 0, 999999, "All", -1).subscribe(
       (res: any) => {
@@ -93,12 +93,12 @@ export class CarsMainComponent implements OnInit {
       error =>{
          console.log(error);
          
-      });
+      });*/
   }
 
   ngOnInit() {
 
-    this.httpService.getTypeOfVehicle(this.authService.currentUserToken()).subscribe(
+    /*this.httpService.getTypeOfVehicle(this.authService.currentUserToken()).subscribe(
       (res: any) => {
                
               for(let i=0; i<res.length; i++){
@@ -106,13 +106,13 @@ export class CarsMainComponent implements OnInit {
             }     
       },
       error =>{ 
-      });
+      });*/
     
   }
 
   doPaginacija(num : number)
   {
-    var yearParam = "";
+    /*var yearParam = "";
     var modelParam = "";
     var manuParam = "";
     if(this.manuNameInput == "")
@@ -164,7 +164,7 @@ export class CarsMainComponent implements OnInit {
         error =>{
            console.log(error);
            
-        });
+        });*/
   }
 
 }

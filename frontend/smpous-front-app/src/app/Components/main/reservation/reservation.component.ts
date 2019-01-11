@@ -37,7 +37,7 @@ export class ReservationComponent implements OnInit{
     this.branchfrom = '';
     this.branchto = '';
     this.branches = [];
-    this.reservation = new Reservation(-1,false,'','',0,this.authService.currentUserId(),-1,[]);
+   /* this.reservation = new Reservation(-1,false,'','',0,this.authService.currentUserId(),-1,[]);
     this.sub = this.route.params.subscribe(params => {
       this.carId = +params['id']; // (+) converts string 'id' to a number
       this.serviceManager.getCar(this.authService.currentUserToken(),this.carId).subscribe(
@@ -63,7 +63,7 @@ export class ReservationComponent implements OnInit{
         },
         error =>{}
       )
-        });
+        });*/
     
   }
 
@@ -77,7 +77,7 @@ export class ReservationComponent implements OnInit{
   submitRes()
   {
     //to do kreiraj objkte branch
-    this.reservation.VehicleId = this.car.Id;
+   /* this.reservation.VehicleId = this.car.Id;
     let branch1 : Branch;
     let branch2 : Branch;
     this.branches.forEach(element => {
@@ -131,13 +131,13 @@ export class ReservationComponent implements OnInit{
                         alert("Car is not available");
             }
       )
-    }
+    }*/
   }
 
   checkRes()
   {
     //to do kreiraj objkte branch
-    this.reservation.VehicleId = this.car.Id;
+   /* this.reservation.VehicleId = this.car.Id;
     if(this.branchfrom.length == 0 || this.branchto.length  == 0 || this.reservation.StartDate.length == 0 || this.reservation.EndDate.length == 0)
     {
       this.errorText = "All fields are requiered";
@@ -168,12 +168,12 @@ export class ReservationComponent implements OnInit{
               alert("Car is not available");
         }
       )
-    }
+    }*/
   }
 
   changeSelectionPickup()
   {
-    this.branches.forEach(element => {
+    /*this.branches.forEach(element => {
       
         if(element.Name == this.branchfrom)
         {
@@ -181,13 +181,13 @@ export class ReservationComponent implements OnInit{
 
         }
 
-    });
+    });*/
     
   }
 
   changeSelectionRelease()
   {
-    this.branches.forEach(element => {
+   /* this.branches.forEach(element => {
       
       if(element.Name == this.branchto)
       {
@@ -195,7 +195,7 @@ export class ReservationComponent implements OnInit{
 
       }
 
-  });
+  });*/
 
   }
 

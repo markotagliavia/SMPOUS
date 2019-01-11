@@ -64,7 +64,7 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
     this.fromPriceInput = 0;
     this.toPriceInput = 9999999; 
     this.service = new Service(-1,'','','','',-1,'',false,0);
-    this.rate = new Rate(-1,0,'',-1,-1,null);
+    this.rate = Rate.one;
 
   }
 
@@ -122,7 +122,7 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
       this.serviceId = +params['id']; // (+) converts string 'id' to a number
    });
 
-    this.httpService.getTypeOfVehicle(this.authService.currentUserToken()).subscribe(
+   /* this.httpService.getTypeOfVehicle(this.authService.currentUserToken()).subscribe(
       (res: any) => {
                
               for(let i=0; i<res.length; i++){
@@ -131,9 +131,9 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
       },
       error =>{
          console.log(error);
-      });
+      });*/
 
-   this.serviceManager.getService(this.authService.currentUserToken(), this.serviceId).subscribe(
+   /*this.serviceManager.getService(this.authService.currentUserToken(), this.serviceId).subscribe(
     (res: any) => {
              this.service = res;
              if(this.service.AppUserId == this.authService.currentUserId())
@@ -233,7 +233,7 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
           },
     error =>{
        console.log(error);
-    });
+    });*/
 
   }
 
@@ -244,7 +244,7 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
   delete()
   {
     
-    this.serviceManager.deleteService(this.service,this.authService.currentUserToken()).subscribe(
+    /*this.serviceManager.deleteService(this.service,this.authService.currentUserToken()).subscribe(
         (res: any) =>
         {
           alert("Successfully deleted");
@@ -256,25 +256,25 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
           this.router.navigate(['../services']);
         }
 
-    )
+    )*/
   }
 
   ocena(star:number)
   {
-      this.rate.Point = star;
+      this.rate = star;
   }
 
   oceni()
   {
     //to do
-    if(this.rate.Comment.length == 0)
+    /*if(this.rate.Comment.length == 0)
     {
       alert('Comment is required');
       return false;
-    }
-    this.rate.AppUserId = this.authService.currentUserId();
-    this.rate.ServiceId = this.service.Id;
-    this.serviceManager.addNewRate(this.rate,this.authService.currentUserToken()).subscribe(
+    }*/
+    /*this.rate.AppUserId = this.authService.currentUserId();
+    this.rate.ServiceId = this.service.Id;*/
+   /* this.serviceManager.addNewRate(this.rate,this.authService.currentUserToken()).subscribe(
 
       (res: any) =>
       {
@@ -301,12 +301,12 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
       {
         alert('Do not have permission to leave a comment');
       }
-    )
+    )*/
   }
 
   doPaginacija(num : number)
   {
-    var yearParam = "";
+    /*var yearParam = "";
     var modelParam = "";
     var manuParam = "";
     if(this.manuNameInput == "")
@@ -359,7 +359,7 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
       error =>{
          console.log(error);
          
-      });
+      });*/
   }
 
   mapClicked($event: any)
@@ -376,7 +376,7 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
   receiveDelete($event){
     this.smeDaOceni = true;
     this.rates = [];
-    this.serviceManager.allRatesService(this.service.Id,this.authService.currentUserToken()).subscribe
+    /*this.serviceManager.allRatesService(this.service.Id,this.authService.currentUserToken()).subscribe
         (
           (res : any) =>
           {
@@ -387,7 +387,7 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
           error =>
           {
             console.log(error);
-          })
+          })*/
 
   }
 
@@ -398,7 +398,7 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
 
   receiveMessageBranches($event)
   {
-    this.koordinates = [];
+   /* this.koordinates = [];
     this.serviceManager.getBranches(this.authService.currentUserToken()).subscribe(
       (res: any) => {
         for(var f1 = 0; f1 < res.length; f1++)
@@ -429,7 +429,7 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
       error =>{
         console.log(error);
       }
-     );
+     );*/
   }
 
 }

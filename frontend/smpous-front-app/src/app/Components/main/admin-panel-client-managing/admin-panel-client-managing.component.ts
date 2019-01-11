@@ -16,7 +16,7 @@ export class AdminPanelClientManagingComponent implements OnInit {
   constructor(public httpService: HttpService,private authService: AuthService) { 
     this.appUsers = [];
     this.managers = [];
-    this.httpService.getAllAppUsers(this.authService.currentUserToken()).subscribe(
+    /*this.httpService.getAllAppUsers(this.authService.currentUserToken()).subscribe(
       (res: any) => {
                
               for(let i=0; i<res.length; i++){
@@ -43,7 +43,7 @@ export class AdminPanelClientManagingComponent implements OnInit {
         error =>{
             console.log(error);
             window.alert(error);
-        });
+        });*/
   }
 
   ngOnInit() {

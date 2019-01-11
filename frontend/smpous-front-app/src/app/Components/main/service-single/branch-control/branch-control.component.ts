@@ -44,7 +44,7 @@ export class BranchControlComponent implements OnChanges {
       if(this.service != undefined)
       {
         this.branches = [];
-        this.serviceManager.getBranches(this.authService.currentUserToken()).subscribe(
+       /* this.serviceManager.getBranches(this.authService.currentUserToken()).subscribe(
           (res: any) => {
                    
                   for(let i=0; i<res.length; i++){
@@ -58,7 +58,7 @@ export class BranchControlComponent implements OnChanges {
             console.log(error);
           }
           
-        )
+        )*/
       }
       
     }
@@ -69,7 +69,7 @@ export class BranchControlComponent implements OnChanges {
   {
     //to do slika jos
 
-	  if(this.branch.Name.length == 0 || this.branch.Address.length == 0)
+	  /*if(this.branch.Name.length == 0 || this.branch.Address.length == 0)
 	  {
 		  this.errorText = "You must enter branch name and address";
 		  return false;
@@ -153,14 +153,14 @@ export class BranchControlComponent implements OnChanges {
     
 
     this.branchNameInput = '';
-    return false;
+    return false;*/
   }
   
   updateBranch()
   {
     //slika jos
 
-    if(this.branch.Name.length == 0 || this.branchNameSelected.length == 0 || this.branch.Address.length == 0 ){
+    /*if(this.branch.Name.length == 0 || this.branchNameSelected.length == 0 || this.branch.Address.length == 0 ){
       this.errorText = "All fields are required";
       return false;		
       }
@@ -219,13 +219,13 @@ export class BranchControlComponent implements OnChanges {
         
       }     
       
-      return false;
+      return false;*/
   }
   
   deleteBranch()
   {
 
-    if(this.branchNameSelected.length == 0 ){
+   /* if(this.branchNameSelected.length == 0 ){
       this.errorText = "branch must be selected";
       return false;		
       }
@@ -279,12 +279,12 @@ export class BranchControlComponent implements OnChanges {
         
       }     
       
-      return false;
+      return false;*/
 	  
   }
 
   onFileChanged(event) {
-    this.selectedFile = event.target.files[0]
+   // this.selectedFile = event.target.files[0]
   }
 
   changeDataInForm()

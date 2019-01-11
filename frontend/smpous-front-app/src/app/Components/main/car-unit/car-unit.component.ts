@@ -29,7 +29,7 @@ export class CarUnitComponent implements OnInit , OnChanges{
     //this.idui = "switch" + this.car.Id;
    }
 
-   ngOnChanges(changes: SimpleChanges) {
+   ngOnChanges(changes: SimpleChanges) {/*
     if(changes['car'])
     {
       if(this.car != undefined)
@@ -46,7 +46,7 @@ export class CarUnitComponent implements OnInit , OnChanges{
         
       }
       
-    }
+    }*/
     
   }
 
@@ -76,7 +76,7 @@ export class CarUnitComponent implements OnInit , OnChanges{
 
   checkedChange(num : number)
   {
-    if (this.car.Available == false) {
+   /* if (this.car.Available == false) {
      this.serviceManager.setAvailable(num, this.authService.currentUserToken()).subscribe(
         (res : any) => { 
            // this.car.Available = true;
@@ -94,13 +94,13 @@ export class CarUnitComponent implements OnInit , OnChanges{
             console.log(error);
             window.alert(error);
         });
-    }
+    }*/
   }
 
 
   deleteVehicle()
   {
-    this.serviceManager.deleteCar(this.car,this.authService.currentUserToken()).subscribe(
+    /*this.serviceManager.deleteCar(this.car,this.authService.currentUserToken()).subscribe(
 
       (res: any) =>
       {
@@ -111,7 +111,7 @@ export class CarUnitComponent implements OnInit , OnChanges{
 
       }
       
-    )
+    )*/
   }
 
 }

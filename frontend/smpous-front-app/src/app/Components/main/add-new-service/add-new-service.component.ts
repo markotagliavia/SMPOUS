@@ -17,7 +17,7 @@ export class AddNewServiceComponent implements OnInit {
 
   constructor(private serviceManager: ServiceManager, private authService: AuthService, private httpService : HttpService) { 
     this.errorText = '';
-    this.service = new Service(0,'', '','','',this.authService.currentUserId(),'',false,0);
+    //this.service = new Service(0,'', '','','',this.authService.currentUserId(),'',false,0);
   }
 
   ngOnInit() {
@@ -27,7 +27,7 @@ export class AddNewServiceComponent implements OnInit {
   }
   changeData()
   {
-    if(this.service.Name.length == 0 || this.service.Description.length == 0 || this.service.Email.length == 0 || this.service.Contact.length == 0)
+    /*if(this.service.Name.length == 0 || this.service.Description.length == 0 || this.service.Email.length == 0 || this.service.Contact.length == 0)
     {
       this.errorText = "All fields except logo are requiered";
       return false;
@@ -63,7 +63,7 @@ export class AddNewServiceComponent implements OnInit {
               alert(error.json().Message);
               return false;
       })
-    }
+    }*/
   }
 
 

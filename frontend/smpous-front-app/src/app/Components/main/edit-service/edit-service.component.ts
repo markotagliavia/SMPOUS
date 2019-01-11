@@ -25,13 +25,13 @@ export class EditServiceComponent implements OnInit, OnDestroy {
       this.serviceId = +params['id']; // (+) converts string 'id' to a number
    }); 
 
-   this.serviceManager.getService(this.authService.currentUserToken(), this.serviceId).subscribe(
+   /*this.serviceManager.getService(this.authService.currentUserToken(), this.serviceId).subscribe(
     (res: any) => {
              this.service = res;
           },
     error =>{
        console.log(error);
-    });
+    });*/
    
   }
 
@@ -43,7 +43,7 @@ export class EditServiceComponent implements OnInit, OnDestroy {
   }
   changeData()
   {
-    if(this.service.Name.length == 0 || this.service.Description.length == 0 || this.service.
+    /*if(this.service.Name.length == 0 || this.service.Description.length == 0 || this.service.
       Email.length == 0 || this.service.Contact.length == 0)
     {
       this.errorText = "All fields except logo are requiered";
@@ -107,7 +107,7 @@ export class EditServiceComponent implements OnInit, OnDestroy {
     )
 
                  
-
+*/
   }
 
   ngOnDestroy() {

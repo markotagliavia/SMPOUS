@@ -1,5 +1,6 @@
 import { GeoJson } from "./geo-json";
 import { Theater } from "./theather";
+import { Rate } from "./rate";
 
 export class Cinema {
     constructor(
