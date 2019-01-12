@@ -16,6 +16,8 @@ import smpous.models.Cinema;
 public interface CinemaRepository extends MongoRepository<Cinema, String>{
 
 	public HashSet<Cinema> findCinemaByName(String name);
+	
+	public Cinema findCinemaById(String id);
 
 	public List<Cinema> findByLocationNear(Point point, Distance distance);
 	

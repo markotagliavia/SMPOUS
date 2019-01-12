@@ -10,6 +10,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,8 +24,10 @@ import com.mongodb.client.model.geojson.Position;
 import smpous.models.Address;
 import smpous.models.Cinema;
 import smpous.models.Rate;
+import smpous.models.Theater;
 import smpous.services.BioskopSalaService;
 
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
 @RequestMapping("cinemas")
 public class BioskopSalaController extends AbstractRESTController<Cinema, String>{
@@ -50,10 +53,10 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 	@RequestMapping(value = "/addCinema",method = RequestMethod.POST)
 	public Boolean AddCinema(@RequestBody Cinema cinema)
 	{
-		/*cinema.setId(UUID.randomUUID().toString());
-		bioskopSalaService.save(cinema);*/
+		cinema.setId(UUID.randomUUID().toString());
+		bioskopSalaService.save(cinema);
 		
-		Cinema cin = new Cinema();
+		/*Cinema cin = new Cinema();
 		cin.setId(UUID.randomUUID().toString());
 		cin.setRanking(0);
 		cin.setName("Test1");
@@ -91,7 +94,7 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 		//Map<String,Rate> rates = new HashMap<String,Rate>();
 		//rates.add(Rate.three);
 		cin2.setRates(rates);
-		bioskopSalaService.save(cin2);
+		bioskopSalaService.save(cin2);*/
 		return true;
 		
 	}
@@ -121,10 +124,56 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 		return true;
 	}
 	
+	@RequestMapping(value = "/addTheater",method = RequestMethod.POST)
+	public Boolean AddTheater(@RequestBody Theater theater,@RequestParam(name = "id") String id)
+	{
+		Cinema cinema = bioskopSalaService.findOne(id);
+		HashSet<Theater> theaters = cinema.getTheaters();
+		if(theaters == null)
+		{
+			theaters = new HashSet<Theater>();
+		}
+		theaters.add(theater);
+		cinema.setTheaters(theaters);
+		bioskopSalaService.update(cinema.getId(), cinema);
+		return true;
+	}
+	
+	@RequestMapping(value = "/deleteTheater",method = RequestMethod.DELETE)
+	public Boolean DeleteTheater(@RequestParam(name = "idTheater") String idTheater,@RequestParam(name = "idCinema") String idCinema)
+	{
+		Cinema cinema = bioskopSalaService.findOne(idCinema);
+		HashSet<Theater> theaters = cinema.getTheaters();
+		if(theaters != null)
+		{
+			Theater temp = null;
+			for (Theater t : theaters) {
+		        if (t.getId().equals(idTheater)) {
+		            temp = t;
+		            break;
+		        }
+		    }
+			if(temp!= null)
+			{
+				theaters.remove(temp);
+			}
+		}
+		
+		cinema.setTheaters(theaters);
+		bioskopSalaService.update(cinema.getId(), cinema);
+		return true;
+	}
+	
+	@RequestMapping(value = "/allTheaters",method = RequestMethod.GET)
+	public HashSet<Theater> GetAllTheathers(@RequestParam(name = "id") String id)
+	{
+		return bioskopSalaService.findOne(id).getTheaters();
+	}
+	
 	@RequestMapping(value = "/addRate",method = RequestMethod.POST)
 	public Boolean AddRate(@RequestBody Rate rate,@RequestParam(name = "id") String id)
 	{
-		Cinema cinema = bioskopSalaService.findOne(id);
+		Cinema cinema = bioskopSalaService.findCinemaById(id);
 		Map<String,Rate> rates = cinema.getRates();
 		if(rates == null)
 		{
@@ -144,5 +193,28 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 	    Point point = new Point(35.743826,-71.989015);
 		
 		return bioskopSalaService.findNearPoint(point, 1.0);
+	}
+	
+	@RequestMapping(value = "/getAverageRate",method = RequestMethod.GET)
+	public double GetAverageRate(@RequestParam(name = "id") String id)
+	{
+		System.out.println("EVOOOOOO ID" + id);
+		Cinema cinema = bioskopSalaService.findCinemaById(id);
+		int sum = 0;
+		if(cinema.getRates() != null)
+		{
+			for(Rate r: cinema.getRates().values())
+			{
+				sum += r.ordinal();
+			}
+			if(sum != 0)
+			{
+				double res = (double)sum/cinema.getRates().values().size();
+				return res;
+			}
+		}
+		
+		return 0;
+		
 	}
 }
