@@ -87,11 +87,16 @@ export class RegistrationFormComponent implements OnInit {
 			(res: any) => {
 				
 				//console.log("AppUser created successfully ");
+					if(res != null)
+					{
+						alert("You are registered successfully");
 
-				alert("You are registered successfully");
-
-				this.router.navigate(['/home/login']);
-	
+						this.router.navigate(['/home/login']);
+					}
+					else
+					{
+						this.errorText = "Username already exists";
+					}
 				},
 			error => {
 		

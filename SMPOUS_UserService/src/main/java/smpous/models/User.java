@@ -24,7 +24,7 @@ public class User implements Serializable{
 	
 	
 	public User(String id, String name, String lastname, String username, String password, Date registrationDay,
-			Date birthday, Boolean gender, Boolean isActive, double x, double y, String street, int number, TypeOfUser typeOfUser, GeoJsonPoint address) {
+			Date birthday, Boolean gender, Boolean isActive, double x, double y, String street, int number, String  typeOfUser, GeoJsonPoint address) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -63,7 +63,7 @@ public class User implements Serializable{
 	private double y;
 	private String street;
 	private int number;
-	private TypeOfUser typeOfUser;
+	private String typeOfUser;
 	public String getId() {
 		return id;
 	}
@@ -124,10 +124,10 @@ public class User implements Serializable{
 	public void setAddress(GeoJsonPoint address) {
 		this.address = address;
 	}
-	public TypeOfUser getTypeOfUser() {
+	public String getTypeOfUser() {
 		return typeOfUser;
 	}
-	public void setTypeOfUser(TypeOfUser typeOfUser) {
+	public void setTypeOfUser(String typeOfUser) {
 		this.typeOfUser = typeOfUser;
 	}
 

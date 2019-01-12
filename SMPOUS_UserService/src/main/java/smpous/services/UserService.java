@@ -35,8 +35,16 @@ public class UserService extends AbstractCRUDService<User, String>{
 		return null;
 	}
 	
+	public boolean logout(String username){
+			return true;
+	}
+	
 	public List<User> findByFirstName(String firstName){
 		return userRepository.findByName(firstName);
+	}
+	
+	public User findByUsername(String username){
+		return userRepository.findByUsername(username);
 	}
 	
 	public Page<User> findByFirstName(String firstName, Pageable pageable){
@@ -47,13 +55,17 @@ public class UserService extends AbstractCRUDService<User, String>{
 		return userRepository.findByIdAndIsActive(userId, isActive);
 	}
 
+	public List<User> findByTypeOfUser(String type) {
+		return userRepository.findByTypeOfUser(type);
+	}
+	
 	public Boolean activate(String userOnSession, String userToActivate) {
 		User sesija = userRepository.findByUsernameAndIsActive(userOnSession, true);
-		if(sesija.getTypeOfUser().equals(TypeOfUser.admin))
+		if(sesija.getTypeOfUser() == "admin")
 		{
 			User u = userRepository.findByUsernameAndIsActive(userToActivate, false);
 			u.setIsActive(true);
-			u.setTypeOfUser(TypeOfUser.registered);
+			u.setTypeOfUser("registered");
 			update(u.getId(), u);
 			return true;
 		}
@@ -62,7 +74,7 @@ public class UserService extends AbstractCRUDService<User, String>{
 	
 	public Boolean deactivate(String userOnSession, String userToActivate) {
 		User sesija = userRepository.findByUsernameAndIsActive(userOnSession, true);
-		if(sesija.getTypeOfUser().equals(TypeOfUser.admin))
+		if(sesija.getTypeOfUser().equals("admin"))
 		{
 			User u = userRepository.findByUsernameAndIsActive(userToActivate, true);
 			u.setIsActive(false);

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../../../Services/http-service.service';
 import { AuthService } from '../../../Services/auth.service'; 
-import { AppUser } from '../../../Model/app-user'; 
+import { CurrentUser } from '../../../Model/current-user'; 
 
 @Component({
   selector: 'app-admin-panel-client-managing',
@@ -10,20 +10,24 @@ import { AppUser } from '../../../Model/app-user';
 })
 export class AdminPanelClientManagingComponent implements OnInit {
 
-  appUsers : AppUser[];
-  managers : AppUser[];
+  appUsers : CurrentUser[];
 
   constructor(public httpService: HttpService,private authService: AuthService) { 
     this.appUsers = [];
-    this.managers = [];
-    /*this.httpService.getAllAppUsers(this.authService.currentUserToken()).subscribe(
+    this.httpService.getAllAppUsers(this.authService.currentUserUsername()).subscribe(
       (res: any) => {
-               
+               console.log(res);
               for(let i=0; i<res.length; i++){
 
-                let pomUser: AppUser = res[i];
-                pomUser.Role = "AppUser"
-                this.appUsers.push(pomUser); //use i instead of 0
+                let pomUser: CurrentUser = res[i];
+                pomUser.latitude = res[i].x;
+                pomUser.longitude = res[i].y;
+                pomUser.surname = res[i].lastname;
+                pomUser.role = res[i].typeOfUser;
+                if(pomUser.role != 'admin')
+                {
+                  this.appUsers.push(pomUser); //use i instead of 0
+                }
             }     
       },
       error =>{
@@ -31,19 +35,6 @@ export class AdminPanelClientManagingComponent implements OnInit {
           window.alert(error);
       });
 
-      this.httpService.getAllManagers(this.authService.currentUserToken()).subscribe(
-        (res: any) => {
-                 
-                for(let i=0; i<res.length; i++){
-                  let pomUser: AppUser = res[i];
-                pomUser.Role = "Manager"
-                this.appUsers.push(pomUser); //use i instead of 0
-              }     
-        },
-        error =>{
-            console.log(error);
-            window.alert(error);
-        });*/
   }
 
   ngOnInit() {

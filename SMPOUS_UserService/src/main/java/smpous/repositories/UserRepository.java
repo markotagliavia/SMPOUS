@@ -52,6 +52,10 @@ public interface UserRepository extends MongoRepository<User, String>{
 	
 	User findByUsernameAndIsActive(String username, Boolean isActive);
 	
+	User findByUsername(String username);
+	
+	List<User> findByTypeOfUser(String typeOfUser);
+	
 	List<User> findByUsernameAndNameAndLastnameAndIsActive(String username, String name, String lastname, Boolean isActive);
 	
 	//User findByMailAndActive(String mail, Boolean isActive);

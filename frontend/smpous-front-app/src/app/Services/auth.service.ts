@@ -48,7 +48,7 @@ export class AuthService {
         }
         else if(role == 'AppUser')
         {
-            role = 'registrated';
+            role = 'registered';
         }
         let curretUser = localStorage.getItem("currentUser");
         if ( curretUser !== null){
@@ -74,6 +74,18 @@ export class AuthService {
         else
         {
             return "-1";
+        }
+    }
+
+    currentUserUsername(): string {
+        let curretUser = localStorage.getItem("currentUser");
+        if ( curretUser !== null){
+            let user: CurrentUser = JSON.parse(curretUser);
+            return user.username;
+        }
+        else
+        {
+            return "";
         }
     }
 

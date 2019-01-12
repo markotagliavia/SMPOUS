@@ -1,5 +1,6 @@
 package smpous.controllers;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -77,7 +78,11 @@ public class UserController extends AbstractRESTController<User, String>{
 		user.setId(UUID.randomUUID().toString());
 		user.setRegistrationDay(new Date());
 		user.setAddress(new GeoJsonPoint(user.getX(), user.getY()));
-		return userService.save(user);
+		if(userService.findByUsername(user.getUsername()) != null)
+		{
+			return null;
+		}
+		else return userService.save(user);
 	}
 	
 	@RequestMapping(value = "/activate", method = RequestMethod.POST)
@@ -101,11 +106,28 @@ public class UserController extends AbstractRESTController<User, String>{
 		User user = userService.findByIdAndActive(userId, true);
 		return user != null;
 	}
+	
+	@RequestMapping(value = "/all", method = RequestMethod.GET)
+	public List<User> getAll(){
+		List<User> all = new ArrayList<User>();
+		List<User> verifiedUsers = userService.findByTypeOfUser("registered");
+		List<User> unverifiedUsers = userService.findByTypeOfUser("unregistered");
+		all.addAll(verifiedUsers);
+		all.addAll(unverifiedUsers);
+		return all;
+	}
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public User login(@RequestBody ObjectNode json){
 		 String username = json.get("username").asText();
 		 String password = json.get("password").asText();
 		return userService.login(username, password);
+	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+	public boolean logout(@RequestBody ObjectNode json){
+		 String username = json.get("username").asText();
+		return userService.logout(username);
 	}
 	
 	@RequestMapping(value = "search/findByFirstName", method = RequestMethod.GET)

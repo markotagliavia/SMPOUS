@@ -1,7 +1,6 @@
 import { Component, OnInit, Injectable, Input } from '@angular/core';
 import { AuthService } from '../../../../Services/auth.service';
 import { HttpService } from '../../../../Services/http-service.service';
-import { AppUser } from '../../../../Model/app-user';
 import { CurrentUser } from '../../../../Model/current-user';
 import {SafeUrl,DomSanitizer} from '@angular/platform-browser/';
 @Injectable()
@@ -12,7 +11,7 @@ import {SafeUrl,DomSanitizer} from '@angular/platform-browser/';
 })
 export class TableRowUserComponent implements OnInit {
 
-  @Input() user: AppUser
+  @Input() user: CurrentUser
   client : boolean;
   unverified : boolean;
   currUserPom : CurrentUser;
@@ -28,22 +27,12 @@ export class TableRowUserComponent implements OnInit {
 
   refresh()
   {
-    if(this.user.Role == "AppUser" && this.user.Approved)
+    if(this.user.role == "registered")
     {
       this.client = true;
       this.unverified = false;
     }
-    else if(this.user.Role == "AppUser" && !this.user.Approved)
-    {
-      this.unverified = true;
-      this.client = false;
-    }
-    else if(this.user.Role == "Manager" && this.user.Approved)
-    {
-      this.client = false;
-      this.unverified = false;
-    }
-    else if(this.user.Role == "Manager" && !this.user.Approved)
+    else if(this.user.role == "unregistered")
     {
       this.unverified = true;
       this.client = false;
@@ -52,15 +41,30 @@ export class TableRowUserComponent implements OnInit {
 
   verifyUser()
   {
-    /*this.user.Approved = true;
-    this.http.approveUser(this.user, this.authService.currentUserToken(),true).subscribe(
+    this.user.approved = true;
+    this.user.role = "registered";
+    this.http.approveUser(this.authService.currentUserUsername(), this.user.username).subscribe(
       (res : any) => { 
           this.refresh();
       },
       error =>{
           console.log(error);
           window.alert(error);
-      });*/
+      });
+  }
+
+  UNverifyUser()
+  {
+    this.user.approved = false;
+    this.user.role = "unregistered";
+    this.http.UNapproveUser(this.authService.currentUserUsername(), this.user.username).subscribe(
+      (res : any) => { 
+          this.refresh();
+      },
+      error =>{
+          console.log(error);
+          window.alert(error);
+      });
   }
 
 }

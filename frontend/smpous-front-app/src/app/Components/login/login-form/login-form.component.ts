@@ -49,17 +49,27 @@ export class LoginFormComponent implements OnInit {
     console.log('Dobili smo: ', JSON.stringify(this.user));
 	this.httpService.logIn(this.user).subscribe(
       (res: any) => {
+        console.log(res);
+        if(res._body != "")
+        {
 						this.response = res;
-						let data = res.json();
+            let data = res.json();
+            console.log(data);
             if(data)  
             {
                   // console.log(res);
                   let currentUser: CurrentUser;
                   
-                  currentUser = new CurrentUser(true,res.username,res.name,res.lastname,res.typeOfUser, res.registrationDay, res.birthday,res.street, res.number, this.user.password,res.isActive,res.x, res.y,res.Id, res.gender);
+                  currentUser = new CurrentUser(true,data.username,data.name,data.lastname,data.typeOfUser, data.registrationDay, data.birthday,data.street, data.number, this.user.password,data.isActive,data.x, data.y,data.Id, data.gender);
                   console.log(currentUser);
                   this.authService.logIn(currentUser);
-            }         
+                  location.reload();
+            }   
+          }
+          else
+          {
+            this.errorText = "Your credentials are not valid or your account is not activated";
+          }      
 
                     },
       error => {

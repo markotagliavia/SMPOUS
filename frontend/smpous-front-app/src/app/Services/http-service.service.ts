@@ -68,45 +68,60 @@ export class HttpService {
         return this.http.post(
             'http://localhost:8765/user-service/users/register',
             JSON.stringify({
-                Username: user.username,
-                Name: user.name,
-                Surname: user.surname,
-                Street: user.street,
-                Number: user.number,
-                Password: user.password,
-                Birth: user.birth,
-                ConfirmPassword: user.confirmPassword,
-                Latitude : user.latitude,
-                Longitude : user.longitude
+                id: '',
+                name: user.name,
+                lastname: user.surname,
+                username: user.username,
+                password: user.password,
+                registrationDay: '1971-01-01',
+                birthday: user.birth,
+                gender: true,
+                isActive: false,
+                x : user.latitude,
+                y : user.longitude,
+                street: user.street,
+                number: user.number,
+                typeOfUser: 'unregistrated'
             }), opts);
         
     }
 
-    approveUser(user : AppUser, token: string, app: boolean)
+    approveUser(userOnSession : string, user: string)
     {
         const headers: Headers = new Headers();
+        headers.append('Accept', 'application/json');
         headers.append('Content-type', 'application/json');
-        let usertoken = `Bearer ${token}`;
-        headers.append('Authorization', usertoken);
+
 
         const opts: RequestOptions = new RequestOptions();
         opts.headers = headers;
 
-        return this.http.put(
-            `http://localhost:51432/api/AppUser/ApproveUser/${user.Id}`
+        return this.http.post(
+            `http://localhost:8765/user-service/users/activate`
             ,
             JSON.stringify({
-             Id: user.Id,
-             Name: user.Name,
-             Surname: user.Surname,
-             Contact: user.Contact,
-             Username: user.Username,
-             BirthDate: user.BirthDate,
-             Approved: true,
-             LoggedIn: user.LoggedIn,
-             Latitude : user.Latitude,
-             Longitude : user.Longitude,
-             Path: user.Path
+            userOnSession: userOnSession,
+            userToActivate: user,
+            }), opts);
+        
+    }
+
+    UNapproveUser(userOnSession : string, user: string)
+    {
+        const headers: Headers = new Headers();
+        headers.append('Accept', 'application/json');
+        headers.append('Content-type', 'application/json');
+
+
+        const opts: RequestOptions = new RequestOptions();
+        opts.headers = headers;
+
+        return this.http.post(
+            `http://localhost:8765/user-service/users/deactivate`
+            ,
+            JSON.stringify({
+            userOnSession: userOnSession,
+             userToDeActivate: user,
             }), opts);
         
     }
@@ -143,14 +158,16 @@ export class HttpService {
 
     getUserOnSession(username: string, token: string): Observable<any> {
         const headers: Headers = new Headers();
+        headers.append('Accept', 'application/json');
         headers.append('Content-type', 'application/json');
-        let usertoken = `Bearer ${token}`;
-        headers.append('Authorization', usertoken);
 
         const opts: RequestOptions = new RequestOptions();
         opts.headers = headers;
-        var url = `http://localhost:51432/api/AppUser/GetAppUser/${username}`;
-        return this.http.get(url, opts).pipe(map((res: Response) => this.extractData(res)));
+        return this.http.post(
+            'http://localhost:8765/user-service/users/logout',
+            JSON.stringify({
+                userOnSession: username
+            }), opts);
     }
 
     createTypeOfVehicle(type : TypeOfVehicle, token: string): Observable<any>
@@ -254,19 +271,20 @@ export class HttpService {
 
     }
 
-    getAllAppUsers(token: string):Observable<any>
+    getAllAppUsers(userOnSession: string):Observable<any>
     {
 
         const headers: Headers = new Headers();
+        headers.append('Accept', 'application/json');
         headers.append('Content-type', 'application/json');
-        let usertoken = `Bearer ${token}`;
-        headers.append('Authorization', usertoken);
+
 
         const opts: RequestOptions = new RequestOptions();
         opts.headers = headers;
 
+        
         return this.http.get(
-            `http://localhost:51432/api/AppUser/GetAllAppUsers`
+            `http://localhost:8765/user-service/users/all`
             , opts).pipe(map((res: Response) => this.extractData(res)));
 
     }
