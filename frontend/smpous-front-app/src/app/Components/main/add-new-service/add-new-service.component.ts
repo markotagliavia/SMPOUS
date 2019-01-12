@@ -3,6 +3,9 @@ import { Service } from '../../../Model/service';
 import { ServiceManager} from '../../../Services/[services].service';
 import { AuthService } from '../../../Services/auth.service'
 import { HttpService } from '../../../Services/http-service.service'
+import { Cinema } from '../../../Model/cinema';
+import { Rate } from '../../../Model/rate';
+import { GeoJson, IGeometry, Geometry } from '../../../Model/geo-json';
 
 @Component({
   selector: 'app-add-new-service',
@@ -11,59 +14,62 @@ import { HttpService } from '../../../Services/http-service.service'
 })
 export class AddNewServiceComponent implements OnInit {
 
-  service : Service;
+  cinema : Cinema;
   errorText : string;
   selectedFile: File; 
+  geo:GeoJson;
+  koordinata:any;
 
   constructor(private serviceManager: ServiceManager, private authService: AuthService, private httpService : HttpService) { 
     this.errorText = '';
-    //this.service = new Service(0,'', '','','',this.authService.currentUserId(),'',false,0);
+    this.geo = new GeoJson("Point",[45.25024259251935,19.835199103219566]);
+    this.cinema = new Cinema('','','','',this.geo,new Map<string,Rate>(),0,[]);
+    var djesTijana =
+    {
+      Latitude: this.cinema.location.coordinates[0],
+      Longitude: this.cinema.location.coordinates[1],
+      info : "test",
+    }
+     this.koordinata = djesTijana;
   }
 
   ngOnInit() {
   }
-  onFileChanged(event) {
-    this.selectedFile = event.target.files[0]
-  }
+  
   changeData()
   {
-    /*if(this.service.Name.length == 0 || this.service.Description.length == 0 || this.service.Email.length == 0 || this.service.Contact.length == 0)
+    if(this.cinema.name.length == 0 || this.cinema.street.length == 0 || this.cinema.number.length == 0)
     {
-      this.errorText = "All fields except logo are requiered";
+      this.errorText = "All fields except theaters are requiered";
+      
       return false;
     }
     else
     {
           this.errorText = "";
-          this.serviceManager.addNewService(this.service,this.authService.currentUserId(),this.authService.currentUserToken()).subscribe(
+          this.serviceManager.addNewCinema(this.cinema,this.authService.currentUserUsername()).subscribe(
 
             (res : any) => {
 
-              if(this.selectedFile != undefined)
-              {
-                this.serviceManager.uploadServicePicture(res._body,this.selectedFile,this.authService.currentUserToken()).subscribe
-                (
-                      (res : any) => {
-                              //alert(res._body);   
-                              this.service = new Service(0,'', '','','',this.authService.currentUserId(),'',false,0);                          
-                      },
-                      error =>
-                      {
-                              alert(error.json().Message);
-                              return false;
-                      }
-                )
-              }
+              this.geo = new GeoJson("Point",[45.25024259251935,19.835199103219566]);
+              this.cinema = new Cinema('','','','',this.geo,new Map<string,Rate>(),0,[]); 
               
-            alert("Successful added new service"); 
-            this.service = new Service(0,'', '','','',this.authService.currentUserId(),'',false,0);
-      },
-      error =>
-      {
-              alert(error.json().Message);
-              return false;
-      })
-    }*/
+              alert("Successful added new cinema"); 
+            
+            },
+            error =>
+            {
+                    alert(error.json().Message);
+                    return false;
+            })
+    }
+  }
+
+  mapClicked($event: any)
+  {
+    this.cinema.location.coordinates[0]= $event.coords.lat;
+    this.cinema.location.coordinates[1]=$event.coords.lng;
+    alert(this.cinema.location.coordinates[0] + " " + this.cinema.location.coordinates[1]);
   }
 
 

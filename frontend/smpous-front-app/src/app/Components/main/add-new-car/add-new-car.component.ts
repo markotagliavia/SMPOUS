@@ -7,6 +7,11 @@ import { HttpService } from '../../../Services/http-service.service';
 import { ActivatedRoute } from '@angular/router'; 
 import { TypeOfVehicle } from '../../../Model/type-of-vehicle'; 
 import { PriceList } from '../../../Model/pricelist';
+import { TheaterType } from '../../../Model/theathertype';
+import { Cinema } from '../../../Model/cinema';
+import { GeoJson } from '../../../Model/geo-json';
+import { Rate } from '../../../Model/rate';
+import { Theater } from '../../../Model/theather';
 
 @Injectable()
 @Component({
@@ -16,15 +21,15 @@ import { PriceList } from '../../../Model/pricelist';
 })
 export class AddNewCarComponent implements OnInit, OnDestroy {
 
-  types: TypeOfVehicle[];
+  types: TheaterType[];
 	errorText : string;
 	typeNameInput : string;
   typeNameSelected : string;
-  typeOfVehicle : TypeOfVehicle;
-  car : Vehicle;
+  typeOfVehicle : TheaterType;
+  theater : Theater;
   selectedFile: File[]; 
-  serviceId : number;
-  service : Service;
+  cinemaId : string;
+  cinema : Cinema;
 
   private sub : any;
 
@@ -32,31 +37,23 @@ export class AddNewCarComponent implements OnInit, OnDestroy {
     this.typeNameInput = "";
     this.typeNameSelected = "";
     this.types = [];
-    this.car = new Vehicle(-1,'','','','',true,-1,-1,[],[],-1);
-    this.service = new Service(0,'', '','','',-1,'',false,0);
+    this.types.push(TheaterType.normal);
+    this.types.push(TheaterType.projection3D);
+    this.types.push(TheaterType.projection4D);
+    this.cinema = new Cinema('','','','',new GeoJson("Point",[45.25024259251935,19.835199103219566]),new Map<string,Rate>(),0,[]);
+    this.theater = new Theater('','',0,TheaterType.normal,0,0);
     this.errorText = "";
       this.sub = this.route.params.subscribe(params => {
-        this.serviceId = +params['id']; // (+) converts string 'id' to a number
+        this.cinemaId = params['id']; // (+) converts string 'id' to a number
     }); 
-    /*this.serviceManager.getService(this.authService.currentUserToken(), this.serviceId).subscribe(
+
+    this.serviceManager.getCinemaById(this.cinemaId).subscribe(
       (res: any) => {
-              this.service = res;
-              this.car.ServiceId = this.serviceId;
-            },
+        this.cinema = res;
+      },
       error =>{
         console.log(error);
-      });
-
-      this.httpService.getTypeOfVehicle(this.authService.currentUserToken()).subscribe(
-        (res: any) => {
-                 
-                for(let i=0; i<res.length; i++){
-                  this.types.push(res[i]); //use i instead of 0
-              }     
-        },
-        error =>{
-    
-        });*/
+     });
    }
 
   ngOnInit() {
@@ -64,7 +61,7 @@ export class AddNewCarComponent implements OnInit, OnDestroy {
 
   newCar(){
     
-    if(this.car.Mark.length == 0 || this.car.Model.length == 0 || this.car.Year.length == 0 || this.car.Description.length == 0 || this.typeNameSelected.length == 0)
+    if(this.theater.name.length == 0 || this.theater.capacity == 0 || this.theater.chairsPerColumn == 0 || this.theater.chairsPerRow == 0 || this.typeNameSelected.length == 0)
     {
        this.errorText = "All fields except picture are requiered";
        return false;
@@ -73,65 +70,23 @@ export class AddNewCarComponent implements OnInit, OnDestroy {
     {
       this.errorText = "";
       for(let i=0; i<this.types.length; i++){
-        if(this.types[i].Name == this.typeNameSelected)
+        if(this.types[i] == this.typeNameSelected)
         {
-            this.car.TypeOfVehicleId = this.types[i].Id;
+            this.theater.theaterType = this.types[i];
             break;
         }
-      }     
-
-
-      /*this.serviceManager.addNewCar(this.car,this.authService.currentUserId(),this.authService.currentUserToken()).subscribe(
-
-        (res : any) => {
-
-          let price : PriceList;
-          price  = new PriceList(-1,res.json().Id,'2018.8.5','2020.5.5',this.car.Price);
-
-          this.serviceManager.addNewPrice(price,this.authService.currentUserToken()).subscribe(
-
-            (res: any) =>
-            {
-                    console.log('ok');
-                    if(this.selectedFile != undefined)
-                    {
-                      this.serviceManager.uploadCarPicture(price.VehicleId,this.selectedFile,this.authService.currentUserToken()).subscribe
-                      (
-                            (res : any) => {
-                                    //alert(res._body);  
-                                    this.car = new Vehicle(-1,'','','','',true,-1,this.serviceId,[],[],-1);                             
-                            },
-                            error =>
-                            {
-                                    alert(error.json().Message);
-                                    return false;
-                            }
-                      )
-                      
-                    }
-                    else
-                    {
-                      this.car = new Vehicle(-1,'','','','',true,-1,this.serviceId,[],[],-1);  
-                    }
-            },
-            error =>
-            {
-
-            }
-            
-          )
-
-        
-              
-            alert("Successfully added new vehicle");   
-            //this.car = new Vehicle(-1,'','','','',true,-1,this.serviceId,[],[],-1);  
-      },
-      error =>
-      {
-              alert(error.json().Message);
-              return false;
-      });*/
+      } 
     }
+
+    this.serviceManager.addNewTheater(this.theater,this.cinemaId,this.authService.currentUserUsername()).subscribe(
+      (res: any) => {
+        this.theater = new Theater('','',0,TheaterType.normal,0,0);
+        
+        alert("Successful added new theater"); 
+      },
+      error =>{
+        console.log(error);
+     });
   }
 
   ngOnDestroy() {

@@ -7,6 +7,11 @@ import { Vehicle } from '../../../Model/vehicle';
 import { Service } from '../../../Model/service';
 import { Rate } from '../../../Model/rate';
 import { Router,ActivatedRoute } from '@angular/router';    
+import { Cinema } from '../../../Model/cinema';
+import { GeoJson } from '../../../Model/geo-json';
+import { ArrayType } from '@angular/compiler';
+import { TheaterType } from '../../../Model/theathertype';
+import { Theater } from '../../../Model/theather';
 
 @Component({
   selector: 'app-service-single',
@@ -19,22 +24,14 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
   smeDaOceni: boolean;
   komentar: string;
   rate : Rate;
-  rates : Rate[];
-  manager : boolean;
   client : boolean;
   admin : boolean;
-  types: TypeOfVehicle[];
-  cars : Vehicle[];
-  carsForPrikaz : Vehicle[];
-  serviceId : number;
-  service : Service;
+  cinemaId : String;
+  cinema : Cinema;
   private sub : any;
 
   manuNameInput : string;
   modelNameInput : string;
-  yearInput : string;
-  fromPriceInput : number;
-  toPriceInput : number;
   typeNameSelected : string;
 
   numberOfCarsPerPage = 3;
@@ -45,26 +42,25 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
   numberOfCars : number;
   model: any={};
   koordinates: any[];
+  types:TheaterType[];
+  theatersFiltered:Theater[];
   
 
   constructor(public httpService: HttpService,private authService: AuthService, private router: Router,private route: ActivatedRoute, private serviceManager : ServiceManager) { 
     this.koordinates = [];
-    this.komentar = '';
     this.smeDaOceni = true;
     this.client = false;
-    this.manager = false;
     this.admin = false;
-    this.rates = [];
-    this.carsForPrikaz = [];
-    this.typeNameSelected = "All";
     this.types = [];
+    this.types.push(TheaterType.normal);
+    this.types.push(TheaterType.projection3D);
+    this.types.push(TheaterType.projection4D);
+    this.typeNameSelected = "All";
     this.manuNameInput = "";
     this.modelNameInput = "";
-    this.yearInput = "";
-    this.fromPriceInput = 0;
-    this.toPriceInput = 9999999; 
-    this.service = new Service(-1,'','','','',-1,'',false,0);
+    this.cinema = new Cinema('','','','',new GeoJson("Point",[45.25024259251935,19.835199103219566]),new Map<string,Rate>(),0,[]);
     this.rate = Rate.one;
+    this.theatersFiltered = [];
 
   }
 
@@ -72,7 +68,7 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
     if(changes['service'])
     {
 
-      if(this.service != undefined)
+      if(this.cinema != undefined)
       {
 
       }
@@ -90,14 +86,10 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
               this.admin = true;
               this.client = true;
             }
-            else if(this.authService.isLoggedInRole('Manager'))
-            {
-              this.manager = true;
-              this.client = true;
-            }
             else if(this.authService.isLoggedInRole('AppUser'))
             {
               this.client = true;
+              this.admin = false;
             }
         }
         else
@@ -105,7 +97,6 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
           this.smeDaOceni = false;
           this.smeDaIzmeni = false;
           this.client = false;
-          this.manager = false;
           this.admin = false;
         }
     }
@@ -114,24 +105,23 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
       this.smeDaOceni = false;
       this.smeDaIzmeni = false;
       this.client = false;
-      this.manager = false;
       this.admin = false;
     }
 
     this.sub = this.route.params.subscribe(params => {
-      this.serviceId = +params['id']; // (+) converts string 'id' to a number
+      this.cinemaId = params['id']; // (+) converts string 'id' to a number
    });
 
-   /* this.httpService.getTypeOfVehicle(this.authService.currentUserToken()).subscribe(
-      (res: any) => {
-               
-              for(let i=0; i<res.length; i++){
-                this.types.push(res[i]); //use i instead of 0
-            }     
-      },
-      error =>{
-         console.log(error);
-      });*/
+   this.serviceManager.getCinemaById(this.cinemaId).subscribe(
+    (res: any) => {
+      this.cinema = res;
+      this.theatersFiltered = this.cinema.theaters;
+    },
+    error =>{
+      console.log(error);
+   }
+
+   );
 
    /*this.serviceManager.getService(this.authService.currentUserToken(), this.serviceId).subscribe(
     (res: any) => {
@@ -375,7 +365,6 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
 
   receiveDelete($event){
     this.smeDaOceni = true;
-    this.rates = [];
     /*this.serviceManager.allRatesService(this.service.Id,this.authService.currentUserToken()).subscribe
         (
           (res : any) =>

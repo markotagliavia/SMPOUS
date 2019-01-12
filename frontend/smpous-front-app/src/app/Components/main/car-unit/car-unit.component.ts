@@ -3,6 +3,7 @@ import { HttpService } from '../../../Services/http-service.service';
 import { AuthService } from '../../../Services/auth.service';
 import { ServiceManager } from '../../../Services/[services].service';  
 import { Vehicle } from '../../../Model/vehicle';
+import { Theater } from '../../../Model/theather';
 
 
 @Injectable()
@@ -13,9 +14,8 @@ import { Vehicle } from '../../../Model/vehicle';
 })
 export class CarUnitComponent implements OnInit , OnChanges{
 
-  @Input() car : Vehicle;
+  @Input() theater : Theater;
   client : boolean;
-  manager : boolean;
   admin : boolean;
   idui : string;
   @Output() messageEvent = new EventEmitter<string>();
@@ -24,7 +24,6 @@ export class CarUnitComponent implements OnInit , OnChanges{
 
   constructor(private authService: AuthService, private httpService: HttpService, private serviceManager : ServiceManager) {
     this.client = false;
-    this.manager = false;
     this.admin = false;
     //this.idui = "switch" + this.car.Id;
    }
@@ -51,7 +50,7 @@ export class CarUnitComponent implements OnInit , OnChanges{
   }
 
   ngOnInit() {
-    this.idui = "switch" + this.car.Id;
+    this.idui = "switch" + this.theater.id;
     if(this.authService.currentUserName() != undefined)
     {
         if(this.authService.currentUserName().length > 0)
@@ -61,14 +60,10 @@ export class CarUnitComponent implements OnInit , OnChanges{
               this.admin = true;
               this.client = true;
             }
-            else if(this.authService.isLoggedInRole('Manager') && this.authService.currentUser().approved)
-            {
-              this.manager = true;
-              this.client = true;
-            }
             else if(this.authService.isLoggedInRole('AppUser') && this.authService.currentUser().approved)
             {
               this.client = true;
+              this.admin = false;
             }
         }
     }

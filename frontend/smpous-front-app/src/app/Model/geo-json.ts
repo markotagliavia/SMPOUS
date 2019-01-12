@@ -5,12 +5,16 @@ export interface IGeometry {
 
 export interface IGeoJson {
     type: string;
-    geometry: IGeometry;
+    coordinates: number[];
     bbox?: number[];
     properties?: any;
 }
 
 
 export class GeoJson implements IGeoJson {
-  constructor(public type, public geometry, properties?, bbox?) {}
+  constructor(public type, public coordinates, properties?, bbox?) {}
 }
+
+export class Geometry implements IGeometry {
+    constructor(public type, public coordinates) {}
+  }

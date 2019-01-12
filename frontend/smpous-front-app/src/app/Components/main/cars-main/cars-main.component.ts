@@ -6,6 +6,7 @@ import { Service } from '../../../Model/service';
 import { Vehicle } from '../../../Model/vehicle';
 import { ServiceManager } from '../../../Services/[services].service';
 import { CarUnitComponent } from '../car-unit/car-unit.component'
+import { Theater } from '../../../Model/theather';
 
 @Component({
   selector: 'app-cars-main',
@@ -16,7 +17,7 @@ export class CarsMainComponent implements OnInit {
 
   numberOfCarsPerPage = 3;
   numberOfCars : number;
-  carsForPrikaz: Vehicle[];
+  theatersFiltered: Theater[];
   types: TypeOfVehicle[];
   typeNameSelected : string;
   typeOfVehicle : TypeOfVehicle;
@@ -34,7 +35,7 @@ export class CarsMainComponent implements OnInit {
  
 
   constructor(public httpService: HttpService,private authService: AuthService, private serviceManager : ServiceManager) { 
-    this.carsForPrikaz = [];
+    this.theatersFiltered = [];
     this.typeNameSelected = "All";
     this.types = [];
     this.manuNameInput = "";
