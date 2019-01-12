@@ -7,11 +7,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @SuppressWarnings("serial")
 @Document
 public enum TheaterType implements Serializable{
-	normal(1),
-	projection3D(2),
-	projection4D(3);
-	private final int value;
-	private TheaterType(int value) {
+	normal("normal"),
+	projection3D("projection3D"),
+	projection4D("projection4D");
+	private final String value;
+	private TheaterType(String value) {
         this.value = value;
     }
 }

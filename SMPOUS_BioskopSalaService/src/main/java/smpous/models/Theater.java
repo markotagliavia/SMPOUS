@@ -14,28 +14,15 @@ public class Theater implements Serializable{
 	{
 		
 	}
-	
-	
-	
-	public HashSet<Chair> getChair() {
-		return chair;
-	}
 
-
-
-	public void setChair(HashSet<Chair> chair) {
-		this.chair = chair;
-	}
-
-
-
-	public Theater(String id, int name, int capacity, TheaterType theaterType, HashSet<Chair> chair) {
+	public Theater(String id, String name, int capacity, TheaterType theaterType, int chairsPerRow, int chairsPerColumn) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.capacity = capacity;
 		this.theaterType = theaterType;
-		this.chair = chair;
+		this.chairsPerRow = chairsPerRow;
+		this.chairsPerColumn = chairsPerColumn;
 	}
 
 
@@ -43,13 +30,15 @@ public class Theater implements Serializable{
 	@Id
 	private String id;
 
-	private int name;
+	private String name;
 
 	private int capacity;
 
 	private TheaterType theaterType;
 	  
-	public HashSet<Chair> chair;
+	public int chairsPerRow;
+	
+	public int chairsPerColumn;
 
 	public String getId() {
 		return id;
@@ -59,11 +48,11 @@ public class Theater implements Serializable{
 		this.id = id;
 	}
 
-	public int getName() {
+	public String getName() {
 		return name;
 	}
 
-	public void setName(int name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
@@ -82,4 +71,22 @@ public class Theater implements Serializable{
 	public void setTheaterType(TheaterType theaterType) {
 		this.theaterType = theaterType;
 	}
+
+	public int getChairsPerRow() {
+		return chairsPerRow;
+	}
+
+	public void setChairsPerRow(int chairsPerRow) {
+		this.chairsPerRow = chairsPerRow;
+	}
+
+	public int getChairsPerColumn() {
+		return chairsPerColumn;
+	}
+
+	public void setChairsPerColumn(int chairsPerColumn) {
+		this.chairsPerColumn = chairsPerColumn;
+	}
+	
+	
 }

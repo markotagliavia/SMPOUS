@@ -1,5 +1,5 @@
-enum TheaterType {
-	normal = 1,
-	projection3D,
-	projection4D
+export enum TheaterType {
+	normal = "normal",
+	projection3D = "projection3D",
+	projection4D = "projection4D"
 }

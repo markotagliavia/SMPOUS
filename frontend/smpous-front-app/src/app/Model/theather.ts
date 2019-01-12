@@ -1,4 +1,4 @@
-import { Chair } from "./chair";
+import { TheaterType } from "./theathertype";
 
 export class Theater {
     constructor(
@@ -6,7 +6,8 @@ export class Theater {
         public name: string,
         public capacity:number,
         public theaterType:TheaterType,
-        public chair:Chair[]
+        public chairsPerRow:number,
+        public chairsPerColumn:number
         
     ){}
     }

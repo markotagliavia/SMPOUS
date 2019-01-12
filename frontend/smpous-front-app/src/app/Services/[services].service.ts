@@ -11,6 +11,8 @@ import { Observable } from "rxjs";
 import { map } from 'rxjs/operators';
 import { PriceList } from '../Model/pricelist';
 import { Reservation } from '../Model/reservation';
+import { Cinema } from '../Model/cinema';
+import { Theater } from '../Model/theather';
 
 
 @Injectable({
@@ -701,7 +703,7 @@ export class ServiceManager {
     }
   
     //end of comments section ----------------------------------------------------------------------------
-    //----------------------
+    //comments cinema----------------------
     getCinema(): Observable<any>
     {
       const headers: Headers = new Headers();
@@ -728,6 +730,67 @@ export class ServiceManager {
       );
     }
 
-    //end of theather section ----------------------------------------------------------------------------
+    addNewCinema(cinema : Cinema,username: string)
+    {
+      const headers: Headers = new Headers();
+      headers.append('Accept', 'application/json');
+      headers.append('Content-type', 'application/json');
+      headers.append('Username', username);
 
+      const opts: RequestOptions = new RequestOptions();
+      opts.headers = headers;
+
+      return this.http.post(
+        `http://localhost:8765/bioskopsala-service/cinemas/addCinema`
+        ,
+        JSON.stringify({
+          id: cinema.id,
+          name: cinema.name,
+          street: cinema.street,
+          number: cinema.number,
+          location: cinema.location,
+          rates:cinema.rates,
+          ranking:0,
+          theaters:cinema.theaters
+        }), opts);
+    }
+
+    getCinemaById(id:String):Observable<any>
+    {
+      const headers: Headers = new Headers();
+      headers.append('Accept', 'application/json');
+      headers.append('Content-type', 'application/json');
+      const opts: RequestOptions = new RequestOptions();
+      opts.headers = headers;
+      return this.http.get(
+        `http://localhost:8765/bioskopsala-service/cinemas/findCinemaById?id=${id}`
+        ,opts
+      ).pipe(map((res: Response) => this.extractData(res)));
+    }
+
+    //end of cinema section ----------------------------------------------------------------------------
+    //comments theater----------------------
+    addNewTheater(theater : Theater,cinemaId : string ,username: string)
+    {
+      const headers: Headers = new Headers();
+      headers.append('Accept', 'application/json');
+      headers.append('Content-type', 'application/json');
+      headers.append('Username', username);
+
+      const opts: RequestOptions = new RequestOptions();
+      opts.headers = headers;
+
+      return this.http.post(
+        `http://localhost:8765/bioskopsala-service/cinemas/addTheater?id=${cinemaId}`
+        ,
+        JSON.stringify({
+          id: theater.id,
+          name: theater.name,
+          capacity: theater.capacity,
+          theaterType: theater.theaterType,
+          chairsPerColumn: theater.chairsPerColumn,
+          chairsPerRow:theater.chairsPerRow,
+        }), opts);
+    }
+    //end of theater section ----------------------------------------------------------------------------
   }

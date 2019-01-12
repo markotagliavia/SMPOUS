@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.ws.rs.HeaderParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
@@ -51,7 +53,7 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 	}
 	
 	@RequestMapping(value = "/addCinema",method = RequestMethod.POST)
-	public Boolean AddCinema(@RequestBody Cinema cinema)
+	public Boolean AddCinema(@RequestBody Cinema cinema,@HeaderParam("Username") String username)
 	{
 		cinema.setId(UUID.randomUUID().toString());
 		bioskopSalaService.save(cinema);
@@ -98,6 +100,13 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 		return true;
 		
 	}
+	
+	@RequestMapping(value = "/findCinemaById",method = RequestMethod.GET)
+	public Cinema FindCinemaById(@RequestParam(name = "id") String id)
+	{
+		return bioskopSalaService.findCinemaById(id);
+	}
+	
 	@RequestMapping(value = "/findCinemaByName",method = RequestMethod.GET)
 	public HashSet<Cinema> FindCinemaByName(@RequestParam(name = "name") String name)
 	{
@@ -125,9 +134,10 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 	}
 	
 	@RequestMapping(value = "/addTheater",method = RequestMethod.POST)
-	public Boolean AddTheater(@RequestBody Theater theater,@RequestParam(name = "id") String id)
+	public Boolean AddTheater(@RequestBody Theater theater,@RequestParam(name = "id") String id,@HeaderParam("Username") String username)
 	{
 		Cinema cinema = bioskopSalaService.findOne(id);
+		theater.setId(UUID.randomUUID().toString());
 		HashSet<Theater> theaters = cinema.getTheaters();
 		if(theaters == null)
 		{
