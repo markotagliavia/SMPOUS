@@ -1,4 +1,61 @@
 <app-header (messageEvent)="receiveRefresh($event)"></app-header>
-<p>
- Cenovnik TO DO
-</p>
+<app-navbar [title] = "'Users'"></app-navbar>
+<div class="whole-wrap">
+	<div class="container">
+		<div class="section-top-border">
+            <h3 class="mb-30">Browse Users</h3>
+
+            <form class="form" role="form" autocomplete="off">		
+                <div class="form-group">
+                    <div class="row d-flex justify-content-center pb-40">    
+                        <div>
+                                <p style="color:black">Username:</p>
+                                <input class="form-control txt-field" type="text" name="username" placeholder="Username" [(ngModel)]="usernameInput" (change) = 'search()'>
+                        </div>
+    
+                        <div>
+                                <p style="color:black">First name:</p>
+                                <input class="form-control txt-field" type="text" name="firstname" placeholder="First Name" [(ngModel)]="firstNameInput" (change) = 'search()'>
+                        </div>
+    
+                        <div>
+                                <p style="color:black">Last name:</p>
+                                <input class="form-control txt-field" type="text" name="lastname" placeholder="Last name" [(ngModel)]="lastNameInput" (change) = 'search()'>
+                        </div>
+                        
+                        <div>
+                                <p style="color:black">X:</p>
+                                <input class="form-control txt-field" type="number" name="x"  [(ngModel)]="x" (change) = 'search()'>
+                        </div>
+
+                        <div>
+                                <p style="color:black">Y:</p>
+                                <input class="form-control txt-field" type="number" name="y" [(ngModel)]="y" (change) = 'search()'>
+                        </div>
+
+                        <div>
+                                <p style="color:black">Near by radius:</p>
+                                <input class="form-control txt-field" type="number" name="radius" placeholder="value" [(ngModel)]="radiusInput" (change) = 'search()'>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="progress-table-wrap">
+                <div class="progress-table">
+                    <div class="table-head">
+                        <div class="visit">Username</div>
+                        <div class="visit">First Name</div>
+                        <div class="visit">Last name</div>
+                        <div class="visit">Address</div>
+                        <div class="visit">Number</div>
+                        <div class="visit">Latitude</div>
+                        <div class="visit">Longitude</div>
+                    </div>
+                        <app-table-row-client [user] = 'user' *ngFor="let user of appUsers"></app-table-row-client>
+                </div>
+            </div>
+        </div>
+	</div>
+</div>
+

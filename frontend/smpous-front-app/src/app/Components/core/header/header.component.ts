@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit,OnChanges {
   @Input() childMessage: string;
   @Output() messageEvent = new EventEmitter<string>();
   client : boolean;
+  clientOnly : boolean;
   manager : boolean;
   admin : boolean;
 
@@ -24,6 +25,7 @@ export class HeaderComponent implements OnInit,OnChanges {
     this.client = false;
     this.manager = false;
     this.admin = false;
+    this.clientOnly = false;
    }
 
   ngOnInit() {
@@ -63,6 +65,7 @@ export class HeaderComponent implements OnInit,OnChanges {
             else if(this.authService.isLoggedInRole('AppUser'))
             {
               this.client = true;
+              this.clientOnly = true;
             }
         }
     }

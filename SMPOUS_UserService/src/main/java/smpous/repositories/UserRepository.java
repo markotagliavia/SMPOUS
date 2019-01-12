@@ -38,7 +38,7 @@ public interface UserRepository extends MongoRepository<User, String>{
 	
 	List<User> findByNameNull();
 	
-	//List<User> findByUserLocationNear(Point point, Distance distance);
+	List<User> findByAddressNear(Point point, Distance distance);
 	
 	//List<User> findByUserLocationWithin(GeoJsonPolygon polygon);
 	
@@ -56,7 +56,7 @@ public interface UserRepository extends MongoRepository<User, String>{
 	
 	List<User> findByTypeOfUser(String typeOfUser);
 	
-	List<User> findByUsernameAndNameAndLastnameAndIsActive(String username, String name, String lastname, Boolean isActive);
+	List<User> findByUsernameAndNameAndLastnameAndIsActiveAndAddressNear(String username, String name, String lastname, Boolean isActive, Point point, Distance distance);
 	
 	//User findByMailAndActive(String mail, Boolean isActive);
 	

@@ -81,7 +81,7 @@ export class HttpService {
                 y : user.longitude,
                 street: user.street,
                 number: user.number,
-                typeOfUser: 'unregistrated'
+                typeOfUser: 'unregistered'
             }), opts);
         
     }
@@ -287,6 +287,30 @@ export class HttpService {
             `http://localhost:8765/user-service/users/all`
             , opts).pipe(map((res: Response) => this.extractData(res)));
 
+    }
+
+    getAllAppUsersWithFilter(userOnSession: string, username : string, firstName : string, lastname : string, isActive : boolean, radius : number, x : number, y : number):Observable<any>
+    {
+
+        const headers: Headers = new Headers();
+
+            headers.append('Accept', 'application/json');
+            headers.append('Content-type', 'application/json');
+    
+            const opts: RequestOptions = new RequestOptions();
+            opts.headers = headers;
+            return this.http.post(
+                'http://localhost:8765/user-service/users/search/findGeneral',
+                JSON.stringify({
+                    userOnSession: userOnSession,
+                    username : username, 
+                    firstName : firstName,
+                    surname : lastname,
+                    isActive : isActive,
+                    radius : radius,
+                    x:x,
+                    y:y
+                }), opts).pipe(map((res: Response) => this.extractData(res)));
     }
 
     getAllManagers(token: string):Observable<any>
