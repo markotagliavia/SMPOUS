@@ -34,7 +34,7 @@ export class EditReservationComponent implements OnInit, OnDestroy {
     this.branchto = '';
     this.branches = [];
     this.reservation = new Reservation(0,false, '','',-1,-1,-1,[]);
-    this.sub = this.route.params.subscribe(params => {
+   /* this.sub = this.route.params.subscribe(params => {
       this.reservationId = +params['id']; // (+) converts string 'id' to a number
       this.serviceManager.getReservation(this.reservationId,this.authService.currentUserToken()).subscribe(
 
@@ -87,7 +87,7 @@ export class EditReservationComponent implements OnInit, OnDestroy {
 
         }
       )
-   }); 
+   }); */
 
    // to do zahtev za rezervaciju po Id
    }
@@ -102,7 +102,7 @@ export class EditReservationComponent implements OnInit, OnDestroy {
   editRes()
   {
     // to do 
-    let branch1 : Branch;
+    /*let branch1 : Branch;
     let branch2 : Branch;
     this.branches.forEach(element => {
 
@@ -158,12 +158,12 @@ export class EditReservationComponent implements OnInit, OnDestroy {
                         
             }
       )
-    }
+    }*/
   }
 
   changeSelectionPickup()
   {
-    this.branches.forEach(element => {
+   /* this.branches.forEach(element => {
       
         if(element.Name == this.branchfrom)
         {
@@ -171,13 +171,13 @@ export class EditReservationComponent implements OnInit, OnDestroy {
 
         }
 
-    });
+    });*/
     
   }
 
   changeSelectionRelease()
   {
-    this.branches.forEach(element => {
+    /*this.branches.forEach(element => {
       
       if(element.Name == this.branchto)
       {
@@ -185,14 +185,14 @@ export class EditReservationComponent implements OnInit, OnDestroy {
 
       }
 
-  });
+  });*/
   }
 
   checkRes()
   {
     //to do kreiraj objkte branch
     //this.reservation.VehicleId = this.car.Id;
-    if(this.branchfrom.length == 0 || this.branchto.length  == 0 || this.reservation.StartDate.length == 0 || this.reservation.EndDate.length == 0)
+   /* if(this.branchfrom.length == 0 || this.branchto.length  == 0 || this.reservation.StartDate.length == 0 || this.reservation.EndDate.length == 0)
     {
       this.errorText = "All fields are requiered";
       return false;
@@ -229,7 +229,7 @@ export class EditReservationComponent implements OnInit, OnDestroy {
           }
         }
       )
-    }
+    }*/
   }
 
 }

@@ -31,8 +31,8 @@ export class RegistrationFormComponent implements OnInit {
 		'name' : '',
 		'surname' : '',
 		'birth' : '',
-		'contact' : '',
-		'adresa' : '',
+		'street' : '',
+		'number' : 0,
 		'latitude' : 0,
 		'longitude' : 0
 	}
@@ -46,7 +46,7 @@ export class RegistrationFormComponent implements OnInit {
   
   registerUser(): boolean {
 	if(this.user.username.length == 0 || this.user.password.length == 0 || this.user.name.length == 0 
-		|| this.user.surname.length == 0 || this.user.birth.length == 0 || this.user.contact.length == 0 || this.user.adresa.length == 0){
+		|| this.user.surname.length == 0 || this.user.birth.length == 0 || this.user.street.length == 0 || this.user.number <= 0){
 		this.errorText = "All fields are required";
 		return false;		
     }

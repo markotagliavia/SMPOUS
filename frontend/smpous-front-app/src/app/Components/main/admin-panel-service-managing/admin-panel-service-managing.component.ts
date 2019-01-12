@@ -15,7 +15,7 @@ export class AdminPanelServiceManagingComponent implements OnInit {
 
   constructor(public serviceManager : ServiceManager, public authService : AuthService, private sanitizer: DomSanitizer) { 
     this.services = [];
-    this.serviceManager.getServices(this.authService.currentUserToken()).subscribe(
+    /*this.serviceManager.getServices(this.authService.currentUserToken()).subscribe(
       (res: any) => {
                
               for(let i=0; i<res.length; i++){
@@ -25,7 +25,7 @@ export class AdminPanelServiceManagingComponent implements OnInit {
       error =>{
           console.log(error);
           window.alert(error);
-      });
+      });*/
   }
 
   ngOnInit() {
@@ -33,7 +33,7 @@ export class AdminPanelServiceManagingComponent implements OnInit {
 
   verifyService(serviceId : number)
   {
-    for(let j=0; j<this.services.length; j++){
+   /* for(let j=0; j<this.services.length; j++){
       if(this.services[j].Id == serviceId)
       {
         this.serviceManager.approveService(this.services[j],this.authService.currentUserToken()).subscribe(
@@ -53,7 +53,7 @@ export class AdminPanelServiceManagingComponent implements OnInit {
 
           break;
       }
-    }
+    }*/
   }
 
 }

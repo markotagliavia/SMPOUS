@@ -51,19 +51,14 @@ export class LoginFormComponent implements OnInit {
       (res: any) => {
 						this.response = res;
 						let data = res.json();
-            let role = res.headers.get("role");
-            if(data && data.access_token)  
+            if(data)  
             {
-              this.httpService.getUserOnSession(this.user.username,data.access_token).subscribe(
-                res => {
                   // console.log(res);
                   let currentUser: CurrentUser;
                   
-                  currentUser = new CurrentUser(res.LoggedIn,res.Username,res.Name,res.Surname,role,data.access_token,res.Contact,res.BirthDate,res.adresa, this.user.password,res.Approved,res.latitude, res.longitude,res.Path,res.Id);
+                  currentUser = new CurrentUser(true,res.username,res.name,res.lastname,res.typeOfUser, res.registrationDay, res.birthday,res.street, res.number, this.user.password,res.isActive,res.x, res.y,res.Id, res.gender);
                   console.log(currentUser);
                   this.authService.logIn(currentUser);
-                }
-              )
             }         
 
                     },

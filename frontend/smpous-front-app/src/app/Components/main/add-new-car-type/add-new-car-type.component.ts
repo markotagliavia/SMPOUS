@@ -21,7 +21,7 @@ export class AddNewCarTypeComponent implements OnInit {
 	this.typeNameInput = "";
   this.typeNameSelected = "";
   this.types = []; //to do uraditi zahtev za dobijanje...
-  this.httpService.getTypeOfVehicle(this.authService.currentUserToken()).subscribe(
+  /*this.httpService.getTypeOfVehicle(this.authService.currentUserToken()).subscribe(
     (res: any) => {
              
             for(let i=0; i<res.length; i++){
@@ -30,7 +30,7 @@ export class AddNewCarTypeComponent implements OnInit {
     },
     error =>{
 
-    });
+    });*/
   
   }
 
@@ -54,7 +54,7 @@ export class AddNewCarTypeComponent implements OnInit {
     
     this.typeOfVehicle = new TypeOfVehicle(0,this.typeNameInput);
 
-    this.httpService.createTypeOfVehicle(this.typeOfVehicle,this.authService.currentUserToken()).subscribe(
+    /*this.httpService.createTypeOfVehicle(this.typeOfVehicle,this.authService.currentUserToken()).subscribe(
 			(res: any) => {
           alert("Successfully added new type " + this.typeNameInput);
           this.types = [];
@@ -75,13 +75,13 @@ export class AddNewCarTypeComponent implements OnInit {
 			});
     
 
-
+*/
     this.typeNameInput = '';
     return false;
   }
   
   updateType()
-  {
+  {/*
     if(this.typeNameInput.length == 0 || this.typeNameSelected.length == 0 ){
       this.errorText = "All fields are required";
       return false;		
@@ -121,13 +121,13 @@ export class AddNewCarTypeComponent implements OnInit {
         }
         
       }     
-      
+      */
       return false;
   }
   
   deleteType()
   {
-
+/*
     if(this.typeNameSelected.length == 0 ){
       this.errorText = "Type must be selected";
       return false;		
@@ -166,7 +166,7 @@ export class AddNewCarTypeComponent implements OnInit {
         }
         
       }     
-      
+      */
       return false;
 	  
   }

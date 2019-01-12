@@ -24,7 +24,7 @@ public class User implements Serializable{
 	
 	
 	public User(String id, String name, String lastname, String username, String password, Date registrationDay,
-			Date birthday, Boolean gender, Boolean isActive, Address address, TypeOfUser typeOfUser) {
+			Date birthday, Boolean gender, Boolean isActive, double x, double y, String street, int number, TypeOfUser typeOfUser, GeoJsonPoint address) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -35,8 +35,12 @@ public class User implements Serializable{
 		this.birthday = birthday;
 		this.gender = gender;
 		this.isActive = isActive;
-		this.address = address;
+		this.x = x;
+		this.y = y;
+		this.street = street;
+		this.number = number;
 		this.typeOfUser = typeOfUser;
+		this.address = new GeoJsonPoint(x, y);
 	}
 
 
@@ -53,7 +57,12 @@ public class User implements Serializable{
 	private Date birthday;
 	private Boolean gender;
 	private Boolean isActive;
-	private Address address;
+	@GeoSpatialIndexed(type=GeoSpatialIndexType.GEO_2DSPHERE)
+	private GeoJsonPoint address;
+	private double x;
+	private double y;
+	private String street;
+	private int number;
 	private TypeOfUser typeOfUser;
 	public String getId() {
 		return id;
@@ -109,10 +118,10 @@ public class User implements Serializable{
 	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
 	}
-	public Address getAddress() {
+	public GeoJsonPoint getAddress() {
 		return address;
 	}
-	public void setAddress(Address address) {
+	public void setAddress(GeoJsonPoint address) {
 		this.address = address;
 	}
 	public TypeOfUser getTypeOfUser() {
@@ -120,6 +129,54 @@ public class User implements Serializable{
 	}
 	public void setTypeOfUser(TypeOfUser typeOfUser) {
 		this.typeOfUser = typeOfUser;
+	}
+
+
+
+	public double getX() {
+		return x;
+	}
+
+
+
+	public void setX(double x) {
+		this.x = x;
+	}
+
+
+
+	public double getY() {
+		return y;
+	}
+
+
+
+	public void setY(double y) {
+		this.y = y;
+	}
+
+
+
+	public String getStreet() {
+		return street;
+	}
+
+
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+
+
+	public int getNumber() {
+		return number;
+	}
+
+
+
+	public void setNumber(int number) {
+		this.number = number;
 	}
 }
 

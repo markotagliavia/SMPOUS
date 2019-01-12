@@ -52,7 +52,7 @@ export class TableRowUserComponent implements OnInit {
 
   verifyUser()
   {
-    this.user.Approved = true;
+    /*this.user.Approved = true;
     this.http.approveUser(this.user, this.authService.currentUserToken(),true).subscribe(
       (res : any) => { 
           this.refresh();
@@ -60,7 +60,7 @@ export class TableRowUserComponent implements OnInit {
       error =>{
           console.log(error);
           window.alert(error);
-      });
+      });*/
   }
 
 }

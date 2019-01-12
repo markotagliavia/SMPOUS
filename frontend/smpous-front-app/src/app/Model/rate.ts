@@ -1,4 +1,4 @@
-enum Rate {
+export enum Rate {
 	one = 1,
 	two,
 	three,

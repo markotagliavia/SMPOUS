@@ -30,7 +30,7 @@ export class EditCarComponent implements OnInit,OnChanges,OnDestroy {
     this.types = [];
     this.errorText = "";
     this.car = new Vehicle(-1,'','','','',true,-1,-1,[],[],-1);
-    this.sub = this.route.params.subscribe(params => {
+    /*this.sub = this.route.params.subscribe(params => {
       this.carId = +params['id']; // (+) converts string 'id' to a number
       this.serviceManager.getCar(this.authService.currentUserToken(),this.carId).subscribe(
         (res: any) => {
@@ -50,11 +50,11 @@ export class EditCarComponent implements OnInit,OnChanges,OnDestroy {
         },
         error =>{
 
-        });
+        });*/
 
     
       
-      this.httpService.getTypeOfVehicle(this.authService.currentUserToken()).subscribe(
+      /*this.httpService.getTypeOfVehicle(this.authService.currentUserToken()).subscribe(
         (res: any) => {
                  
                 for(let i=0; i<res.length; i++){
@@ -65,7 +65,7 @@ export class EditCarComponent implements OnInit,OnChanges,OnDestroy {
     
         });
 
-   }); 
+   }); */
 
   }
 
@@ -94,7 +94,7 @@ export class EditCarComponent implements OnInit,OnChanges,OnDestroy {
 
   newCar()
   {
-    if(this.car.Mark.length == 0 || this.car.Model.length == 0 || this.car.Year.length == 0 || this.car.Description.length == 0 || this.typeNameSelected.length == 0)
+   /* if(this.car.Mark.length == 0 || this.car.Model.length == 0 || this.car.Year.length == 0 || this.car.Description.length == 0 || this.typeNameSelected.length == 0)
     {
        this.errorText = "All fields except picture are requiered";
        return false;
@@ -145,7 +145,7 @@ export class EditCarComponent implements OnInit,OnChanges,OnDestroy {
                           return false;
                   }
             )
-          }*/
+          }
               
             alert("Successfully edited vehicle");   
             
@@ -156,7 +156,7 @@ export class EditCarComponent implements OnInit,OnChanges,OnDestroy {
               return false;
       });
     
-    }
+}*/
 
   }
   

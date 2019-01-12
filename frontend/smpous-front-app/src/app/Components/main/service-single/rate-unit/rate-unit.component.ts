@@ -23,28 +23,28 @@ export class RateUnitComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.ocena = this.rate.Point;
+   /* this.ocena = this.rate;
     //user na sesiji pa uporedi je l sme na osnovu toga da klikce
     if(this.authService.currentUserId()==this.rate.AppUserId)
     {
       this.smeDaIzmeni = true;
-    }
+    }*/
     
   }
 
   oceni(num : number)
   {
-    if(this.smeDaIzmeni == true)
+   /* if(this.smeDaIzmeni == true)
     {
       this.rate.Point = num;
       this.ocena = this.rate.Point; //nije ti dobra logika za zvezdice salio sam se :D fuck u my jelene
-    }
+    }*/
   }
 
   edit()
   {
     // to do
-    this.serviceManager.editRate(this.rate,this.authService.currentUserToken()).subscribe(
+    /*this.serviceManager.editRate(this.rate,this.authService.currentUserToken()).subscribe(
       (res: any) =>
       {
             alert('Successfully edit rate');
@@ -53,7 +53,7 @@ export class RateUnitComponent implements OnInit {
       {
 
       }
-    )
+    )*/
   }
 
  
@@ -62,7 +62,7 @@ export class RateUnitComponent implements OnInit {
   {
     //to do
 
-    this.serviceManager.deleteRate(this.rate,this.authService.currentUserToken()).subscribe(
+   /* this.serviceManager.deleteRate(this.rate,this.authService.currentUserToken()).subscribe(
       (res: any) =>
       {
             alert('Successfully delete rate');
@@ -73,7 +73,7 @@ export class RateUnitComponent implements OnInit {
       {
 
       }
-    )
+    )*/
   }
 
 }

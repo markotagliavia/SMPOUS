@@ -38,6 +38,18 @@ export class AuthService {
     }
 
     isLoggedInRole(role: string): boolean {
+        if(role == 'Manager')
+        {
+            return false;
+        }
+        else if(role == 'Admin')
+        {
+            role = 'admin';
+        }
+        else if(role == 'AppUser')
+        {
+            role = 'registrated';
+        }
         let curretUser = localStorage.getItem("currentUser");
         if ( curretUser !== null){
             let user: CurrentUser = JSON.parse(curretUser);
@@ -53,7 +65,7 @@ export class AuthService {
         }
     }
 
-    currentUserId(): number {
+    currentUserId(): string {
         let curretUser = localStorage.getItem("currentUser");
         if ( curretUser !== null){
             let user: CurrentUser = JSON.parse(curretUser);
@@ -61,22 +73,7 @@ export class AuthService {
         }
         else
         {
-            return -1;
-        }
-    }
-
-    currentUserPath(): string {
-        let curretUser = localStorage.getItem("currentUser");
-        if ( curretUser !== null){
-            let user: CurrentUser = JSON.parse(curretUser);
-            if(user.Path == null)
-                return '';
-            else
-                return user.Path;
-        }
-        else
-        {
-            return '';
+            return "-1";
         }
     }
 
@@ -154,18 +151,29 @@ export class AuthService {
         let currentUser = localStorage.getItem("currentUser");
         if (currentUser !== null) {
             let user: CurrentUser = JSON.parse(currentUser);
-            return user.adresa;
+            return user.street;
         }
         else {
             return null;
         }
     }
 
-    currentUserContact(): string {
+    currentUserNumber(): number {
         let currentUser = localStorage.getItem("currentUser");
         if (currentUser !== null) {
             let user: CurrentUser = JSON.parse(currentUser);
-            return user.contact;
+            return user.number;
+        }
+        else {
+            return -1;
+        }
+    }
+
+    currentUserRegistrationDay(): string {
+        let currentUser = localStorage.getItem("currentUser");
+        if (currentUser !== null) {
+            let user: CurrentUser = JSON.parse(currentUser);
+            return user.registrationDay;
         }
         else {
             return null;
@@ -189,17 +197,6 @@ export class AuthService {
         if (currentUser !== null) {
             let user: CurrentUser = JSON.parse(currentUser);
             return user.username;
-        }
-        else {
-            return null;
-        }
-    }
-
-    currentUserToken(): string {
-        let currentUser = localStorage.getItem("currentUser");
-        if (currentUser !== null) {
-            let user: CurrentUser = JSON.parse(currentUser);
-            return user.token;
         }
         else {
             return null;

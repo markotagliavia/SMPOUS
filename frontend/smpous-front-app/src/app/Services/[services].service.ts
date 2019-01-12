@@ -6,6 +6,7 @@ import { Service } from '../Model/service'
 import { Branch } from '../Model/branch'
 import { Vehicle } from '../Model/vehicle'
 import { AppUser } from '../Model/app-user';
+import { Rate } from '../Model/rate';
 import { Observable } from "rxjs";
 import { map } from 'rxjs/operators';
 import { PriceList } from '../Model/pricelist';
