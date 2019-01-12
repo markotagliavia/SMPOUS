@@ -702,12 +702,30 @@ export class ServiceManager {
   
     //end of comments section ----------------------------------------------------------------------------
     //----------------------
-    getTheathers(): Observable<any>
+    getCinema(): Observable<any>
     {
-
+      const headers: Headers = new Headers();
+      headers.append('Accept', 'application/json');
+      headers.append('Content-type', 'application/json');
       const opts: RequestOptions = new RequestOptions();
+      opts.headers = headers;
       var url = 'http://localhost:8765/bioskopsala-service/cinemas/allCinemas';
       return this.http.get(url, opts).pipe(map((res: Response) => this.extractData(res)));
+    }
+
+    getAverageMark(id:String)
+    {
+      const headers: Headers = new Headers();
+      headers.append('Accept', 'application/json');
+      headers.append('Content-type', 'application/json');
+      const opts: RequestOptions = new RequestOptions();
+      opts.headers = headers;
+      var url = `http://localhost:8765/bioskopsala-service/cinemas/getAverageRate${id}`;
+      //return this.http.get(url, opts).pipe(map((res: Response) => this.extractData(res)));
+      return this.http.get(
+        `http://localhost:8765/bioskopsala-service/cinemas/getAverageRate?id=${id}`
+        ,opts
+      );
     }
 
     //end of theather section ----------------------------------------------------------------------------

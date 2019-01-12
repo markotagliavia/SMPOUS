@@ -10,6 +10,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,6 +27,7 @@ import smpous.models.Rate;
 import smpous.models.Theater;
 import smpous.services.BioskopSalaService;
 
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
 @RequestMapping("cinemas")
 public class BioskopSalaController extends AbstractRESTController<Cinema, String>{
@@ -171,7 +173,7 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 	@RequestMapping(value = "/addRate",method = RequestMethod.POST)
 	public Boolean AddRate(@RequestBody Rate rate,@RequestParam(name = "id") String id)
 	{
-		Cinema cinema = bioskopSalaService.findOne(id);
+		Cinema cinema = bioskopSalaService.findCinemaById(id);
 		Map<String,Rate> rates = cinema.getRates();
 		if(rates == null)
 		{
@@ -191,5 +193,28 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 	    Point point = new Point(35.743826,-71.989015);
 		
 		return bioskopSalaService.findNearPoint(point, 1.0);
+	}
+	
+	@RequestMapping(value = "/getAverageRate",method = RequestMethod.GET)
+	public double GetAverageRate(@RequestParam(name = "id") String id)
+	{
+		System.out.println("EVOOOOOO ID" + id);
+		Cinema cinema = bioskopSalaService.findCinemaById(id);
+		int sum = 0;
+		if(cinema.getRates() != null)
+		{
+			for(Rate r: cinema.getRates().values())
+			{
+				sum += r.ordinal();
+			}
+			if(sum != 0)
+			{
+				double res = (double)sum/cinema.getRates().values().size();
+				return res;
+			}
+		}
+		
+		return 0;
+		
 	}
 }

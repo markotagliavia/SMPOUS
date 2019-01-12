@@ -4,6 +4,7 @@ import { AuthService } from '../../../Services/auth.service';
 import { TypeOfVehicle } from '../../../Model/type-of-vehicle';
 import { Service } from '../../../Model/service';    
 import { Theater } from '../../../Model/theather';
+import { Cinema } from '../../../Model/cinema';
 
 @Component({
   selector: 'app-services-main',
@@ -16,19 +17,19 @@ export class ServicesMainComponent implements OnInit {
   client : boolean;
   admin : boolean;
   smeDaKreira : boolean;
-  theathers : Theater[];
+  cinemas : Cinema[];
 
   constructor(public serviceManager: ServiceManager,private authService: AuthService) { 
     this.client = false;
     this.manager = false;
     this.admin = false;
     this.smeDaKreira = true;
-    this.theathers = []; //to do uraditi zahtev za dobijanje...
-    this.serviceManager.getTheathers().subscribe(
+    this.cinemas = []; //to do uraditi zahtev za dobijanje...
+    this.serviceManager.getCinema().subscribe(
       (res: any) => {
                
               for(let i=0; i<res.length; i++){
-                this.theathers.push(res[i]); //use i instead of 0
+                this.cinemas.push(res[i]); //use i instead of 0
             }     
       },
       error =>{

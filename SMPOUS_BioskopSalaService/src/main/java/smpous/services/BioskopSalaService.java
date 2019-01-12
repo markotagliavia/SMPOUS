@@ -27,6 +27,11 @@ public class BioskopSalaService extends AbstractCRUDService<Cinema, String>{
 		return cinemaRepository.findCinemaByName(name);
 	}
 	
+	public Cinema findCinemaById(String id)
+	{
+		return cinemaRepository.findCinemaById(id);
+	}
+	
 	public List<Cinema> findAllCinema()
 	{
 		return cinemaRepository.findAll();
