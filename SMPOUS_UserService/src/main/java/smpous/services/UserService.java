@@ -66,6 +66,13 @@ public class UserService extends AbstractCRUDService<User, String>{
 		return this.findByUsername(username).getTypeOfUser();
 	}
 	
+	public User changePass(String username, String newP){
+		User u = this.findByUsername(username);
+		u.setPassword(newP);
+		update(u.getId(), u);
+		return u;
+	}
+	
 	public List<User> findByAddressNear(int radius, double x, double y) {
 		Distance d = new Distance(radius);
 		Point p = new Point(x,y);

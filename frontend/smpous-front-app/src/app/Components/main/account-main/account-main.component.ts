@@ -21,7 +21,6 @@ export class AccountMainComponent implements OnInit {
   regUser : IdentityUser;
   errorTextLogin : string;
   errorTextReg : string;
-  selectedFile: File;
 
 
   constructor(private http: HttpService, private authService: AuthService, private router: Router, private serviceManager : ServiceManager) {
@@ -49,7 +48,7 @@ export class AccountMainComponent implements OnInit {
 
   changeLogin()
   {
-    /*if(this.regUser.password.length == 0 || this.regUser.confirmPassword.length == 0){
+    if(this.regUser.password.length == 0 || this.regUser.confirmPassword.length == 0){
       this.errorTextLogin = "All fields are required";
       return false;
     }
@@ -68,37 +67,42 @@ export class AccountMainComponent implements OnInit {
           return false;
         }
 
-        this.authService.changePassword(this.authService.currentUserPassword(),this.regUser.password,this.regUser.confirmPassword,this.authService.currentUserToken()).subscribe(
+        this.authService.changePassword(this.authService.currentUserUsername(), this.authService.currentUserPassword(),this.regUser.password,this.regUser.confirmPassword).subscribe(
             (res : any) =>
             {
-              this.errorTextLogin = "";
-              alert("Successful change password");
-
-              this.http.getUserOnSession(this.regUser.username,this.authService.currentUserToken()).subscribe(
-                res => {
-                  // console.log(res);
-                  let currentUser: CurrentUser;
-                  
-                  currentUser = new CurrentUser(res.LoggedIn,res.Username,res.Name,res.Surname,this.authService.currentUserRole(),this.authService.currentUserToken(),
-                  res.Contact,res.BirthDate,this.authService.currentUserAdresa(), this.regUser.password,res.Approved,
-                  res.Latitude, res.Longitude ,res.Path,res.Id);
-                  console.log(currentUser);
-                  this.authService.logIn(currentUser);
-                  //this.header.refreshView();
+              if(res._body != "")
+              {
+                  let data = res.json();
+                  console.log(data);
+                  if(data)  
+                  {
+                        // console.log(res);
+                        let currentUser: CurrentUser;
+                        
+                        currentUser = new CurrentUser(true,data.username,data.name,data.lastname,data.typeOfUser, data.registrationDay, data.birthday,data.street, data.number, data.password,data.isActive,data.x, data.y,data.Id, data.gender);
+                        console.log(currentUser);
+                        this.errorTextLogin = "";
+                        alert("Successful change password");
+                        this.authService.logIn(currentUser);
+                  }   
+                }
+                else
+                {
+                  this.errorTextLogin = "Unsuccsesfull change";
+                }      
                   this.regUser = {
-                    'username' :  this.authService.currentUserName(),
+                    'username' :  this.authService.currentUser().username,
                     'confirmPassword' : '',
                     'password' : '',
                     'name' : this.authService.currentUserFirstName(),
                     'surname' : this.authService.currentUserSurname(),
                     'birth' : this.authService.currentUserBirth(),
-                    'contact' : this.authService.currentUserContact(),
-                    'adresa' : this.authService.currentUserAdresa(),
+                    'street':this.authService.currentUserAdresa(),
+                    'number' : this.authService.currentUserNumber(),
                     'latitude' : this.authService.currentUserLatitude(),
                     'longitude' :this.authService.currentUserLongitude()
                   }
-                })
-            },
+                },
             error =>
             {
                 this.errorTextLogin ="Sever internal error";
@@ -108,7 +112,6 @@ export class AccountMainComponent implements OnInit {
         
       }
     }
-    return false;*/
   }
 
  changeReg(){}
