@@ -179,6 +179,17 @@ public class UserController extends AbstractRESTController<User, String>{
 		 else return null;
 	}
 	
-
+	@RequestMapping(value = "/changeInfo", method = RequestMethod.POST)
+	public User changeInfo(@RequestBody ObjectNode json){
+		 String userOnSession = json.get("userOnSession").asText();
+		 String name = json.get("name").asText();
+		 String lastname = json.get("lastname").asText();
+		 String street = json.get("street").asText();
+		 int number = json.get("number").asInt();
+		 double x = json.get("x").asDouble();
+		 double y = json.get("y").asDouble();
+		 String birth = json.get("birth").asText();
+		 return userService.changeInfo(userOnSession, name, lastname, street, number, x, y, birth);
+	}
 
 }

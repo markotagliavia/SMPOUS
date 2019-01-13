@@ -114,5 +114,57 @@ export class AccountMainComponent implements OnInit {
     }
   }
 
- changeReg(){}
+ changeReg(){
+  if(this.regUser.name.length == 0 || this.regUser.surname.length == 0 || this.regUser.street.length == 0 || this.regUser.birth.length == 0){
+    this.errorTextReg = "All fields are required";
+    return false;
+  }
+  else
+  {
+
+      this.authService.changeInfo(this.authService.currentUserUsername(),this.regUser.name,this.regUser.surname,
+            this.regUser.street, this.regUser.number, this.regUser.latitude, this.regUser.longitude, this.regUser.birth).subscribe(
+          (res : any) =>
+          {
+            if(res._body != "")
+            {
+                let data = res.json();
+                console.log(data);
+                if(data)  
+                {
+                      // console.log(res);
+                      let currentUser: CurrentUser;
+                      
+                      currentUser = new CurrentUser(true,data.username,data.name,data.lastname,data.typeOfUser, data.registrationDay, data.birthday,data.street, data.number, data.password,data.isActive,data.x, data.y,data.Id, data.gender);
+                      console.log(currentUser);
+                      this.errorTextReg = "";
+                      alert("Successful change info");
+                      this.authService.logIn(currentUser);
+                }   
+              }
+              else
+              {
+                this.errorTextLogin = "Unsuccsesfull change";
+              }      
+                this.regUser = {
+                  'username' :  this.authService.currentUser().username,
+                  'confirmPassword' : '',
+                  'password' : '',
+                  'name' : this.authService.currentUserFirstName(),
+                  'surname' : this.authService.currentUserSurname(),
+                  'birth' : this.authService.currentUserBirth(),
+                  'street':this.authService.currentUserAdresa(),
+                  'number' : this.authService.currentUserNumber(),
+                  'latitude' : this.authService.currentUserLatitude(),
+                  'longitude' :this.authService.currentUserLongitude()
+                }
+              },
+          error =>
+          {
+              this.errorTextLogin ="Sever internal error";
+          }
+          
+      )
+  }
+ }
 }
