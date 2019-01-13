@@ -11,10 +11,58 @@ import { CurrentUser } from '../../../Model/current-user';
 export class AdminPanelClientManagingComponent implements OnInit {
 
   appUsers : CurrentUser[];
+  usernameInput : string;
+  firstNameInput : string;
+  lastNameInput : string;
+  radiusInput : number;
+  isActiveInput : boolean;
+  x:number;
+  y:number;
 
   constructor(public httpService: HttpService,private authService: AuthService) { 
     this.appUsers = [];
-    this.httpService.getAllAppUsers(this.authService.currentUserUsername()).subscribe(
+    this.usernameInput = "";
+    this.firstNameInput = "";
+    this.lastNameInput = "";
+    this.radiusInput = 0;
+    this.isActiveInput = true;
+    this.radiusInput = 999999999;
+    this.x = 0;
+    this.y = 0;
+    this.search();
+  }
+
+  search()
+  {
+    this.appUsers = [];
+    var usernameParam = "";
+    var firstNameParam = "";
+    var lastNameParam = "";
+    if(this.usernameInput == "")
+    {
+      usernameParam = "*";
+    }
+    else 
+    {
+      usernameParam = this.usernameInput;
+    }
+    if(this.firstNameInput == "")
+    {
+      firstNameParam = "*";
+    }
+    else 
+    {
+      firstNameParam = this.firstNameInput;
+    }
+    if(this.lastNameInput == "")
+    {
+      lastNameParam = "*";
+    }
+    else 
+    {
+      lastNameParam = this.lastNameInput;
+    }
+    this.httpService.getAllAppUsersWithFilter(this.authService.currentUserUsername(), usernameParam, firstNameParam, lastNameParam, this.isActiveInput, this.radiusInput, this.x, this.y).subscribe(
       (res: any) => {
                console.log(res);
               for(let i=0; i<res.length; i++){
@@ -34,7 +82,6 @@ export class AdminPanelClientManagingComponent implements OnInit {
           console.log(error);
           window.alert(error);
       });
-
   }
 
   ngOnInit() {

@@ -107,6 +107,13 @@ public class UserController extends AbstractRESTController<User, String>{
 		return user != null;
 	}
 	
+	@RequestMapping(value = "/getUser", method = RequestMethod.GET)
+	public User getUserRole(
+			@RequestParam(name = "username") String username
+	){
+		return userService.findByUsername(username);
+	}
+	
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	public List<User> getAll(){
 		List<User> all = new ArrayList<User>();
@@ -140,12 +147,15 @@ public class UserController extends AbstractRESTController<User, String>{
 	
 	@RequestMapping(value = "search/findGeneral", method = RequestMethod.POST)
 	public List<User> findGeneral(@RequestBody ObjectNode json) {
+		String userOnSession = json.get("userOnSession").asText();
 		 String username = json.get("username").asText();
 		 String firstName = json.get("firstName").asText();
 		 String surname = json.get("surname").asText();
-		 Boolean isActive = json.get("IsActive").asBoolean();
-		List<User> all = userService.findByUsernameAndFirstNameAndSurnameAndIsActive(username, firstName, surname, isActive);
-		//fillter by location
+		 int radius = json.get("radius").asInt();
+		 double x = json.get("x").asDouble();
+		 double y = json.get("y").asDouble();
+		 Boolean isActive = json.get("isActive").asBoolean();
+		List<User> all = userService.findByUsernameAndFirstNameAndSurnameAndIsActiveAndAddressNear(userOnSession, username, firstName, surname, isActive, radius, x, y);
 		return all;
 	}
 

@@ -47,6 +47,7 @@ import { EditReservationGuard } from './Components/main/edit-reservation/edit-re
 import { EditServiceGuard } from './Components/main/edit-service/edit-service-guard';
 import { ManagerPanelGuard } from './Components/main/manager-panel-main/manager-panel-guard';
 import { ReservationGuard } from './Components/main/reservation/reservation-guard';
+import { TableRowClientComponent } from './Components/main/manager-panel-main/table-row-client/table-row-client.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -79,7 +80,8 @@ import { ReservationGuard } from './Components/main/reservation/reservation-guar
     BranchControlComponent,
     RatesControlComponent,
     RateUnitComponent,
-    EditReservationComponent
+    EditReservationComponent,
+    TableRowClientComponent
 	
   ],
   imports: [

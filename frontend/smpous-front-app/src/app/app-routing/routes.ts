@@ -31,6 +31,7 @@ export const routes :Routes = [
 	{path: 'home/login', component: WelcomeScreenComponent},
 	{path: 'home/registration', component: WelcomeScreenRegComponent},
 	{path: 'cars', component: CarsMainComponent},
+	{path: 'users', component: ManagerPanelMainComponent},
 	{path: 'services', component: ServicesMainComponent},
 	{path: 'team', component: TeamMainComponent},
 	{path: 'account', component: AccountMainComponent, canActivate: [AccountGuard]},

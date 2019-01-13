@@ -1,5 +1,46 @@
 <div class="section-top-border">
 						<h3 class="mb-30">Client managing</h3>
+
+						<form class="form" role="form" autocomplete="off">		
+							<div class="form-group">
+								<div class="row d-flex justify-content-center pb-40">
+									<div>
+												<p style="color:black">Active:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+												<input type="checkbox"  [(ngModel)]="isActiveInput" name="isActive" (change)="search()">
+									</div>    
+									<div>
+											<p style="color:black">Username:</p>
+											<input class="form-control txt-field" type="text" name="username" placeholder="Username" [(ngModel)]="usenameInput" (change) = 'search()'>
+									</div>
+				
+									<div>
+											<p style="color:black">First name:</p>
+											<input class="form-control txt-field" type="text" name="firstname" placeholder="First Name" [(ngModel)]="firstNameInput" (change) = 'search()'>
+									</div>
+				
+									<div>
+											<p style="color:black">Last name:</p>
+											<input class="form-control txt-field" type="text" name="lastname" placeholder="Last name" [(ngModel)]="lastNameInput" (change) = 'search()'>
+									</div>
+
+									<div>
+											<p style="color:black">X:</p>
+											<input class="form-control txt-field" type="number" name="x"  [(ngModel)]="x" (change) = 'search()'>
+									</div>
+			
+									<div>
+											<p style="color:black">Y:</p>
+											<input class="form-control txt-field" type="number" name="y" [(ngModel)]="y" (change) = 'search()'>
+									</div>
+				
+									<div>
+											<p style="color:black">Near by radius:</p>
+											<input class="form-control txt-field" type="number" name="radius" placeholder="value" [(ngModel)]="radiusInput" (change) = 'search()'>
+									</div>
+								</div>
+							</div>
+						</form>
+
 						<div class="progress-table-wrap">
 							<div class="progress-table">
 								<div class="table-head">
