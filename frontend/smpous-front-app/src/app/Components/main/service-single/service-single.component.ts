@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import { HttpService } from '../../../Services/http-service.service';
 import { ServiceManager } from '../../../Services/[services].service';
 import { AuthService } from '../../../Services/auth.service';
@@ -116,6 +116,22 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
     (res: any) => {
       this.cinema = res;
       this.theatersFiltered = this.cinema.theaters;
+      if(this.admin == true || this.client == true)
+      {
+        var already = false;
+        for(let key of Array.from( this.cinema.rates.keys()) ) {
+          if(key == this.authService.currentUserId())
+          {
+            already = true;
+            this.smeDaOceni = false;
+            break;
+          }
+       }
+       if(already = false)
+       {
+         this.smeDaOceni = true;
+       }
+      }
     },
     error =>{
       console.log(error);
@@ -256,42 +272,23 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
 
   oceni()
   {
-    //to do
-    /*if(this.rate.Comment.length == 0)
-    {
-      alert('Comment is required');
-      return false;
-    }*/
-    /*this.rate.AppUserId = this.authService.currentUserId();
-    this.rate.ServiceId = this.service.Id;*/
-   /* this.serviceManager.addNewRate(this.rate,this.authService.currentUserToken()).subscribe(
+    
+
+   this.serviceManager.addNewRate(this.rate,this.cinemaId,this.authService.currentUserUsername()).subscribe(
 
       (res: any) =>
       {
 
         alert('Successfully add comment');
         this.smeDaOceni = false;
-        this.rate = new Rate(-1,0,'',-1,-1,null);
-        this.rates = []; 
-        this.serviceManager.allRatesService(this.service.Id,this.authService.currentUserToken()).subscribe
-        (
-          (res : any) =>
-          {
-                  res.forEach(element => {
-                    this.rates.push(element);
-                  });
-          },
-          error =>
-          {
-              console.log(error);
-          })
-
+        this.rate = Rate.one;
+        
       },
       error =>
       {
         alert('Do not have permission to leave a comment');
       }
-    )*/
+    );
   }
 
   doPaginacija(num : number)

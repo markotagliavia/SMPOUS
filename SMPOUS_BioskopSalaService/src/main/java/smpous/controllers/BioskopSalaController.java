@@ -1,5 +1,6 @@
 package smpous.controllers;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.mongodb.client.model.geojson.Geometry;
 import org.springframework.data.geo.Point;
@@ -27,6 +29,7 @@ import smpous.models.Address;
 import smpous.models.Cinema;
 import smpous.models.Rate;
 import smpous.models.Theater;
+import smpous.models.User;
 import smpous.services.BioskopSalaService;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
@@ -181,15 +184,18 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 	}
 	
 	@RequestMapping(value = "/addRate",method = RequestMethod.POST)
-	public Boolean AddRate(@RequestBody Rate rate,@RequestParam(name = "id") String id)
+	public Boolean AddRate(@RequestBody Rate rate,@RequestParam(name = "id") String id,@HeaderParam("Username") String username)
 	{
+		final String uri = "http://localhost:8765/user-service/users/";
+	     
+	    RestTemplate restTemplate = new RestTemplate();
+	    User user = restTemplate.getForObject(uri, User.class);
 		Cinema cinema = bioskopSalaService.findCinemaById(id);
 		Map<String,Rate> rates = cinema.getRates();
 		if(rates == null)
 		{
 			rates = new HashMap<String,Rate>();
 		}
-		//kako dobiti UserOnSession sta jos da uradim da se ponovo zaljubis u Marka? mis...
 		//rates.add(rate);
 		cinema.setRates(rates);
 		bioskopSalaService.update(cinema.getId(), cinema);

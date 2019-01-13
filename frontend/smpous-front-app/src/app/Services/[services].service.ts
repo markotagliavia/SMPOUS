@@ -617,24 +617,7 @@ export class ServiceManager {
   }
     //end of reservation section ----------------------------------------------------------------------------
     //comments section ----------------------------------------------------------------------------
-    addNewRate(rate: Rate, token: string)
-    {
-      const headers: Headers = new Headers();
-      headers.append('Content-type', 'application/json');
-      let usertoken = `Bearer ${token}`;
-      headers.append('Authorization', usertoken);
-  
-      const opts: RequestOptions = new RequestOptions();
-      opts.headers = headers;
-  
-      return this.http.post(
-        `http://localhost:51432/api/Rates/PostRate`
-        ,
-        JSON.stringify({
-        
-        }), opts);
-  
-    }
+    
   
     allRatesService(serviceId :number, token : string )
     {
@@ -755,6 +738,25 @@ export class ServiceManager {
         }), opts);
     }
 
+    addNewRate(rate: Rate,cinemaId:String, username: string):Observable<any>
+    {
+      const headers: Headers = new Headers();
+      headers.append('Accept', 'application/json');
+      headers.append('Content-type', 'application/json');
+      headers.append('Username', username);
+  
+      const opts: RequestOptions = new RequestOptions();
+      opts.headers = headers;
+  
+      return this.http.post(
+        `http://localhost:8765/bioskopsala-service/cinemas/addRate?id=${cinemaId}`
+        ,
+        JSON.stringify({
+          rate
+        }), opts).pipe(map((res: Response) => this.extractData(res)));
+  
+    }
+
     getCinemaById(id:String):Observable<any>
     {
       const headers: Headers = new Headers();
@@ -792,5 +794,7 @@ export class ServiceManager {
           chairsPerRow:theater.chairsPerRow,
         }), opts);
     }
+
+    
     //end of theater section ----------------------------------------------------------------------------
   }
