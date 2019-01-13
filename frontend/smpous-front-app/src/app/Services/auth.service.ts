@@ -257,4 +257,26 @@ export class AuthService {
              confirmPassword: confirmPass
          }), opts);
     }
+
+    changeInfo(userOnSession : string, name: string, surname: string, street: string, num : number, x : number, y : number, birth : string): Observable<any>{
+       
+        const headers: Headers = new Headers();
+        headers.append('Accept', 'application/json');
+        headers.append('Content-type', 'application/json');
+
+        const opts: RequestOptions = new RequestOptions();
+        opts.headers = headers;
+
+        return this.http.post(`http://localhost:8765/user-service/users/changeInfo`,
+         JSON.stringify({
+             userOnSession : userOnSession,
+             name: name,
+             lastname: surname,
+             street: street,
+             number : num,
+             x : x,
+             y : y,
+             birth : birth
+         }), opts);
+    }
 }

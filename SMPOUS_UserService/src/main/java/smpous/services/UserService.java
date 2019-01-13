@@ -1,6 +1,10 @@
 package smpous.services;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +73,27 @@ public class UserService extends AbstractCRUDService<User, String>{
 	public User changePass(String username, String newP){
 		User u = this.findByUsername(username);
 		u.setPassword(newP);
+		update(u.getId(), u);
+		return u;
+	}
+	
+	public User changeInfo(String username, String name, String lastname, String street, int number, double x, double y, String birth){
+		User u = this.findByUsername(username);
+		u.setName(name);
+		u.setLastname(lastname);
+		u.setStreet(street);
+		u.setNumber(number);
+		u.setX(x);
+		u.setY(y);
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = null;
+		try {
+			date = format.parse(birth);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		u.setBirthday(date);
 		update(u.getId(), u);
 		return u;
 	}
