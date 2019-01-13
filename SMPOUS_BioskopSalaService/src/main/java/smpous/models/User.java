@@ -45,6 +45,29 @@ public class User implements Serializable{
 
 
 
+	public User(String id, String name, String lastname, String username, String password, Date registrationDay,
+			Date birthday, Boolean gender, Boolean isActive, GeoJsonPoint address, double x, double y, String street,
+			int number, String typeOfUser) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.lastname = lastname;
+		this.username = username;
+		this.password = password;
+		this.registrationDay = registrationDay;
+		this.birthday = birthday;
+		this.gender = gender;
+		this.isActive = isActive;
+		this.address = address;
+		this.x = x;
+		this.y = y;
+		this.street = street;
+		this.number = number;
+		this.typeOfUser = typeOfUser;
+	}
+
+
+
 	@Id
 	private String id;
 	private String name;
@@ -172,8 +195,6 @@ public class User implements Serializable{
 	public int getNumber() {
 		return number;
 	}
-
-
 
 	public void setNumber(int number) {
 		this.number = number;

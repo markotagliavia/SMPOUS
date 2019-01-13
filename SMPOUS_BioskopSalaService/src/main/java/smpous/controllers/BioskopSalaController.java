@@ -9,18 +9,22 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.core.HttpHeaders;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.mongodb.client.model.geojson.Geometry;
 import org.springframework.data.geo.Point;
 import com.mongodb.client.model.geojson.Position;
@@ -183,20 +187,31 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 		return bioskopSalaService.findOne(id).getTheaters();
 	}
 	
-	@RequestMapping(value = "/addRate",method = RequestMethod.POST)
-	public Boolean AddRate(@RequestBody Rate rate,@RequestParam(name = "id") String id,@HeaderParam("Username") String username)
+	@RequestMapping(value = "/addRate",method = RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public Boolean AddRate(@RequestBody ObjectNode obj,@RequestParam(name = "id") String id,@RequestHeader(value="Username") String username)
 	{
-		final String uri = "http://localhost:8765/user-service/users/";
+		//String username = headers.getRequestHeader("Username").get(0);
+		Rate rate = Rate.getRate(obj.get("rate").asInt());
+		final String uri = "http://localhost:8765/user-service/users/getUser?username="+username;
 	     
 	    RestTemplate restTemplate = new RestTemplate();
 	    User user = restTemplate.getForObject(uri, User.class);
+	    if(user == null)
+	    {
+	    	return false;
+	    }
 		Cinema cinema = bioskopSalaService.findCinemaById(id);
 		Map<String,Rate> rates = cinema.getRates();
 		if(rates == null)
 		{
 			rates = new HashMap<String,Rate>();
 		}
-		//rates.add(rate);
+		if(rates.containsKey(user.getId()))
+		{
+			return false;
+		}
+		rates.put(user.getId(),rate);
 		cinema.setRates(rates);
 		bioskopSalaService.update(cinema.getId(), cinema);
 		return true;

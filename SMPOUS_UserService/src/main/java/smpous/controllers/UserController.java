@@ -25,7 +25,7 @@ import smpous.models.TypeOfUser;
 import smpous.models.User;
 import smpous.services.UserService;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("users")
 public class UserController extends AbstractRESTController<User, String>{

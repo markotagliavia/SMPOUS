@@ -738,7 +738,7 @@ export class ServiceManager {
         }), opts);
     }
 
-    addNewRate(rate: Rate,cinemaId:String, username: string):Observable<any>
+    addNewRate(r: Rate,cinemaId:String, username: string):Observable<any>
     {
       const headers: Headers = new Headers();
       headers.append('Accept', 'application/json');
@@ -752,7 +752,7 @@ export class ServiceManager {
         `http://localhost:8765/bioskopsala-service/cinemas/addRate?id=${cinemaId}`
         ,
         JSON.stringify({
-          rate
+          rate : r
         }), opts).pipe(map((res: Response) => this.extractData(res)));
   
     }

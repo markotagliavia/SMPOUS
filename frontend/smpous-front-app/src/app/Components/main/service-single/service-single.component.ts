@@ -119,15 +119,19 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
       if(this.admin == true || this.client == true)
       {
         var already = false;
-        for(let key of Array.from( this.cinema.rates.keys()) ) {
-          if(key == this.authService.currentUserId())
-          {
-            already = true;
-            this.smeDaOceni = false;
-            break;
-          }
-       }
-       if(already = false)
+        if(this.cinema.rates.size != undefined && this.cinema.rates.size != 0)
+        {
+          for(let key of Array.from( this.cinema.rates.keys()) ) {
+            if(key == this.authService.currentUserId())
+            {
+              already = true;
+              this.smeDaOceni = false;
+              break;
+            }
+         }
+        }
+        
+       if(already == false)
        {
          this.smeDaOceni = true;
        }
@@ -278,10 +282,16 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
 
       (res: any) =>
       {
-
-        alert('Successfully add comment');
-        this.smeDaOceni = false;
-        this.rate = Rate.one;
+        if(res == true)
+        {
+          alert('Successfully add comment');
+          this.smeDaOceni = false;
+          this.rate = Rate.one;
+        }
+        else
+        {
+          alert("You don't have permission.");
+        }
         
       },
       error =>
