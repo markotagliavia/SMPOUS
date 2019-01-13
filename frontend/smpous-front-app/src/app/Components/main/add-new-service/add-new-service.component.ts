@@ -51,15 +51,23 @@ export class AddNewServiceComponent implements OnInit {
 
             (res : any) => {
 
-              this.geo = new GeoJson("Point",[45.25024259251935,19.835199103219566]);
-              this.cinema = new Cinema('','','','',this.geo,new Map<string,Rate>(),0,[]); 
+              if(res == true)
+              {
+                this.geo = new GeoJson("Point",[45.25024259251935,19.835199103219566]);
+                this.cinema = new Cinema('','','','',this.geo,new Map<string,Rate>(),0,[]); 
+                
+                alert("Successful added new cinema"); 
+              }
+              else
+              {
+                alert("You don't have permission.");
+              }
               
-              alert("Successful added new cinema"); 
             
             },
             error =>
             {
-                    alert(error.json().Message);
+                    //alert(error.json().Message);
                     return false;
             })
     }

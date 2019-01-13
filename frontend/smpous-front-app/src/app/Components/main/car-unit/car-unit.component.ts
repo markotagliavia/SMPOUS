@@ -15,6 +15,7 @@ import { Theater } from '../../../Model/theather';
 export class CarUnitComponent implements OnInit , OnChanges{
 
   @Input() theater : Theater;
+  @Input() cinemaId : string;
   client : boolean;
   admin : boolean;
   idui : string;
@@ -95,7 +96,7 @@ export class CarUnitComponent implements OnInit , OnChanges{
 
   deleteVehicle()
   {
-    /*this.serviceManager.deleteCar(this.car,this.authService.currentUserToken()).subscribe(
+    this.serviceManager.deleteTheater(this.theater,this.cinemaId,this.authService.currentUserUsername()).subscribe(
 
       (res: any) =>
       {
@@ -106,7 +107,7 @@ export class CarUnitComponent implements OnInit , OnChanges{
 
       }
       
-    )*/
+    )
   }
 
 }

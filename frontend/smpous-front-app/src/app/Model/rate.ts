@@ -1,7 +1,7 @@
 export enum Rate {
 	one = 1,
-	two,
-	three,
-	four,
-	five
+	two = 2,
+	three = 3,
+	four = 4,
+	five = 5
 }

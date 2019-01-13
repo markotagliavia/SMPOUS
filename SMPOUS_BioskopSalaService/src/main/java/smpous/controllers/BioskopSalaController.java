@@ -1,5 +1,6 @@
 package smpous.controllers;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -8,17 +9,22 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.core.HttpHeaders;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.mongodb.client.model.geojson.Geometry;
 import org.springframework.data.geo.Point;
 import com.mongodb.client.model.geojson.Position;
@@ -27,6 +33,7 @@ import smpous.models.Address;
 import smpous.models.Cinema;
 import smpous.models.Rate;
 import smpous.models.Theater;
+import smpous.models.User;
 import smpous.services.BioskopSalaService;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
@@ -52,9 +59,14 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 		return "hi";
 	}
 	
-	@RequestMapping(value = "/addCinema",method = RequestMethod.POST)
-	public Boolean AddCinema(@RequestBody Cinema cinema,@HeaderParam("Username") String username)
+	@RequestMapping(value = "/addCinema",method = RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public Boolean AddCinema(@RequestBody Cinema cinema,@RequestHeader(value="Username") String username)
 	{
+		if(IsAuthorized("admin",username)== false)
+		{
+			return false;
+		}
 		cinema.setId(UUID.randomUUID().toString());
 		bioskopSalaService.save(cinema);
 		
@@ -119,23 +131,38 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 		return bioskopSalaService.findAllCinema();
 	}
 	
-	@RequestMapping(value = "/editCinema",method = RequestMethod.PUT)
-	public Boolean EditCinema(@RequestBody Cinema cinema)
+	@RequestMapping(value = "/editCinema",method = RequestMethod.PUT, produces = "application/json")
+	@ResponseBody
+	public Boolean EditCinema(@RequestBody Cinema cinema,@RequestHeader(value="Username") String username)
 	{
+		if(IsAuthorized("admin",username)== false)
+		{
+			return false;
+		}
 		bioskopSalaService.update(cinema.getId(), cinema);
 		return true;
 	}
 	
-	@RequestMapping(value = "/deleteCinema",method = RequestMethod.DELETE)
-	public Boolean DeleteCinema(@RequestParam(name = "id") String id)
+	@RequestMapping(value = "/deleteCinema",method = RequestMethod.DELETE, produces = "application/json")
+	@ResponseBody
+	public Boolean DeleteCinema(@RequestParam(name = "id") String id,@RequestHeader(value="Username") String username)
 	{
+		if(IsAuthorized("admin",username)== false)
+		{
+			return false;
+		}
 		bioskopSalaService.delete(id);
 		return true;
 	}
 	
-	@RequestMapping(value = "/addTheater",method = RequestMethod.POST)
-	public Boolean AddTheater(@RequestBody Theater theater,@RequestParam(name = "id") String id,@HeaderParam("Username") String username)
+	@RequestMapping(value = "/addTheater",method = RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public Boolean AddTheater(@RequestBody Theater theater,@RequestParam(name = "id") String id,@RequestHeader(value="Username") String username)
 	{
+		if(IsAuthorized("admin",username)== false)
+		{
+			return false;
+		}
 		Cinema cinema = bioskopSalaService.findOne(id);
 		theater.setId(UUID.randomUUID().toString());
 		HashSet<Theater> theaters = cinema.getTheaters();
@@ -149,9 +176,21 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 		return true;
 	}
 	
-	@RequestMapping(value = "/deleteTheater",method = RequestMethod.DELETE)
-	public Boolean DeleteTheater(@RequestParam(name = "idTheater") String idTheater,@RequestParam(name = "idCinema") String idCinema)
+	@RequestMapping(value = "/deleteTheater",method = RequestMethod.DELETE, produces = "application/json")
+	@ResponseBody
+	public Boolean DeleteTheater(@RequestParam(name = "idTheater") String idTheater,@RequestParam(name = "idCinema") String idCinema,@RequestHeader(value="Username") String username)
 	{
+		if(IsAuthorized("admin",username)== false)
+		{
+			return false;
+		}
+		RestTemplate restTemplate = new RestTemplate();
+		final String uri = "http://localhost:8765/user-service/users/getUserRole?username="+username;
+		String rola = restTemplate.getForObject(uri, String.class);
+		if(!rola.equals("admin"))
+		{
+			return false;
+		}
 		Cinema cinema = bioskopSalaService.findOne(idCinema);
 		HashSet<Theater> theaters = cinema.getTheaters();
 		if(theaters != null)
@@ -180,17 +219,30 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 		return bioskopSalaService.findOne(id).getTheaters();
 	}
 	
-	@RequestMapping(value = "/addRate",method = RequestMethod.POST)
-	public Boolean AddRate(@RequestBody Rate rate,@RequestParam(name = "id") String id)
+	@RequestMapping(value = "/addRate",method = RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public Boolean AddRate(@RequestBody ObjectNode obj,@RequestParam(name = "id") String id,@RequestHeader(value="Username") String username)
 	{
+		Rate rate = Rate.getRate(obj.get("rate").asInt());
+		final String uri = "http://localhost:8765/user-service/users/getUserId?username="+username;
+	     
+	    RestTemplate restTemplate = new RestTemplate();
+	    String user = restTemplate.getForObject(uri, String.class);
+	    if(user.equals(""))
+	    {
+	    	return false;
+	    }
 		Cinema cinema = bioskopSalaService.findCinemaById(id);
 		Map<String,Rate> rates = cinema.getRates();
 		if(rates == null)
 		{
 			rates = new HashMap<String,Rate>();
 		}
-		//kako dobiti UserOnSession sta jos da uradim da se ponovo zaljubis u Marka? mis...
-		//rates.add(rate);
+		if(rates.containsKey(username))
+		{
+			return false;
+		}
+		rates.put(username,rate);
 		cinema.setRates(rates);
 		bioskopSalaService.update(cinema.getId(), cinema);
 		return true;
@@ -226,5 +278,21 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 		
 		return 0;
 		
+	}
+	
+	private Boolean IsAuthorized(String r,String username)
+	{
+		if(username == null)
+		{
+			return false;
+		}
+		RestTemplate restTemplate = new RestTemplate();
+		final String uri = "http://localhost:8765/user-service/users/getUserRole?username="+username;
+		String rola = restTemplate.getForObject(uri, String.class);
+		if(!rola.equals(r))
+		{
+			return false;
+		}
+		return true;
 	}
 }

@@ -617,24 +617,7 @@ export class ServiceManager {
   }
     //end of reservation section ----------------------------------------------------------------------------
     //comments section ----------------------------------------------------------------------------
-    addNewRate(rate: Rate, token: string)
-    {
-      const headers: Headers = new Headers();
-      headers.append('Content-type', 'application/json');
-      let usertoken = `Bearer ${token}`;
-      headers.append('Authorization', usertoken);
-  
-      const opts: RequestOptions = new RequestOptions();
-      opts.headers = headers;
-  
-      return this.http.post(
-        `http://localhost:51432/api/Rates/PostRate`
-        ,
-        JSON.stringify({
-        
-        }), opts);
-  
-    }
+    
   
     allRatesService(serviceId :number, token : string )
     {
@@ -730,7 +713,7 @@ export class ServiceManager {
       );
     }
 
-    addNewCinema(cinema : Cinema,username: string)
+    addNewCinema(cinema : Cinema,username: string):Observable<any>
     {
       const headers: Headers = new Headers();
       headers.append('Accept', 'application/json');
@@ -752,7 +735,51 @@ export class ServiceManager {
           rates:cinema.rates,
           ranking:0,
           theaters:cinema.theaters
-        }), opts);
+        }), opts).pipe(map((res: Response) => this.extractData(res)));
+    }
+
+    editCinema(cinema : Cinema,username: string):Observable<any>
+    {
+      const headers: Headers = new Headers();
+      headers.append('Accept', 'application/json');
+      headers.append('Content-type', 'application/json');
+      headers.append('Username', username);
+
+      const opts: RequestOptions = new RequestOptions();
+      opts.headers = headers;
+
+      return this.http.put(
+        `http://localhost:8765/bioskopsala-service/cinemas/editCinema`
+        ,
+        JSON.stringify({
+          id: cinema.id,
+          name: cinema.name,
+          street: cinema.street,
+          number: cinema.number,
+          location: cinema.location,
+          rates:cinema.rates,
+          ranking:0,
+          theaters:cinema.theaters
+        }), opts).pipe(map((res: Response) => this.extractData(res)));
+    }
+
+    addNewRate(r: Rate,cinemaId:String, username: string):Observable<any>
+    {
+      const headers: Headers = new Headers();
+      headers.append('Accept', 'application/json');
+      headers.append('Content-type', 'application/json');
+      headers.append('Username', username);
+  
+      const opts: RequestOptions = new RequestOptions();
+      opts.headers = headers;
+  
+      return this.http.post(
+        `http://localhost:8765/bioskopsala-service/cinemas/addRate?id=${cinemaId}`
+        ,
+        JSON.stringify({
+          rate : r
+        }), opts).pipe(map((res: Response) => this.extractData(res)));
+  
     }
 
     getCinemaById(id:String):Observable<any>
@@ -766,6 +793,21 @@ export class ServiceManager {
         `http://localhost:8765/bioskopsala-service/cinemas/findCinemaById?id=${id}`
         ,opts
       ).pipe(map((res: Response) => this.extractData(res)));
+    }
+
+    deleteCinema(cinemaId : String ,username: string)
+    {
+      const headers: Headers = new Headers();
+      headers.append('Accept', 'application/json');
+      headers.append('Content-type', 'application/json');
+      headers.append('Username', username);
+
+      const opts: RequestOptions = new RequestOptions();
+      opts.headers = headers;
+
+      return this.http.delete(
+        `http://localhost:8765/bioskopsala-service/cinemas/deleteCinema?id=${cinemaId}`
+        , opts);
     }
 
     //end of cinema section ----------------------------------------------------------------------------
@@ -792,5 +834,22 @@ export class ServiceManager {
           chairsPerRow:theater.chairsPerRow,
         }), opts);
     }
+
+    deleteTheater(theater : Theater,cinemaId : string ,username: string)
+    {
+      const headers: Headers = new Headers();
+      headers.append('Accept', 'application/json');
+      headers.append('Content-type', 'application/json');
+      headers.append('Username', username);
+
+      const opts: RequestOptions = new RequestOptions();
+      opts.headers = headers;
+
+      return this.http.delete(
+        `http://localhost:8765/bioskopsala-service/cinemas/deleteTheater?idTheater=${theater.id}&&idCinema=${cinemaId}`
+        , opts);
+    }
+
+    
     //end of theater section ----------------------------------------------------------------------------
   }

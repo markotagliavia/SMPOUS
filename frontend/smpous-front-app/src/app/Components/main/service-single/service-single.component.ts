@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import { HttpService } from '../../../Services/http-service.service';
 import { ServiceManager } from '../../../Services/[services].service';
 import { AuthService } from '../../../Services/auth.service';
@@ -12,6 +12,7 @@ import { GeoJson } from '../../../Model/geo-json';
 import { ArrayType } from '@angular/compiler';
 import { TheaterType } from '../../../Model/theathertype';
 import { Theater } from '../../../Model/theather';
+import { CurrentUser } from '../../../Model/current-user';
 
 @Component({
   selector: 'app-service-single',
@@ -116,114 +117,33 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
     (res: any) => {
       this.cinema = res;
       this.theatersFiltered = this.cinema.theaters;
+      if(this.admin == true || this.client == true)
+      {
+        var already = false;
+        if(Object.keys(this.cinema.rates).length != 0)
+        {
+            for (const [key, value] of Object.entries(this.cinema.rates)) {
+              if(key == this.authService.currentUserUsername())
+              {
+                already = true;
+                this.smeDaOceni = false;
+                break;
+              }
+          }
+         
+        }
+        
+       if(already == false)
+       {
+         this.smeDaOceni = true;
+       }
+      }
     },
     error =>{
       console.log(error);
    }
 
    );
-
-   /*this.serviceManager.getService(this.authService.currentUserToken(), this.serviceId).subscribe(
-    (res: any) => {
-             this.service = res;
-             if(this.service.AppUserId == this.authService.currentUserId())
-             {
-                this.smeDaIzmeni = true;
-             }
-             else
-             {
-                this.smeDaIzmeni = false;
-             }
-             this.serviceManager.allRatesService(this.service.Id,this.authService.currentUserToken()).subscribe
-             (
-               (res : any) =>
-               {
-                       res.forEach(element => {
-                         this.rates.push(element);
-                       });
-               },
-               error =>
-               {
-         
-               }
-               
-             )
-             if(this.authService.currentUserName() != undefined)
-             {
-                 this.serviceManager.canLeaveComment(this.authService.currentUserId(),this.service.Id,this.authService.currentUserToken()).subscribe
-                 (
-                     (res:any) =>
-                     {
-                               this.smeDaOceni = true;
-                               
-                     },
-                     error =>
-                     {
-                              this.smeDaOceni = false;
-                     }
-     
-                     
-                 )
-               }
-             this.serviceManager.getBranches(this.authService.currentUserToken()).subscribe(
-              (res: any) => {
-                for(var f1 = 0; f1 < res.length; f1++)
-                {
-                  if(res[f1].ServiceId == this.service.Id)
-                  {
-                    var slikaPov = '';
-                    this.serviceManager.getBranchPicture(res[f1].Id,this.authService.currentUserToken()).subscribe(
-                         (res : any) => {
-                             slikaPov = res;
-                         },
-                         error =>{
-                           console.log(error);
-                         }
-       
-                   )
-                   var djesTijana =
-                   {
-                     Latitude: res[f1].Latitude,
-                     Longitude: res[f1].Longitude,
-                     info : res[f1].Name + " (" + res[f1].Address + ")",
-                     slika : slikaPov
-                   }
-                    this.koordinates.push(djesTijana);
-                  }
-                }
-              },
-              error =>{
-                console.log(error);
-              }
-             );
-
-             this.serviceManager.getPaginationWithFilterCount(this.authService.currentUserToken(), 1, this.numberOfCarsPerPage, "*", "*", "*", 0, 999999, "All", this.service.Id).subscribe(
-              (res: any) => {
-                       this.numberOfCars = res;
-                       this.totalNumber = this.numberOfCars;
-                       this.totalPages = this.totalNumber / this.numberOfCarsPerPage;
-                       for (var index = 1; index <= (this.totalPages + 1); index++) {
-                         this.pageNumbers.push(index);
-                       }
-                       
-                       this.serviceManager.getCarsPaginigWithFilter(this.authService.currentUserToken(), 1, this.numberOfCarsPerPage, "*", "*", "*", 0, 999999, "All", this.service.Id).subscribe(
-                        (res: any) => {
-                          for(let i=0; i<res.length; i++){
-                              this.carsForPrikaz.push(res[i]);
-                          }
-                  
-                          },
-                          error =>{ 
-                          });
-              },
-              error =>{
-                 console.log(error);
-                 
-              });
-          },
-    error =>{
-       console.log(error);
-    });*/
 
   }
 
@@ -233,8 +153,7 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
 
   delete()
   {
-    
-    /*this.serviceManager.deleteService(this.service,this.authService.currentUserToken()).subscribe(
+    this.serviceManager.deleteCinema(this.cinemaId,this.authService.currentUserUsername()).subscribe(
         (res: any) =>
         {
           alert("Successfully deleted");
@@ -246,7 +165,7 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
           this.router.navigate(['../services']);
         }
 
-    )*/
+    )
   }
 
   ocena(star:number)
@@ -256,46 +175,64 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
 
   oceni()
   {
-    //to do
-    /*if(this.rate.Comment.length == 0)
-    {
-      alert('Comment is required');
-      return false;
-    }*/
-    /*this.rate.AppUserId = this.authService.currentUserId();
-    this.rate.ServiceId = this.service.Id;*/
-   /* this.serviceManager.addNewRate(this.rate,this.authService.currentUserToken()).subscribe(
+    
+
+   this.serviceManager.addNewRate(this.rate,this.cinemaId,this.authService.currentUserUsername()).subscribe(
 
       (res: any) =>
       {
-
-        alert('Successfully add comment');
-        this.smeDaOceni = false;
-        this.rate = new Rate(-1,0,'',-1,-1,null);
-        this.rates = []; 
-        this.serviceManager.allRatesService(this.service.Id,this.authService.currentUserToken()).subscribe
-        (
-          (res : any) =>
-          {
-                  res.forEach(element => {
-                    this.rates.push(element);
-                  });
-          },
-          error =>
-          {
-              console.log(error);
-          })
-
+        if(res == true)
+        {
+          alert('Successfully add rate');
+          this.smeDaOceni = false;
+          this.rate = Rate.one;
+        }
+        else
+        {
+          alert("You don't have permission.");
+        }
+        
       },
       error =>
       {
         alert('Do not have permission to leave a comment');
       }
-    )*/
+    );
   }
 
   doPaginacija(num : number)
   {
+    this.serviceManager.getCinemaById(this.cinemaId).subscribe(
+      (res: any) => {
+        this.cinema = res;
+        this.theatersFiltered = this.cinema.theaters;
+        if(this.admin == true || this.client == true)
+        {
+          var already = false;
+          if(Object.keys(this.cinema.rates).length != 0)
+          {
+              for (const [key, value] of Object.entries(this.cinema.rates)) {
+                if(key == this.authService.currentUserUsername())
+                {
+                  already = true;
+                  this.smeDaOceni = false;
+                  break;
+                }
+            }
+           
+          }
+          
+         if(already == false)
+         {
+           this.smeDaOceni = true;
+         }
+        }
+      },
+      error =>{
+        console.log(error);
+     }
+  
+     );
     /*var yearParam = "";
     var modelParam = "";
     var manuParam = "";
@@ -387,38 +324,37 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
 
   receiveMessageBranches($event)
   {
-   /* this.koordinates = [];
-    this.serviceManager.getBranches(this.authService.currentUserToken()).subscribe(
+    this.serviceManager.getCinemaById(this.cinemaId).subscribe(
       (res: any) => {
-        for(var f1 = 0; f1 < res.length; f1++)
+        this.cinema = res;
+        this.theatersFiltered = this.cinema.theaters;
+        if(this.admin == true || this.client == true)
         {
-          if(res[f1].ServiceId == this.service.Id)
+          var already = false;
+          if(Object.keys(this.cinema.rates).length != 0)
           {
-            var slikaPov = '';
-             this.serviceManager.getBranchPicture(res[f1].Id,this.authService.currentUserToken()).subscribe(
-                  (res : any) => {
-                      slikaPov = res;
-                  },
-                  error =>{
-                    console.log(error);
-                  }
-
-            )
-            var djesTijana =
-            {
-              Latitude: res[f1].Latitude,
-              Longitude: res[f1].Longitude,
-              info : res[f1].Name + " (" + res[f1].Address + ")",
-              slika : slikaPov
+              for (const [key, value] of Object.entries(this.cinema.rates)) {
+                if(key == this.authService.currentUserUsername())
+                {
+                  already = true;
+                  this.smeDaOceni = false;
+                  break;
+                }
             }
-            this.koordinates.push(djesTijana);
+           
           }
+          
+         if(already == false)
+         {
+           this.smeDaOceni = true;
+         }
         }
       },
       error =>{
         console.log(error);
-      }
-     );*/
+     }
+  
+     );
   }
 
 }
