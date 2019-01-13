@@ -3,6 +3,9 @@ import { Service } from '../../../Model/service';
 import { ServiceManager } from '../../../Services/[services].service';
 import { AuthService } from '../../../Services/auth.service';
 import { ActivatedRoute } from '@angular/router'; 
+import { Cinema } from '../../../Model/cinema';
+import { GeoJson } from '../../../Model/geo-json';
+import { Rate } from '../../../Model/rate';
 
 @Component({
   selector: 'app-edit-service',
@@ -11,27 +14,26 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class EditServiceComponent implements OnInit, OnDestroy {
 
-  service : Service;
-  errorText : string;
-  selectedFile: File; 
-  serviceId : number;
+  cinema : Cinema;
+  errorText : string; 
+  cinemaId : string;
   private sub : any;
   
 
   constructor(private route: ActivatedRoute,private serviceManager : ServiceManager, private authService : AuthService) { 
     this.errorText = '';
-    this.service = new Service(0,'', '','','',-1,'',false,0);
+    this.cinema = new Cinema('','','','',new GeoJson("Point",[45.25024259251935,19.835199103219566]),new Map<string,Rate>(),0,[]);
     this.sub = this.route.params.subscribe(params => {
-      this.serviceId = +params['id']; // (+) converts string 'id' to a number
+      this.cinemaId = params['id']; // (+) converts string 'id' to a number
    }); 
 
-   /*this.serviceManager.getService(this.authService.currentUserToken(), this.serviceId).subscribe(
+   this.serviceManager.getCinemaById(this.cinemaId).subscribe(
     (res: any) => {
-             this.service = res;
-          },
+      this.cinema = res;
+    },
     error =>{
-       console.log(error);
-    });*/
+      console.log(error);
+      });
    
   }
 
@@ -39,75 +41,41 @@ export class EditServiceComponent implements OnInit, OnDestroy {
   }
 
   onFileChanged(event) {
-    this.selectedFile = event.target.files[0]
+    //this.selectedFile = event.target.files[0]
   }
   changeData()
   {
-    /*if(this.service.Name.length == 0 || this.service.Description.length == 0 || this.service.
-      Email.length == 0 || this.service.Contact.length == 0)
+    if(this.cinema.name.length == 0 || this.cinema.street.length == 0 || this.cinema.number.length == 0)
     {
-      this.errorText = "All fields except logo are requiered";
+      this.errorText = "All fields except theaters are requiered";
+      
       return false;
     }
     else
     {
-      this.errorText = "";
-    }
-    
-    this.serviceManager.putService(this.service, this.authService.currentUserToken()).subscribe
-    (
-      (res:any) =>
-      {
-        if(this.selectedFile != undefined)
-        {
-          this.serviceManager.uploadServicePicture(this.service.Id,this.selectedFile,this.authService.currentUserToken()).subscribe
-          (
-                (res : any) => {
-                        //alert(res._body); 
-                        this.serviceManager.getService(this.authService.currentUserToken(), this.serviceId).subscribe(
-                          (res: any) => {
-                                   this.service = res;
-                                },
-                          error =>{
-                             console.log(error);
-                          });   
-                                    
-                },
-                error =>
-                {
-                        alert(error.json().Message);
-                        //return false;
-                }
-          )
-        }
-              alert("Successfully changed service");
-              this.serviceManager.getService(this.authService.currentUserToken(), this.serviceId).subscribe(
-                (res: any) => {
-                         this.service = res;
-                      },
-                error =>{
-                   console.log(error);
-                }); 
+          this.errorText = "";
+          this.serviceManager.editCinema(this.cinema,this.authService.currentUserUsername()).subscribe(
+
+            (res : any) => {
+
+              if(res == true)
+              {
+                
+                alert("Successful edited cinema"); 
+              }
+              else
+              {
+                alert("You don't have permission.");
+              }
               
-      },
-      error =>
-      {
-              alert(error.json().Message);
-              this.serviceManager.getService(this.authService.currentUserToken(), this.serviceId).subscribe(
-                (res: any) => {
-                         this.service = res;
-                      },
-                error =>{
-                   console.log(error);
-                }); 
-      }
-
-      
-      
-    )
-
-                 
-*/
+            
+            },
+            error =>
+            {
+                    //alert(error.json().Message);
+                    return false;
+            })
+    }
   }
 
   ngOnDestroy() {

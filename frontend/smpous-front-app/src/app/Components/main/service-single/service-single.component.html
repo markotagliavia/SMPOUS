@@ -30,6 +30,22 @@
 
   <section class="model-area section-gap" >
     <div class="container" style="width:50em">
+        <div class="row d-flex justify-content-center pb-40">
+            <div class="title justify-content-between d-flex">
+                <div class="from-group">
+                <h1 class="text-center pb-10">About cinema:</h1>
+                <h6 class="mt-20">Street:{{cinema.street}}</h6>
+            
+                <h6 class="mt-20">Number:{{cinema.number}}</h6>
+            
+                <h6 class="mt-20">Longitude:{{cinema.location.coordinates[0]}}</h6>
+            
+                <h6 class="mt-20">Latitude:{{cinema.location.coordinates[1]}}</h6>
+                </div>
+            
+              </div>
+          </div>
+
       <div class="row d-flex justify-content-center pb-40">
           <div class="col-md-8 pb-40 header-text">
             <h1 class="text-center pb-10">Choose your theater</h1>
@@ -53,7 +69,7 @@
   
           </div>
         </form>
-        <app-car-unit *ngFor = "let theater of theatersFiltered" [theater] = 'theater' (messageEvent)="receiveMessage($event)" ></app-car-unit>
+        <app-car-unit *ngFor = "let theater of theatersFiltered" [theater] = 'theater' [cinemaId] = 'cinema.id' (messageEvent)="receiveMessage($event)" ></app-car-unit>
         <div class="row d-flex justify-content-center pb-40" >
             <div style="padding-left:1em"><a class="genric-btn primary text-center" *ngFor="let number of pageNumbers" (click)="doPaginacija(number)" >{{number}}</a></div>
         </div>

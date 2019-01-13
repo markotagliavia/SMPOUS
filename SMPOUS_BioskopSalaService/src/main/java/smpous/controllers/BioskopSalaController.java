@@ -59,9 +59,14 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 		return "hi";
 	}
 	
-	@RequestMapping(value = "/addCinema",method = RequestMethod.POST)
-	public Boolean AddCinema(@RequestBody Cinema cinema,@HeaderParam("Username") String username)
+	@RequestMapping(value = "/addCinema",method = RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public Boolean AddCinema(@RequestBody Cinema cinema,@RequestHeader(value="Username") String username)
 	{
+		if(IsAuthorized("admin",username)== false)
+		{
+			return false;
+		}
 		cinema.setId(UUID.randomUUID().toString());
 		bioskopSalaService.save(cinema);
 		
@@ -126,23 +131,38 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 		return bioskopSalaService.findAllCinema();
 	}
 	
-	@RequestMapping(value = "/editCinema",method = RequestMethod.PUT)
-	public Boolean EditCinema(@RequestBody Cinema cinema)
+	@RequestMapping(value = "/editCinema",method = RequestMethod.PUT, produces = "application/json")
+	@ResponseBody
+	public Boolean EditCinema(@RequestBody Cinema cinema,@RequestHeader(value="Username") String username)
 	{
+		if(IsAuthorized("admin",username)== false)
+		{
+			return false;
+		}
 		bioskopSalaService.update(cinema.getId(), cinema);
 		return true;
 	}
 	
-	@RequestMapping(value = "/deleteCinema",method = RequestMethod.DELETE)
-	public Boolean DeleteCinema(@RequestParam(name = "id") String id)
+	@RequestMapping(value = "/deleteCinema",method = RequestMethod.DELETE, produces = "application/json")
+	@ResponseBody
+	public Boolean DeleteCinema(@RequestParam(name = "id") String id,@RequestHeader(value="Username") String username)
 	{
+		if(IsAuthorized("admin",username)== false)
+		{
+			return false;
+		}
 		bioskopSalaService.delete(id);
 		return true;
 	}
 	
-	@RequestMapping(value = "/addTheater",method = RequestMethod.POST)
-	public Boolean AddTheater(@RequestBody Theater theater,@RequestParam(name = "id") String id,@HeaderParam("Username") String username)
+	@RequestMapping(value = "/addTheater",method = RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public Boolean AddTheater(@RequestBody Theater theater,@RequestParam(name = "id") String id,@RequestHeader(value="Username") String username)
 	{
+		if(IsAuthorized("admin",username)== false)
+		{
+			return false;
+		}
 		Cinema cinema = bioskopSalaService.findOne(id);
 		theater.setId(UUID.randomUUID().toString());
 		HashSet<Theater> theaters = cinema.getTheaters();
@@ -156,9 +176,21 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 		return true;
 	}
 	
-	@RequestMapping(value = "/deleteTheater",method = RequestMethod.DELETE)
-	public Boolean DeleteTheater(@RequestParam(name = "idTheater") String idTheater,@RequestParam(name = "idCinema") String idCinema)
+	@RequestMapping(value = "/deleteTheater",method = RequestMethod.DELETE, produces = "application/json")
+	@ResponseBody
+	public Boolean DeleteTheater(@RequestParam(name = "idTheater") String idTheater,@RequestParam(name = "idCinema") String idCinema,@RequestHeader(value="Username") String username)
 	{
+		if(IsAuthorized("admin",username)== false)
+		{
+			return false;
+		}
+		RestTemplate restTemplate = new RestTemplate();
+		final String uri = "http://localhost:8765/user-service/users/getUserRole?username="+username;
+		String rola = restTemplate.getForObject(uri, String.class);
+		if(!rola.equals("admin"))
+		{
+			return false;
+		}
 		Cinema cinema = bioskopSalaService.findOne(idCinema);
 		HashSet<Theater> theaters = cinema.getTheaters();
 		if(theaters != null)
@@ -191,13 +223,12 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 	@ResponseBody
 	public Boolean AddRate(@RequestBody ObjectNode obj,@RequestParam(name = "id") String id,@RequestHeader(value="Username") String username)
 	{
-		//String username = headers.getRequestHeader("Username").get(0);
 		Rate rate = Rate.getRate(obj.get("rate").asInt());
-		final String uri = "http://localhost:8765/user-service/users/getUser?username="+username;
+		final String uri = "http://localhost:8765/user-service/users/getUserId?username="+username;
 	     
 	    RestTemplate restTemplate = new RestTemplate();
-	    User user = restTemplate.getForObject(uri, User.class);
-	    if(user == null)
+	    String user = restTemplate.getForObject(uri, String.class);
+	    if(user.equals(""))
 	    {
 	    	return false;
 	    }
@@ -207,11 +238,11 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 		{
 			rates = new HashMap<String,Rate>();
 		}
-		if(rates.containsKey(user.getId()))
+		if(rates.containsKey(username))
 		{
 			return false;
 		}
-		rates.put(user.getId(),rate);
+		rates.put(username,rate);
 		cinema.setRates(rates);
 		bioskopSalaService.update(cinema.getId(), cinema);
 		return true;
@@ -247,5 +278,21 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 		
 		return 0;
 		
+	}
+	
+	private Boolean IsAuthorized(String r,String username)
+	{
+		if(username == null)
+		{
+			return false;
+		}
+		RestTemplate restTemplate = new RestTemplate();
+		final String uri = "http://localhost:8765/user-service/users/getUserRole?username="+username;
+		String rola = restTemplate.getForObject(uri, String.class);
+		if(!rola.equals(r))
+		{
+			return false;
+		}
+		return true;
 	}
 }

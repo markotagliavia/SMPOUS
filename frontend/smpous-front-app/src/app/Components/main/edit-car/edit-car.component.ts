@@ -6,6 +6,8 @@ import { HttpService } from '../../../Services/http-service.service';
 import { TypeOfVehicle } from '../../../Model/type-of-vehicle'; 
 import { PriceList } from '../../../Model/pricelist';
 import { ActivatedRoute } from '@angular/router'; 
+import { Theater } from '../../../Model/theather';
+import { TheaterType } from '../../../Model/theathertype';
 
 @Component({
   selector: 'app-edit-car',
@@ -15,21 +17,23 @@ import { ActivatedRoute } from '@angular/router';
 export class EditCarComponent implements OnInit,OnChanges,OnDestroy {
 
   errorText : string;
-  types: TypeOfVehicle[];
+  types: TheaterType[];
   typeNameInput : string;
   typeNameSelected : string;
-  typeOfVehicle : TypeOfVehicle;
-  selectedFile: File[];
-  car:Vehicle;
-  carId : number;
+  theaterType : TheaterType;
+  theater:Theater;
+  theatherId : string;
   private sub : any;
 
   constructor(private serviceManager : ServiceManager, private authService : AuthService, public httpService: HttpService, private route: ActivatedRoute) {
     this.typeNameInput = "";
     this.typeNameSelected = "";
     this.types = [];
+    this.types.push(TheaterType.normal);
+    this.types.push(TheaterType.projection3D);
+    this.types.push(TheaterType.projection4D);
     this.errorText = "";
-    this.car = new Vehicle(-1,'','','','',true,-1,-1,[],[],-1);
+    this.theater = new Theater('','',0,TheaterType.normal,0,0);
     /*this.sub = this.route.params.subscribe(params => {
       this.carId = +params['id']; // (+) converts string 'id' to a number
       this.serviceManager.getCar(this.authService.currentUserToken(),this.carId).subscribe(
@@ -70,9 +74,9 @@ export class EditCarComponent implements OnInit,OnChanges,OnDestroy {
   }
 
    ngOnChanges(changes: SimpleChanges) {
-    if(changes['carId'])
+    if(changes['theatherId'])
     {
-      if(this.carId != undefined)
+      if(this.theatherId != undefined)
       {
 
         
@@ -86,7 +90,7 @@ export class EditCarComponent implements OnInit,OnChanges,OnDestroy {
   }
 
   onFileChanged(event) {
-    this.selectedFile = event.target.files;
+    //this.selectedFile = event.target.files;
   }
   ngOnDestroy() {
     this.sub.unsubscribe();
