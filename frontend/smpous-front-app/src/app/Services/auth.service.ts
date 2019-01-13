@@ -240,22 +240,21 @@ export class AuthService {
     
 
     
-    changePassword(currentPass: string, newPass: string, confirmPass: string, access_token: string){
+    changePassword(userOnSession : string, currentPass: string, newPass: string, confirmPass: string): Observable<any>{
        
         const headers: Headers = new Headers();
         headers.append('Accept', 'application/json');
         headers.append('Content-type', 'application/json');
-        let token = `Bearer ${access_token}`;
-        headers.append('Authorization', token);
 
         const opts: RequestOptions = new RequestOptions();
         opts.headers = headers;
 
-        return this.http.post(`http://localhost:51432/api/Account/ChangePassword`,
+        return this.http.post(`http://localhost:8765/user-service/users/changePassword`,
          JSON.stringify({
-             OldPassword: currentPass,
-             NewPassword: newPass,
-             ConfirmPassword: confirmPass
+             userOnSession : userOnSession,
+             oldPassword: currentPass,
+             newPassword: newPass,
+             confirmPassword: confirmPass
          }), opts);
     }
 }

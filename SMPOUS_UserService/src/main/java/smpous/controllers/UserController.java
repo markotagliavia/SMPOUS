@@ -107,11 +107,18 @@ public class UserController extends AbstractRESTController<User, String>{
 		return user != null;
 	}
 	
-	@RequestMapping(value = "/getUser", method = RequestMethod.GET)
-	public User getUserRole(
+	@RequestMapping(value = "/getUserRole", method = RequestMethod.GET)
+	public String getUserRole(
 			@RequestParam(name = "username") String username
 	){
-		return userService.findByUsername(username);
+		return userService.findByUsername(username).getTypeOfUser();
+	}
+	
+	@RequestMapping(value = "/getUserId", method = RequestMethod.GET)
+	public String getUserId(
+			@RequestParam(name = "username") String username
+	){
+		return userService.findByUsername(username).getId();
 	}
 	
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
@@ -158,6 +165,20 @@ public class UserController extends AbstractRESTController<User, String>{
 		List<User> all = userService.findByUsernameAndFirstNameAndSurnameAndIsActiveAndAddressNear(userOnSession, username, firstName, surname, isActive, radius, x, y);
 		return all;
 	}
+	
+	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
+	public User changePass(@RequestBody ObjectNode json){
+		 String username = json.get("userOnSession").asText();
+		 String old = json.get("oldPassword").asText();
+		 String newP = json.get("newPassword").asText();
+		 String confirm = json.get("confirmPassword").asText();
+		 if(newP.equals(confirm))
+		 {
+				return userService.changePass(username, newP);
+		 }
+		 else return null;
+	}
+	
 
 
 }
