@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
@@ -99,7 +100,7 @@ public class UserService extends AbstractCRUDService<User, String>{
 	}
 	
 	public List<User> findByAddressNear(int radius, double x, double y) {
-		Distance d = new Distance(radius);
+		Distance d = new Distance(radius, Metrics.KILOMETERS);
 		Point p = new Point(x,y);
 		return userRepository.findByAddressNear(p, d);
 	}
@@ -140,7 +141,7 @@ public class UserService extends AbstractCRUDService<User, String>{
 		if(!username.equals("*") && !firstName.equals("*") && !surname.equals("*"))
 		{
 			Point p = new Point(x,y);
-			Distance d = new Distance(radius);
+			Distance d = new Distance(radius, Metrics.KILOMETERS);
 			return userRepository.findByUsernameAndNameAndLastnameAndIsActiveAndAddressNear(username, firstName, surname, isActive, p, d);
 		}
 		else

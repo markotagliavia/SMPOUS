@@ -6,6 +6,7 @@
 			<div class="visit">{{user.number}}</div>
 			<div class="visit">{{user.latitude}}</div>
 			<div class="visit">{{user.longitude}}</div>
+			<div class="visit">{{user.registrationDay}}</div>
 			<div class="visit" *ngIf = "unverified"><a class="genric-btn primary" (click) = 'verifyUser()'>Activate</a></div>
 			<div class="visit" *ngIf = "!unverified"><a class="genric-btn primary" (click) = 'UNverifyUser()'>Deactivate</a></div>
 		</div>

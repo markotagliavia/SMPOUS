@@ -24,7 +24,6 @@ export class AdminPanelClientManagingComponent implements OnInit {
     this.usernameInput = "";
     this.firstNameInput = "";
     this.lastNameInput = "";
-    this.radiusInput = 0;
     this.isActiveInput = true;
     this.radiusInput = 999999999;
     this.x = 0;
