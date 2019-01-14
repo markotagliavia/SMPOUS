@@ -40,7 +40,7 @@ export const routes :Routes = [
 	{path: 'services/edit/:id', component: EditServiceComponent, canActivate : [EditCarGuard]},
 	{path: 'serviceSingle/:id', component: ServiceSingleComponent},
 	{path: 'cars/new/:id', component: AddNewCarComponent, canActivate : [AddCarGuard]},
-	{path: 'cars/edit/:id', component: EditCarComponent, canActivate : [EditServiceGuard]},
+	{path: 'cars/edit/:id/:id2', component: EditCarComponent, canActivate : [EditServiceGuard]},
 	{path: 'types', component: AddNewCarTypeComponent},
 	{path: 'reservation/:id', component: ReservationComponent, canActivate : [ReservationGuard]},
 	{path: 'editReservation/:id', component: EditReservationComponent, canActivate : [EditReservationGuard]},

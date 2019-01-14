@@ -54,21 +54,6 @@
             </p>
           </div>
       </div>
-
-      <form class="form" role="form" autocomplete="off">		
-          <div class="form-group">
-            <div class="row d-flex justify-content-center pb-40">
-              <div>
-                <p style="color:black">Types:</p>
-                <select style="width:10em" name="typeNameSel" [(ngModel)] ="typeNameSelected" (change) = 'doPaginacija(1)'>
-                  <option>All</option>
-                  <option *ngFor = "let type of types" [value]="type.toString()">{{type.toString()}}</option>
-                </select>
-              </div>
-            </div>
-  
-          </div>
-        </form>
         <app-car-unit *ngFor = "let theater of theatersFiltered" [theater] = 'theater' [cinemaId] = 'cinema.id' (messageEvent)="receiveMessage($event)" ></app-car-unit>
         <div class="row d-flex justify-content-center pb-40" >
             <div style="padding-left:1em"><a class="genric-btn primary text-center" *ngFor="let number of pageNumbers" (click)="doPaginacija(number)" >{{number}}</a></div>

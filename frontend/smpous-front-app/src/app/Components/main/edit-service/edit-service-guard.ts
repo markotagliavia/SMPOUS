@@ -13,7 +13,7 @@ export class EditServiceGuard implements CanActivate{
 
     /// metoda vraca boolean ili Observable ili Promise
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean> {
-        return  this.authService.isLoggedInRole("Manager"); // vrsi proveru da li je logovan i vraca true (sme da ode na protecte) ili false (ne sme da ode na protected)
+        return  this.authService.isLoggedInRole("Admin"); // vrsi proveru da li je logovan i vraca true (sme da ode na protecte) ili false (ne sme da ode na protected)
     }
 
 

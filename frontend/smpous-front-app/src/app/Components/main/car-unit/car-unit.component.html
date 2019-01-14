@@ -17,7 +17,7 @@
 		</div>
 		
 
-		<a class="text-uppercase primary-btn" [routerLink]="['/cars/edit',theater.id]" *ngIf = "admin">Edit Theater</a>
+		<a class="text-uppercase primary-btn" [routerLink]="['/cars/edit',theater.id, cinemaId]" *ngIf = "admin">Edit Theater</a>
 		<a class="text-uppercase primary-btn" (click)='deleteVehicle()' *ngIf = "admin">Delete Theater</a>
 		
 	</div>

@@ -190,6 +190,7 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 			if(temp!= null)
 			{
 				theaters.remove(temp);
+				theaters.add(theater);
 			}
 		}
 		
@@ -198,8 +199,7 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 		return true;
 	}
 	
-	@RequestMapping(value = "/getTheater",method = RequestMethod.GET, produces = "application/json")
-	@ResponseBody
+	@RequestMapping(value = "/getTheater",method = RequestMethod.GET)
 	public Theater GetTheater(@RequestParam(name = "idTheater") String idTheater,@RequestParam(name = "idCinema") String idCinema)
 	{
 		

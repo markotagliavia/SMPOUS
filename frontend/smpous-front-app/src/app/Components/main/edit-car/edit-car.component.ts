@@ -37,17 +37,19 @@ export class EditCarComponent implements OnInit,OnChanges,OnDestroy {
     this.theater = new Theater('','',0,TheaterType.normal,0,0);
 
     this.sub = this.route.params.subscribe(params => {
-      this.theaterId = params['id']; // (+) converts string 'id' to a number
+      this.theaterId = params['id']; 
+      this.cinemaId = params['id2'];
+      console.log(this.cinemaId);// (+) converts string 'id' to a number jesi dobila theater id ok?pa  dook nisam ubacio id2
    }); 
 
-    /*this.serviceManager.getTheater(this.theaterId,this.cinemaId).subscribe(
+    this.serviceManager.getTheater(this.theaterId,this.cinemaId).subscribe(
       (res: any) => {
         this.theater =  res;
         this.typeNameSelected = this.theater.theaterType.toString();
       },
       error =>{
         console.log(error);
-     });*/
+     });
     
   }
 
@@ -93,7 +95,7 @@ export class EditCarComponent implements OnInit,OnChanges,OnDestroy {
       } 
     }
 
-    /*this.serviceManager.editTheater(this.theater,this.cinemaId,this.authService.currentUserUsername()).subscribe(
+    this.serviceManager.editTheater(this.theater,this.cinemaId,this.authService.currentUserUsername()).subscribe(
       (res: any) => {
         this.theater = new Theater('','',0,TheaterType.normal,0,0);
         
@@ -101,7 +103,7 @@ export class EditCarComponent implements OnInit,OnChanges,OnDestroy {
       },
       error =>{
         console.log(error);
-     });*/
+     });
 
   }
   
