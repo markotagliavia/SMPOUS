@@ -22,7 +22,8 @@ export class EditCarComponent implements OnInit,OnChanges,OnDestroy {
   typeNameSelected : string;
   theaterType : TheaterType;
   theater:Theater;
-  theatherId : string;
+  theaterId : string;
+  cinemaId : string;
   private sub : any;
 
   constructor(private serviceManager : ServiceManager, private authService : AuthService, public httpService: HttpService, private route: ActivatedRoute) {
@@ -34,49 +35,26 @@ export class EditCarComponent implements OnInit,OnChanges,OnDestroy {
     this.types.push(TheaterType.projection4D);
     this.errorText = "";
     this.theater = new Theater('','',0,TheaterType.normal,0,0);
-    /*this.sub = this.route.params.subscribe(params => {
-      this.carId = +params['id']; // (+) converts string 'id' to a number
-      this.serviceManager.getCar(this.authService.currentUserToken(),this.carId).subscribe(
-        (res: any) => {
-                 
-            this.car = res;
 
-            this.serviceManager.getPrice(this.authService.currentUserToken(),this.carId).subscribe(
-              (res: any) => {
-                this.car.Price = res.Price;
-              },
-              error => 
-              {
+    this.sub = this.route.params.subscribe(params => {
+      this.theaterId = params['id']; // (+) converts string 'id' to a number
+   }); 
 
-              }
-            )
-
-        },
-        error =>{
-
-        });*/
-
+    /*this.serviceManager.getTheater(this.theaterId,this.cinemaId).subscribe(
+      (res: any) => {
+        this.theater =  res;
+        this.typeNameSelected = this.theater.theaterType.toString();
+      },
+      error =>{
+        console.log(error);
+     });*/
     
-      
-      /*this.httpService.getTypeOfVehicle(this.authService.currentUserToken()).subscribe(
-        (res: any) => {
-                 
-                for(let i=0; i<res.length; i++){
-                  this.types.push(res[i]); //use i instead of 0
-              }     
-        },
-        error =>{
-    
-        });
-
-   }); */
-
   }
 
    ngOnChanges(changes: SimpleChanges) {
     if(changes['theatherId'])
     {
-      if(this.theatherId != undefined)
+      if(this.theaterId != undefined)
       {
 
         
@@ -98,7 +76,7 @@ export class EditCarComponent implements OnInit,OnChanges,OnDestroy {
 
   newCar()
   {
-   /* if(this.car.Mark.length == 0 || this.car.Model.length == 0 || this.car.Year.length == 0 || this.car.Description.length == 0 || this.typeNameSelected.length == 0)
+    if(this.theater.name.length == 0 || this.theater.capacity == 0 || this.theater.chairsPerColumn == 0 || this.theater.chairsPerRow == 0 || this.typeNameSelected.length == 0)
     {
        this.errorText = "All fields except picture are requiered";
        return false;
@@ -107,60 +85,23 @@ export class EditCarComponent implements OnInit,OnChanges,OnDestroy {
     {
       this.errorText = "";
       for(let i=0; i<this.types.length; i++){
-        if(this.types[i].Name == this.typeNameSelected)
+        if(this.types[i] == this.typeNameSelected)
         {
-            this.car.TypeOfVehicleId = this.types[i].Id;
+            this.theater.theaterType = this.types[i];
             break;
         }
-      }     
+      } 
+    }
 
-
-      this.serviceManager.putCar(this.car,this.authService.currentUserToken()).subscribe(
-
-        (res : any) => {
-
-          let price : PriceList;
-          price  = new PriceList(-1,this.car.Id,'2018.8.5','2020.5.5',this.car.Price);
-
-          this.serviceManager.addNewPrice(price,this.authService.currentUserToken()).subscribe(
-
-            (res: any) =>
-            {
-                    console.log('ok');
-                    
-            },
-            error =>
-            {
-
-            }
-            
-          )
-
-         /* if(this.selectedFile != undefined)
-          {
-            this.serviceManager.uploadServicePicture(res._body,this.selectedFile[0],this.authService.currentUserToken()).subscribe
-            (
-                  (res : any) => {
-                          //alert(res._body);                             
-                  },
-                  error =>
-                  {
-                          alert(error.json().Message);
-                          return false;
-                  }
-            )
-          }
-              
-            alert("Successfully edited vehicle");   
-            
+    /*this.serviceManager.editTheater(this.theater,this.cinemaId,this.authService.currentUserUsername()).subscribe(
+      (res: any) => {
+        this.theater = new Theater('','',0,TheaterType.normal,0,0);
+        
+        alert("Successful edited theater"); 
       },
-      error =>
-      {
-              alert(error.json().Message);
-              return false;
-      });
-    
-}*/
+      error =>{
+        console.log(error);
+     });*/
 
   }
   

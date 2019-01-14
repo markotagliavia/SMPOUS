@@ -67,48 +67,10 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 		{
 			return false;
 		}
+		cinema.setTheaters(new HashSet<Theater>());
+		cinema.setRates(new HashMap<String,Rate>());
 		cinema.setId(UUID.randomUUID().toString());
 		bioskopSalaService.save(cinema);
-		
-		/*Cinema cin = new Cinema();
-		cin.setId(UUID.randomUUID().toString());
-		cin.setRanking(0);
-		cin.setName("Test1");
-		GeoJsonPoint t = new GeoJsonPoint(40.743827,-73.989015);
-		cin.setLocation(t);
-		cin.setStreet("Pere Perica");
-		cin.setNumber("25");
-		Map<String,Rate> rates = new HashMap<String,Rate>();
-		//rates.add(Rate.three);
-		cin.setRates(rates);
-		bioskopSalaService.save(cin);
-		
-		Cinema cin1 = new Cinema();
-		cin1.setId(UUID.randomUUID().toString());
-		cin1.setRanking(0);
-		cin1.setName("Test1");
-		GeoJsonPoint t1 = new GeoJsonPoint(30.743827,-72.989015);
-		cin1.setLocation(t1);
-		cin1.setStreet("Marka Markovica");
-		cin1.setNumber("47");
-		//Map<String,Rate> rates = new HashMap<String,Rate>();
-		//rates.add(Rate.three);
-		cin1.setRates(rates);
-		bioskopSalaService.save(cin1);
-		
-		Cinema cin2 = new Cinema();
-		cin2.setId(UUID.randomUUID().toString());
-		cin2.setRanking(0);
-		cin2.setName("Test1");
-		
-		GeoJsonPoint t2 = new GeoJsonPoint(35.743827,-71.989015);
-		cin2.setLocation(t2);
-		cin2.setStreet("Mike Mikica");
-		cin2.setNumber("56");
-		//Map<String,Rate> rates = new HashMap<String,Rate>();
-		//rates.add(Rate.three);
-		cin2.setRates(rates);
-		bioskopSalaService.save(cin2);*/
 		return true;
 		
 	}
@@ -184,13 +146,6 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 		{
 			return false;
 		}
-		RestTemplate restTemplate = new RestTemplate();
-		final String uri = "http://localhost:8765/user-service/users/getUserRole?username="+username;
-		String rola = restTemplate.getForObject(uri, String.class);
-		if(!rola.equals("admin"))
-		{
-			return false;
-		}
 		Cinema cinema = bioskopSalaService.findOne(idCinema);
 		HashSet<Theater> theaters = cinema.getTheaters();
 		if(theaters != null)
@@ -212,6 +167,60 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 		bioskopSalaService.update(cinema.getId(), cinema);
 		return true;
 	}
+	
+	@RequestMapping(value = "/editTheater",method = RequestMethod.PUT, produces = "application/json")
+	@ResponseBody
+	public Boolean EditTheater(@RequestBody Theater theater,@RequestParam(name = "idCinema") String idCinema,@RequestHeader(value="Username") String username)
+	{
+		if(IsAuthorized("admin",username)== false)
+		{
+			return false;
+		}
+		Cinema cinema = bioskopSalaService.findOne(idCinema);
+		HashSet<Theater> theaters = cinema.getTheaters();
+		if(theaters != null)
+		{
+			Theater temp = null;
+			for (Theater t : theaters) {
+		        if (t.getId().equals(theater.getId())) {
+		            temp = t;
+		            break;
+		        }
+		    }
+			if(temp!= null)
+			{
+				theaters.remove(temp);
+			}
+		}
+		
+		cinema.setTheaters(theaters);
+		bioskopSalaService.update(cinema.getId(), cinema);
+		return true;
+	}
+	
+	@RequestMapping(value = "/getTheater",method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public Theater GetTheater(@RequestParam(name = "idTheater") String idTheater,@RequestParam(name = "idCinema") String idCinema)
+	{
+		
+		Cinema cinema = bioskopSalaService.findOne(idCinema);
+		if(cinema == null)
+		{
+			return null;
+		}
+		HashSet<Theater> theaters = cinema.getTheaters();
+		if(theaters != null)
+		{
+			Theater temp = null;
+			for (Theater t : theaters) {
+		        if (t.getId().equals(idTheater)) {
+		            return t;
+		        }
+		    }
+		}
+		return null;
+	}
+	
 	
 	@RequestMapping(value = "/allTheaters",method = RequestMethod.GET)
 	public HashSet<Theater> GetAllTheathers(@RequestParam(name = "id") String id)
@@ -294,5 +303,17 @@ public class BioskopSalaController extends AbstractRESTController<Cinema, String
 			return false;
 		}
 		return true;
+	}
+	
+	@RequestMapping(value = "search/findGeneral", method = RequestMethod.POST)
+	public List<Cinema> findGeneral(@RequestBody ObjectNode json) {
+		String userOnSession = json.get("userOnSession").asText();
+		 String name = json.get("name").asText();
+		 Boolean isSort = json.get("isSort").asBoolean();
+		 double radius = json.get("radius").asDouble();
+		 double x = json.get("x").asDouble();
+		 double y = json.get("y").asDouble();
+		List<Cinema> all = bioskopSalaService.findByNameAndAndAddressNear(userOnSession, name, isSort, radius, x, y);
+		return all;
 	}
 }
