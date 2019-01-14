@@ -67,7 +67,19 @@ export class HeaderComponent implements OnInit,OnChanges {
               this.client = true;
               this.clientOnly = true;
             }
+            else
+            {
+              this.clientOnly = true;
+            }
         }
+        else
+        {
+          this.clientOnly = true;
+        }
+    }
+    else
+    {
+      this.clientOnly = true;
     }
   }
 

@@ -18,25 +18,23 @@ export class ServicesMainComponent implements OnInit {
   admin : boolean;
   smeDaKreira : boolean;
   cinemas : Cinema[];
+  nameInput : string;
+  radiusInput : number;
+  isSortInput : boolean;
+  x:number;
+  y:number;
 
   constructor(public serviceManager: ServiceManager,private authService: AuthService) { 
     this.client = false;
     this.manager = false;
     this.admin = false;
     this.smeDaKreira = true;
-    this.cinemas = []; //to do uraditi zahtev za dobijanje...
-    this.serviceManager.getCinema().subscribe(
-      (res: any) => {
-               
-              for(let i=0; i<res.length; i++){
-                this.cinemas.push(res[i]); //use i instead of 0
-            }     
-      },
-      error =>{
-          console.log(error);
-      }
-      
-    )
+    this.nameInput = "";
+    this.isSortInput = false;
+    this.radiusInput = 999999999;
+    this.x = 0;
+    this.y = 0;
+    this.search();
   }
 
   ngOnInit() {
@@ -55,6 +53,33 @@ export class ServicesMainComponent implements OnInit {
             }
         }
     }
+  }
+
+  search()
+  {
+    this.cinemas = []; //to do uraditi zahtev za dobijanje...
+    var nameParam = "";
+    if(this.nameInput == "")
+    {
+      nameParam = "*";
+    }
+    else 
+    {
+      nameParam = this.nameInput;
+    }
+    this.serviceManager.getCinemaWithFilter(this.authService.currentUserUsername(), nameParam, this.x, this.y, this.radiusInput, this.isSortInput).subscribe(
+      (res: any) => {
+               console.log(res);
+              for(let i=0; i<res.length; i++){
+                this.cinemas.push(res[i]); //use i instead of 0
+            }     
+      },
+      error =>{
+          console.log(error);
+      }
+      
+    )
+
   }
 
 }
