@@ -9,7 +9,40 @@
 								Choose your cinema and browse movies, theaters and projections.
 							</p>
 						</div>
-					</div>					
+					</div>
+					
+					<!--SEARCH PART -->
+					<form class="form" role="form" autocomplete="off">		
+						<div class="form-group">
+							<div class="row d-flex justify-content-center pb-40">
+								<div>
+										<p style="color:black">Sort by rank:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+										<input type="checkbox"  [(ngModel)]="isSortInput" name="isSort" (change)="search()">
+								</div>
+
+								<div>
+										<p style="color:black">Cinema name:</p>
+										<input class="form-control txt-field" type="text" name="name" placeholder="Name" [(ngModel)]="nameInput" (change) = 'search()'>
+								</div>
+
+								<div>
+										<p style="color:black">X:</p>
+										<input class="form-control txt-field" type="number" name="x"  [(ngModel)]="x" (change) = 'search()'>
+								</div>
+		
+								<div>
+										<p style="color:black">Y:</p>
+										<input class="form-control txt-field" type="number" name="y" [(ngModel)]="y" (change) = 'search()'>
+								</div>
+			
+								<div>
+										<p style="color:black">Near by radius in KM:</p>
+										<input class="form-control txt-field" type="number" name="radius" placeholder="value" [(ngModel)]="radiusInput" (change) = 'search()'>
+								</div>
+							</div>
+						</div>
+					</form>
+
 					<div class="row">
 						<div class="col-lg-4 col-md-6" *ngFor = "let cinema of cinemas">
 							<app-service-unit [cinema] = 'cinema'></app-service-unit>

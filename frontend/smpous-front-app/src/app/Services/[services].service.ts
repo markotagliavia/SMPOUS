@@ -698,6 +698,27 @@ export class ServiceManager {
       return this.http.get(url, opts).pipe(map((res: Response) => this.extractData(res)));
     }
 
+    getCinemaWithFilter(userOnSession : string, name : string, x : number, y : number, radius : number, isSort : boolean): Observable<any>
+    {
+      console.log(name, x, y, radius, isSort);
+      const headers: Headers = new Headers();
+      headers.append('Accept', 'application/json');
+      headers.append('Content-type', 'application/json');
+      const opts: RequestOptions = new RequestOptions();
+      opts.headers = headers;
+      return this.http.post(
+        `http://localhost:8765/bioskopsala-service/cinemas/search/findGeneral`
+        ,
+        JSON.stringify({
+          userOnSession : userOnSession,
+          name : name,
+          isSort : isSort,
+          radius : radius,
+          x:x,
+          y:y
+        }), opts).pipe(map((res: Response) => this.extractData(res)));
+    }
+
     getAverageMark(id:String)
     {
       const headers: Headers = new Headers();
