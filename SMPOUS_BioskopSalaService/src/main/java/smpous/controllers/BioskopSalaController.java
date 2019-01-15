@@ -36,7 +36,7 @@ import smpous.models.Theater;
 import smpous.models.User;
 import smpous.services.BioskopSalaService;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("cinemas")
 public class BioskopSalaController extends AbstractRESTController<Cinema, String>{
