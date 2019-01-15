@@ -17,7 +17,7 @@ public class Movie implements Serializable{
 			
 		}
 		
-		public Movie(int id, String name, String description, int durationIMinuts, String language, ArrayList<Rate> rates,
+		public Movie(String id, String name, String description, int durationIMinuts, String language, ArrayList<Rate> rates,
 				Genre genre, Date datePremier, HashSet<Person> directors, HashSet<Person> actors) {
 			super();
 			this.id = id;
@@ -32,7 +32,7 @@ public class Movie implements Serializable{
 			this.actors = actors;
 		}
 		@Id
-		private int id;
+		private String id;
 	   
 		private String name;
 	  
@@ -52,11 +52,11 @@ public class Movie implements Serializable{
 		   
 		private HashSet<Person> actors;
 
-		public int getId() {
+		public String getId() {
 			return id;
 		}
 	
-		public void setId(int id) {
+		public void setId(String id) {
 			this.id = id;
 		}
 	
