@@ -126,7 +126,7 @@ public class BioskopSalaService extends AbstractCRUDService<Cinema, String>{
 	        {
 	        	yy = 5;
 	        }
-	          sum += sum + yy;
+	          sum += yy;
 	          count++;
 	      }
 	    float d = sum / count;

@@ -97,7 +97,7 @@ export class EditCarComponent implements OnInit,OnChanges,OnDestroy {
 
     this.serviceManager.editTheater(this.theater,this.cinemaId,this.authService.currentUserUsername()).subscribe(
       (res: any) => {
-        this.theater = new Theater('','',0,TheaterType.normal,0,0);
+        //this.theater = new Theater('','',0,TheaterType.normal,0,0);
         
         alert("Successful edited theater"); 
       },

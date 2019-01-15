@@ -80,6 +80,7 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
   ngOnInit() {
     if(this.authService.currentUserName() != undefined)
     {
+      this.smeDaOceni = false;
         if(this.authService.currentUserName().length > 0)
         {
             if(this.authService.isLoggedInRole('Admin'))
@@ -117,6 +118,7 @@ export class ServiceSingleComponent implements OnChanges, OnDestroy,OnInit {
     (res: any) => {
       this.cinema = res;
       this.theatersFiltered = this.cinema.theaters;
+      this.smeDaOceni = false;
       if(this.admin == true || this.client == true)
       {
         var already = false;
