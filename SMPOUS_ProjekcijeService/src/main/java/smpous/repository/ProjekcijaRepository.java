@@ -10,4 +10,6 @@ import smpous.models.Projection;
 
 public interface ProjekcijaRepository extends MongoRepository<Projection, String>{
 	public HashSet<Projection> findProjectionsByIdCinema(String idCinema);
+
+	public HashSet<Projection> findProjectionByIdMovie(String idMovie);
 }

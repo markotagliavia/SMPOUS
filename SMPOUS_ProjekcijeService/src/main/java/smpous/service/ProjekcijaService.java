@@ -26,4 +26,9 @@ public class ProjekcijaService extends AbstractCRUDService<Projection, String> {
 	public HashSet<Projection> findProjectionByIdCinema(String idCinema) {
 		return projekcijaRepository.findProjectionsByIdCinema(idCinema);
 	}
+
+	public HashSet<Projection> findProjectionByIdMovie(String idMovie) {
+		return projekcijaRepository.findProjectionByIdMovie(idMovie);
+	}
+	
 }

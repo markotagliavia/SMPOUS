@@ -22,7 +22,7 @@ import smpous.models.Projection;
 import smpous.repository.ProjekcijaRepository;
 import smpous.service.ProjekcijaService;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("projekcija")
 public class ProjekcijaController extends AbstractRESTController<Projection, String> {
@@ -46,7 +46,7 @@ public class ProjekcijaController extends AbstractRESTController<Projection, Str
 		if (IsAuthorized("admin", username) == false) {
 			return false;
 		}
-
+		
 		projekcija.setId(UUID.randomUUID().toString());
 		projekcijaService.save(projekcija);
 
@@ -107,6 +107,12 @@ public class ProjekcijaController extends AbstractRESTController<Projection, Str
 	public HashSet<Projection> FindProjectionByCinemaId(@RequestParam(name = "cinemaId") String cinemaId)
 	{
 		return projekcijaService.findProjectionByIdCinema(cinemaId);
+	}
+	
+	@RequestMapping(value = "/findProjectionByMovieId",method = RequestMethod.GET)
+	public HashSet<Projection> FindProjectionByMovieId(@RequestParam(name = "movieId") String movieId)
+	{
+		return projekcijaService.findProjectionByIdMovie(movieId);
 	}
 	
 	private Boolean IsAuthorized(String r, String username) {
