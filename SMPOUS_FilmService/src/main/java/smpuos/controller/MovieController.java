@@ -18,22 +18,24 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import smpous.models.Movie;
-import smpous.servise.FilmService;
+import smpous.servise.MovieService;
 
 
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
 @RequestMapping("movies")
-public class FilmController extends AbstractRESTController<Movie, String>{
+public class MovieController extends AbstractRESTController<Movie, String>{
 
 	@Autowired
 	Environment environment;
 	
-	private FilmService FilmService;
-	public FilmController(FilmService service) {
-		super(service);
-		this.FilmService = service;
+	private MovieService movieService;
+	
+	@Autowired
+	public MovieController(MovieService movieService) {
+		super(movieService);
+		this.movieService = movieService;
 	
 		// TODO Auto-generated constructor stub
 	}
@@ -47,7 +49,7 @@ public class FilmController extends AbstractRESTController<Movie, String>{
 			return false;
 		}
 		film.setId(UUID.randomUUID().toString());
-		FilmService.save(film);
+		movieService.save(film);
 		
 		
 		return true;
@@ -76,7 +78,7 @@ public class FilmController extends AbstractRESTController<Movie, String>{
 		{
 			return false;
 		}
-		FilmService.update(movie.getId(), movie);
+		movieService.update(movie.getId(), movie);
 		return true;
 }
 	@RequestMapping(value = "/deleteFilm",method = RequestMethod.DELETE, produces = "application/json")
@@ -87,18 +89,18 @@ public class FilmController extends AbstractRESTController<Movie, String>{
 		{
 			return false;
 		}
-		FilmService.delete(id);
+		movieService.delete(id);
 		return true;
 	}
 	@RequestMapping(value = "/allMovies",method = RequestMethod.GET)
 	public List<Movie> GetAllMovies()
 	{
-		return FilmService.findAllMovies();
+		return movieService.findAllMovies();
 	}
 	@RequestMapping(value = "/actualMovies",method = RequestMethod.GET)
 	public List<Movie> actualMovies()
 	{
-		List<Movie> sve =  FilmService.findAllMovies();
+		List<Movie> sve =  movieService.findAllMovies();
 		List<Movie> actual = new ArrayList<>();
 		for(Movie film1 : sve) {
 			if(film1.getDatePremier().getYear()==(new Date()).getYear()) actual.add(film1);
@@ -109,7 +111,7 @@ public class FilmController extends AbstractRESTController<Movie, String>{
 	@RequestMapping(value = "/poGodiniPremiere",method = RequestMethod.GET)
 	public List<Movie> poGodiniPremiere(@RequestParam(name = "year") int year)
 	{
-		List<Movie> sve =  FilmService.findAllMovies();
+		List<Movie> sve =  movieService.findAllMovies();
 		List<Movie> poGodiniPremiere = new ArrayList<>();
 		for(Movie film1 : sve) {
 			if(film1.getDatePremier().getYear()==year) poGodiniPremiere.add(film1);

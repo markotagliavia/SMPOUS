@@ -1,4 +1,4 @@
-package sumpous.repository;
+package smpous.repository;
 
 import java.util.HashSet;
 
@@ -10,7 +10,7 @@ import smpous.models.Movie;
 
 public interface MovieRepository extends MongoRepository<Movie, String>{
 
-	//public HashSet<Movie> findMovieByName(String name);
+	public HashSet<Movie> findMovieByName(String name);
 	
 	
 }
