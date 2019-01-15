@@ -17,8 +17,8 @@ public class Projection implements Serializable{
 	
 	
 	
-	public Projection(String id, Date dateAndTime, Boolean isPremiere, Boolean isActive, int idCinema, int idTheatre,
-			int idMovie, String cinemaName, String theatreName, String movieName) {
+	public Projection(String id, Date dateAndTime, Boolean isPremiere, Boolean isActive, String idCinema, String idTheatre,
+			String idMovie, String cinemaName, String theatreName, String movieName) {
 		super();
 		this.id = id;
 		this.dateAndTime = dateAndTime;
@@ -43,11 +43,11 @@ public class Projection implements Serializable{
 	   
 	private Boolean isActive;
 	   
-	private int idCinema;
+	private String idCinema;
 	   
-	private int idTheatre;
+	private String idTheatre;
 	   
-	private int idMovie;
+	private String idMovie;
 	   
 	private String cinemaName;
 	  
@@ -87,27 +87,27 @@ public class Projection implements Serializable{
 		this.isActive = isActive;
 	}
 
-	public int getIdCinema() {
+	public String getIdCinema() {
 		return idCinema;
 	}
 
-	public void setIdCinema(int idCinema) {
+	public void setIdCinema(String idCinema) {
 		this.idCinema = idCinema;
 	}
 
-	public int getIdTheatre() {
+	public String getIdTheatre() {
 		return idTheatre;
 	}
 
-	public void setIdTheatre(int idTheatre) {
+	public void setIdTheatre(String idTheatre) {
 		this.idTheatre = idTheatre;
 	}
 
-	public int getIdMovie() {
+	public String getIdMovie() {
 		return idMovie;
 	}
 
-	public void setIdMovie(int idMovie) {
+	public void setIdMovie(String idMovie) {
 		this.idMovie = idMovie;
 	}
 

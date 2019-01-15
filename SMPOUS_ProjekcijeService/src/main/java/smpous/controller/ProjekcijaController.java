@@ -31,8 +31,8 @@ public class ProjekcijaController extends AbstractRESTController<Projection, Str
 
 	private ProjekcijaService projekcijaService;
 	
-	@Autowired
-	private ProjekcijaRepository projekcijaRepository;
+	//@Autowired
+	//private ProjekcijaRepository projekcijaRepository;
 
 	public ProjekcijaController(ProjekcijaService service) {
 		super(service);
@@ -103,15 +103,11 @@ public class ProjekcijaController extends AbstractRESTController<Projection, Str
 		return true;
 	}
 	
-	/*@RequestMapping(value = "/findProjectionByCinemaId",method = RequestMethod.GET)
+	@RequestMapping(value = "/findProjectionByCinemaId",method = RequestMethod.GET)
 	public HashSet<Projection> FindProjectionByCinemaId(@RequestParam(name = "cinemaId") String cinemaId)
 	{
-		final String uri = "http://localhost:8765/bioskopsala-service/cinemas/getUserId?username="+username;
-	     
-	    RestTemplate restTemplate = new RestTemplate();
-	    String user = restTemplate.getForObject(uri, String.class);
-		return projekcijaService.findProjectionByCinema(cinema);
-	}*/
+		return projekcijaService.findProjectionByIdCinema(cinemaId);
+	}
 	
 	private Boolean IsAuthorized(String r, String username) {
 		if (username == null) {
