@@ -1,39 +1,13 @@
 
+		<app-header></app-header>
+		<app-navbar [title] = "'Projections'"></app-navbar>
+		<section class="model-area section-gap" id="cars">
+			<div class="container">
 		<div class="row d-flex justify-content-center pb-40">
 			<div class="col-md-8 pb-40 header-text">
-				<h1 class="text-center pb-10">Manage vehicle types:</h1>
+				<h1 class="text-center pb-10">Browse projections:</h1>
 			</div>
 		</div>
-		<div class="row align-items-center single-model item">
-			<div class="col-lg-6 model-left">
-				<form class="form" role="form" autocomplete="off">					    
-					<div class="from-group">
-						<input class="form-control txt-field" type="text" name="typeName" placeholder="Type name" [(ngModel)]="typeNameInput">
-						<br>				
-					</div>
-				</form>
-			</div>
-			<div class="col-lg-6 model-right">
-				<form class="form" role="form" autocomplete="off">		
-					<div class="form-group">
-						<div>
-							<p style="color:black">Types:</p>
-							<select size="3" style="width:10em" name="typeNameSel" [(ngModel)] ="typeNameSelected">
-								<option *ngFor = "let type of types" [value]="type.Name">{{type.Name}}</option>
-							</select>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-		<div class="row d-flex pb-30">
-			<br>
-			<div style="padding-right:1em"><a class="genric-btn success text-center" (click)='newType()' >ADD NEW</a></div>
-			<div style="padding-right:1em"><a class="genric-btn info text-center" (click)='updateType()'>UPDATE SELECTED</a></div>
-			<a class="genric-btn danger text-center" (click)='deleteType()'>DELETE SELECTED</a>
-			<br>
-		</div>
-		<div class="row-md-12">
-			<p style="color:red">{{errorText}}</p>
-		</div>	
+	</div>	
+</section>	
 

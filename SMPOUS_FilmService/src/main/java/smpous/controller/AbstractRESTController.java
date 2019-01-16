@@ -1,4 +1,4 @@
-package smpuos.controller;
+package smpous.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;

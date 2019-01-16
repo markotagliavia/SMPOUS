@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Map;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -17,7 +18,7 @@ public class Movie implements Serializable{
 			
 		}
 		
-		public Movie(String id, String name, String description, int durationIMinuts, String language, ArrayList<Rate> rates,
+		public Movie(String id, String name, String description, int durationIMinuts, String language, Map<String,Rate> rates,
 				Genre genre, Date datePremier, HashSet<Person> directors, HashSet<Person> actors) {
 			super();
 			this.id = id;
@@ -42,7 +43,7 @@ public class Movie implements Serializable{
 		   
 		private String language;
 		   
-		private ArrayList<Rate> rates;
+		private Map<String,Rate> rates;
 		   
 		private Genre genre;
 		   
@@ -92,11 +93,11 @@ public class Movie implements Serializable{
 			this.language = language;
 		}
 	
-		public ArrayList<Rate> getRates() {
+		public Map<String,Rate> getRates() {
 			return rates;
 		}
 	
-		public void setRates(ArrayList<Rate> rates) {
+		public void setRates(Map<String,Rate> rates) {
 			this.rates = rates;
 		}
 	
