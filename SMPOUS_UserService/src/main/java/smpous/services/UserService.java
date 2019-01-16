@@ -133,19 +133,18 @@ public class UserService extends AbstractCRUDService<User, String>{
 	
 	public List<User> findByUsernameAndFirstNameAndSurnameAndIsActiveAndAddressNear(String userOnSession, String username, String firstName, String surname, Boolean isActive, int radius, double x, double y){
 		User sesija = userRepository.findByUsernameAndIsActive(userOnSession, true);
-		if(!sesija.getTypeOfUser().equals("admin"))
+		if(sesija != null)
+		{
+			if(!sesija.getTypeOfUser().equals("admin"))
+			{
+				isActive = true;
+			}
+		}
+		else
 		{
 			isActive = true;
 		}
 		
-		if(!username.equals("*") && !firstName.equals("*") && !surname.equals("*"))
-		{
-			Point p = new Point(x,y);
-			Distance d = new Distance(radius, Metrics.KILOMETERS);
-			return userRepository.findByUsernameAndNameAndLastnameAndIsActiveAndAddressNear(username, firstName, surname, isActive, p, d);
-		}
-		else
-		{
 			List<User> list = this.findByAddressNear(radius, x, y);
 			List<User> filtered1 = new ArrayList<User>();
 			List<User> filtered2 = new ArrayList<User>();
@@ -182,7 +181,7 @@ public class UserService extends AbstractCRUDService<User, String>{
 			{
 				for(int i = 0; i < list.size(); i++)
 				{
-					if(list.get(i).getLastname().contains(firstName) && list.get(i).getIsActive() == isActive)
+					if(list.get(i).getLastname().contains(surname) && list.get(i).getIsActive() == isActive)
 					{
 						filtered3.add(list.get(i));
 					}
@@ -202,7 +201,7 @@ public class UserService extends AbstractCRUDService<User, String>{
 			
 			return list;
 		
-		}
+		
 	}
 
 }

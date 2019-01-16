@@ -155,6 +155,10 @@ public class UserController extends AbstractRESTController<User, String>{
 	@RequestMapping(value = "search/findGeneral", method = RequestMethod.POST)
 	public List<User> findGeneral(@RequestBody ObjectNode json) {
 		String userOnSession = json.get("userOnSession").asText();
+		if(userOnSession == null)
+		{
+			userOnSession = "";
+		}
 		 String username = json.get("username").asText();
 		 String firstName = json.get("firstName").asText();
 		 String surname = json.get("surname").asText();
