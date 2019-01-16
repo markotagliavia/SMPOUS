@@ -1,6 +1,5 @@
 package smpous.servise;
 
-import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,4 +27,9 @@ public class MovieService extends AbstractCRUDService<Movie, String> {
 	{
 		return filmRepository.findMovieByName(name);
 	}*/
+	
+	public Movie findMovieById(String id)
+	{
+		return movieRepository.findMovieById(id);
+	}
 }

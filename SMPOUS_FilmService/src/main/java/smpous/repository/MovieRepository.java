@@ -12,5 +12,5 @@ public interface MovieRepository extends MongoRepository<Movie, String>{
 
 	public HashSet<Movie> findMovieByName(String name);
 	
-	
+	public Movie findMovieById(String id);
 }
